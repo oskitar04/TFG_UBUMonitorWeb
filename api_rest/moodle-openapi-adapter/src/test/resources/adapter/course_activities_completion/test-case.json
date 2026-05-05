@@ -1,0 +1,956 @@
+{
+  "description": "Test case for login adapter",
+  "request": {
+    "method": "GET",
+    "path": "/courses/59/activities/completion",
+    "queryParams": [
+      {
+        "name": "userids",
+        "value": "13,14"
+      }
+    ],
+    "headers": [
+      {
+        "name": "X-MOODLE-TOKEN",
+        "value": "{{TOKEN}}"
+      },
+      {
+        "name": "X-MOODLE-HOST",
+        "value": "{{HOST}}"
+      }
+    ]
+  },
+  "expectedResponse": {
+    "status": 200,
+    "body": {
+      "activitiescompletion": [
+        {
+          "courseid": 59,
+          "userid": 13,
+          "statuses": [
+            {
+              "cmid": 830,
+              "modname": "folder",
+              "instance": 7,
+              "state": "INCOMPLETE",
+              "timecompleted": null,
+              "tracking": "MANUAL",
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": false,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [],
+              "isoverallcomplete": false
+            },
+            {
+              "cmid": 649,
+              "modname": "data",
+              "instance": 21,
+              "state": "COMPLETE",
+              "timecompleted": "2013-12-18T11:56:23Z",
+              "tracking": "AUTOMATIC",
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": true,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [
+                {
+                  "rulename": "completionview",
+                  "rulevalue": {
+                    "status": 1,
+                    "description": "View"
+                  }
+                }
+              ],
+              "isoverallcomplete": true
+            },
+            {
+              "cmid": 650,
+              "modname": "glossary",
+              "instance": 83,
+              "state": "INCOMPLETE",
+              "timecompleted": null,
+              "tracking": "MANUAL",
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": false,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [],
+              "isoverallcomplete": false
+            },
+            {
+              "cmid": 775,
+              "modname": "assign",
+              "instance": 117,
+              "state": "INCOMPLETE",
+              "timecompleted": null,
+              "tracking": "AUTOMATIC",
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": true,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [
+                {
+                  "rulename": "completionusegrade",
+                  "rulevalue": {
+                    "status": 0,
+                    "description": "Receive a grade"
+                  }
+                },
+                {
+                  "rulename": "completionpassgrade",
+                  "rulevalue": {
+                    "status": 0,
+                    "description": "Receive a passing grade"
+                  }
+                }
+              ],
+              "isoverallcomplete": false
+            },
+            {
+              "cmid": 807,
+              "modname": "assign",
+              "instance": 120,
+              "state": "INCOMPLETE",
+              "timecompleted": null,
+              "tracking": "MANUAL",
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": false,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [],
+              "isoverallcomplete": false
+            },
+            {
+              "cmid": 651,
+              "modname": "workshop",
+              "instance": 11,
+              "state": "INCOMPLETE",
+              "timecompleted": null,
+              "tracking": "AUTOMATIC",
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": true,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [
+                {
+                  "rulename": "completionusegrade",
+                  "rulevalue": {
+                    "status": 0,
+                    "description": "Receive a grade"
+                  }
+                }
+              ],
+              "isoverallcomplete": false
+            },
+            {
+              "cmid": 652,
+              "modname": "assign",
+              "instance": 96,
+              "state": "INCOMPLETE",
+              "timecompleted": null,
+              "tracking": "AUTOMATIC",
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": true,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [
+                {
+                  "rulename": "completionsubmit",
+                  "rulevalue": {
+                    "status": 0,
+                    "description": "Make a submission"
+                  }
+                }
+              ],
+              "isoverallcomplete": false
+            },
+            {
+              "cmid": 764,
+              "modname": "data",
+              "instance": 24,
+              "state": "INCOMPLETE",
+              "timecompleted": null,
+              "tracking": "MANUAL",
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": false,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [],
+              "isoverallcomplete": false
+            },
+            {
+              "cmid": 726,
+              "modname": "data",
+              "instance": 22,
+              "state": "INCOMPLETE",
+              "timecompleted": null,
+              "tracking": "MANUAL",
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": false,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [],
+              "isoverallcomplete": false
+            },
+            {
+              "cmid": 761,
+              "modname": "quiz",
+              "instance": 84,
+              "state": "INCOMPLETE",
+              "timecompleted": null,
+              "tracking": "MANUAL",
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": false,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [],
+              "isoverallcomplete": false
+            },
+            {
+              "cmid": 765,
+              "modname": "resource",
+              "instance": 37,
+              "state": "INCOMPLETE",
+              "timecompleted": null,
+              "tracking": "MANUAL",
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": false,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [],
+              "isoverallcomplete": false
+            }
+          ],
+          "warnings": []
+        },
+        {
+          "courseid": 59,
+          "userid": 14,
+          "statuses": [
+            {
+              "cmid": 830,
+              "modname": "folder",
+              "instance": 7,
+              "state": "INCOMPLETE",
+              "timecompleted": null,
+              "tracking": "MANUAL",
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": false,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [],
+              "isoverallcomplete": false
+            },
+            {
+              "cmid": 649,
+              "modname": "data",
+              "instance": 21,
+              "state": "INCOMPLETE",
+              "timecompleted": null,
+              "tracking": "AUTOMATIC",
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": true,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [
+                {
+                  "rulename": "completionview",
+                  "rulevalue": {
+                    "status": 0,
+                    "description": "View"
+                  }
+                }
+              ],
+              "isoverallcomplete": false
+            },
+            {
+              "cmid": 650,
+              "modname": "glossary",
+              "instance": 83,
+              "state": "INCOMPLETE",
+              "timecompleted": null,
+              "tracking": "MANUAL",
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": false,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [],
+              "isoverallcomplete": false
+            },
+            {
+              "cmid": 775,
+              "modname": "assign",
+              "instance": 117,
+              "state": "INCOMPLETE",
+              "timecompleted": null,
+              "tracking": "AUTOMATIC",
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": true,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [
+                {
+                  "rulename": "completionusegrade",
+                  "rulevalue": {
+                    "status": 0,
+                    "description": "Receive a grade"
+                  }
+                },
+                {
+                  "rulename": "completionpassgrade",
+                  "rulevalue": {
+                    "status": 0,
+                    "description": "Receive a passing grade"
+                  }
+                }
+              ],
+              "isoverallcomplete": false
+            },
+            {
+              "cmid": 807,
+              "modname": "assign",
+              "instance": 120,
+              "state": "INCOMPLETE",
+              "timecompleted": null,
+              "tracking": "MANUAL",
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": false,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [],
+              "isoverallcomplete": false
+            },
+            {
+              "cmid": 651,
+              "modname": "workshop",
+              "instance": 11,
+              "state": "INCOMPLETE",
+              "timecompleted": null,
+              "tracking": "AUTOMATIC",
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": true,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [
+                {
+                  "rulename": "completionusegrade",
+                  "rulevalue": {
+                    "status": 0,
+                    "description": "Receive a grade"
+                  }
+                }
+              ],
+              "isoverallcomplete": false
+            },
+            {
+              "cmid": 652,
+              "modname": "assign",
+              "instance": 96,
+              "state": "INCOMPLETE",
+              "timecompleted": null,
+              "tracking": "AUTOMATIC",
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": true,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [
+                {
+                  "rulename": "completionsubmit",
+                  "rulevalue": {
+                    "status": 0,
+                    "description": "Make a submission"
+                  }
+                }
+              ],
+              "isoverallcomplete": false
+            },
+            {
+              "cmid": 764,
+              "modname": "data",
+              "instance": 24,
+              "state": "INCOMPLETE",
+              "timecompleted": null,
+              "tracking": "MANUAL",
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": false,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [],
+              "isoverallcomplete": false
+            },
+            {
+              "cmid": 726,
+              "modname": "data",
+              "instance": 22,
+              "state": "INCOMPLETE",
+              "timecompleted": null,
+              "tracking": "MANUAL",
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": false,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [],
+              "isoverallcomplete": false
+            },
+            {
+              "cmid": 761,
+              "modname": "quiz",
+              "instance": 84,
+              "state": "INCOMPLETE",
+              "timecompleted": null,
+              "tracking": "MANUAL",
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": false,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [],
+              "isoverallcomplete": false
+            },
+            {
+              "cmid": 765,
+              "modname": "resource",
+              "instance": 37,
+              "state": "INCOMPLETE",
+              "timecompleted": null,
+              "tracking": "MANUAL",
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": false,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [],
+              "isoverallcomplete": false
+            }
+          ],
+          "warnings": []
+        }
+      ]
+    }
+  },
+  "moodleApiMocks": [
+    {
+      "request": {
+        "formData": [
+          {
+            "name": "wsfunction",
+            "value": "core_completion_get_activities_completion_status"
+          },
+          {
+            "name": "courseid",
+            "value": "59"
+          },
+          {
+            "name": "userid",
+            "value": "13"
+          }
+        ]
+      },
+      "response": {
+        "body": {
+          "statuses": [
+            {
+              "cmid": 830,
+              "modname": "folder",
+              "instance": 7,
+              "state": 0,
+              "timecompleted": 0,
+              "tracking": 1,
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": false,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [],
+              "isoverallcomplete": false
+            },
+            {
+              "cmid": 649,
+              "modname": "data",
+              "instance": 21,
+              "state": 1,
+              "timecompleted": 1387367783,
+              "tracking": 2,
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": true,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [
+                {
+                  "rulename": "completionview",
+                  "rulevalue": {
+                    "status": 1,
+                    "description": "View"
+                  }
+                }
+              ],
+              "isoverallcomplete": true
+            },
+            {
+              "cmid": 650,
+              "modname": "glossary",
+              "instance": 83,
+              "state": 0,
+              "timecompleted": 0,
+              "tracking": 1,
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": false,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [],
+              "isoverallcomplete": false
+            },
+            {
+              "cmid": 775,
+              "modname": "assign",
+              "instance": 117,
+              "state": 0,
+              "timecompleted": 0,
+              "tracking": 2,
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": true,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [
+                {
+                  "rulename": "completionusegrade",
+                  "rulevalue": {
+                    "status": 0,
+                    "description": "Receive a grade"
+                  }
+                },
+                {
+                  "rulename": "completionpassgrade",
+                  "rulevalue": {
+                    "status": 0,
+                    "description": "Receive a passing grade"
+                  }
+                }
+              ],
+              "isoverallcomplete": false
+            },
+            {
+              "cmid": 807,
+              "modname": "assign",
+              "instance": 120,
+              "state": 0,
+              "timecompleted": 0,
+              "tracking": 1,
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": false,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [],
+              "isoverallcomplete": false
+            },
+            {
+              "cmid": 651,
+              "modname": "workshop",
+              "instance": 11,
+              "state": 0,
+              "timecompleted": 0,
+              "tracking": 2,
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": true,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [
+                {
+                  "rulename": "completionusegrade",
+                  "rulevalue": {
+                    "status": 0,
+                    "description": "Receive a grade"
+                  }
+                }
+              ],
+              "isoverallcomplete": false
+            },
+            {
+              "cmid": 652,
+              "modname": "assign",
+              "instance": 96,
+              "state": 0,
+              "timecompleted": 0,
+              "tracking": 2,
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": true,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [
+                {
+                  "rulename": "completionsubmit",
+                  "rulevalue": {
+                    "status": 0,
+                    "description": "Make a submission"
+                  }
+                }
+              ],
+              "isoverallcomplete": false
+            },
+            {
+              "cmid": 764,
+              "modname": "data",
+              "instance": 24,
+              "state": 0,
+              "timecompleted": 0,
+              "tracking": 1,
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": false,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [],
+              "isoverallcomplete": false
+            },
+            {
+              "cmid": 726,
+              "modname": "data",
+              "instance": 22,
+              "state": 0,
+              "timecompleted": 0,
+              "tracking": 1,
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": false,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [],
+              "isoverallcomplete": false
+            },
+            {
+              "cmid": 761,
+              "modname": "quiz",
+              "instance": 84,
+              "state": 0,
+              "timecompleted": 0,
+              "tracking": 1,
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": false,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [],
+              "isoverallcomplete": false
+            },
+            {
+              "cmid": 765,
+              "modname": "resource",
+              "instance": 37,
+              "state": 0,
+              "timecompleted": 0,
+              "tracking": 1,
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": false,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [],
+              "isoverallcomplete": false
+            }
+          ],
+          "warnings": []
+        }
+      }
+    },
+    {
+      "request": {
+        "formData": [
+          {
+            "name": "wsfunction",
+            "value": "core_completion_get_activities_completion_status"
+          },
+          {
+            "name": "courseid",
+            "value": "59"
+          },
+          {
+            "name": "userid",
+            "value": "14"
+          }
+        ]
+      },
+      "response": {
+        "body": {
+          "statuses": [
+            {
+              "cmid": 830,
+              "modname": "folder",
+              "instance": 7,
+              "state": 0,
+              "timecompleted": 0,
+              "tracking": 1,
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": false,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [],
+              "isoverallcomplete": false
+            },
+            {
+              "cmid": 649,
+              "modname": "data",
+              "instance": 21,
+              "state": 0,
+              "timecompleted": 0,
+              "tracking": 2,
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": true,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [
+                {
+                  "rulename": "completionview",
+                  "rulevalue": {
+                    "status": 0,
+                    "description": "View"
+                  }
+                }
+              ],
+              "isoverallcomplete": false
+            },
+            {
+              "cmid": 650,
+              "modname": "glossary",
+              "instance": 83,
+              "state": 0,
+              "timecompleted": 0,
+              "tracking": 1,
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": false,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [],
+              "isoverallcomplete": false
+            },
+            {
+              "cmid": 775,
+              "modname": "assign",
+              "instance": 117,
+              "state": 0,
+              "timecompleted": 0,
+              "tracking": 2,
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": true,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [
+                {
+                  "rulename": "completionusegrade",
+                  "rulevalue": {
+                    "status": 0,
+                    "description": "Receive a grade"
+                  }
+                },
+                {
+                  "rulename": "completionpassgrade",
+                  "rulevalue": {
+                    "status": 0,
+                    "description": "Receive a passing grade"
+                  }
+                }
+              ],
+              "isoverallcomplete": false
+            },
+            {
+              "cmid": 807,
+              "modname": "assign",
+              "instance": 120,
+              "state": 0,
+              "timecompleted": 0,
+              "tracking": 1,
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": false,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [],
+              "isoverallcomplete": false
+            },
+            {
+              "cmid": 651,
+              "modname": "workshop",
+              "instance": 11,
+              "state": 0,
+              "timecompleted": 0,
+              "tracking": 2,
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": true,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [
+                {
+                  "rulename": "completionusegrade",
+                  "rulevalue": {
+                    "status": 0,
+                    "description": "Receive a grade"
+                  }
+                }
+              ],
+              "isoverallcomplete": false
+            },
+            {
+              "cmid": 652,
+              "modname": "assign",
+              "instance": 96,
+              "state": 0,
+              "timecompleted": 0,
+              "tracking": 2,
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": true,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [
+                {
+                  "rulename": "completionsubmit",
+                  "rulevalue": {
+                    "status": 0,
+                    "description": "Make a submission"
+                  }
+                }
+              ],
+              "isoverallcomplete": false
+            },
+            {
+              "cmid": 764,
+              "modname": "data",
+              "instance": 24,
+              "state": 0,
+              "timecompleted": 0,
+              "tracking": 1,
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": false,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [],
+              "isoverallcomplete": false
+            },
+            {
+              "cmid": 726,
+              "modname": "data",
+              "instance": 22,
+              "state": 0,
+              "timecompleted": 0,
+              "tracking": 1,
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": false,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [],
+              "isoverallcomplete": false
+            },
+            {
+              "cmid": 761,
+              "modname": "quiz",
+              "instance": 84,
+              "state": 0,
+              "timecompleted": 0,
+              "tracking": 1,
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": false,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [],
+              "isoverallcomplete": false
+            },
+            {
+              "cmid": 765,
+              "modname": "resource",
+              "instance": 37,
+              "state": 0,
+              "timecompleted": 0,
+              "tracking": 1,
+              "overrideby": null,
+              "valueused": false,
+              "hascompletion": true,
+              "isautomatic": false,
+              "istrackeduser": false,
+              "uservisible": true,
+              "details": [],
+              "isoverallcomplete": false
+            }
+          ],
+          "warnings": []
+        }
+      }
+    }
+  ]
+}

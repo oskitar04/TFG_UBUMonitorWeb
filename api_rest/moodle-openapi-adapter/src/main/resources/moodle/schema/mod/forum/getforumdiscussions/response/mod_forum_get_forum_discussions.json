@@ -1,0 +1,352 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GetForumDiscussionsResponse",
+  "type": "object",
+  "properties": {
+    "discussions": {
+      "type": "array",
+      "items": {
+        "title": "Discussion",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Post id"
+          },
+          "name": {
+            "type": "string",
+            "description": "Discussion name"
+          },
+          "groupid": {
+            "type": "integer",
+            "description": "Group id"
+          },
+          "timemodified": {
+            "type": "integer",
+            "description": "Time modified"
+          },
+          "usermodified": {
+            "type": "integer",
+            "description": "The id of the user who last modified"
+          },
+          "timestart": {
+            "type": "integer",
+            "description": "Time discussion can start"
+          },
+          "timeend": {
+            "type": "integer",
+            "description": "Time discussion ends"
+          },
+          "discussion": {
+            "type": "integer",
+            "description": "Discussion id"
+          },
+          "parent": {
+            "type": "integer",
+            "description": "Parent id"
+          },
+          "userid": {
+            "type": "integer",
+            "description": "User who started the discussion id"
+          },
+          "created": {
+            "type": "integer",
+            "description": "Creation time"
+          },
+          "modified": {
+            "type": "integer",
+            "description": "Time modified"
+          },
+          "mailed": {
+            "type": "boolean",
+            "description": "Mailed?"
+          },
+          "subject": {
+            "type": "string",
+            "description": "The post subject"
+          },
+          "message": {
+            "type": "string",
+            "description": "The post message"
+          },
+          "messageformat": {
+            "type": "integer",
+            "description": "message format (1 = HTML, 0 = MOODLE, 2 = PLAIN, or 4 = MARKDOWN)",
+            "enum": [
+              0,
+              1,
+              2,
+              4
+            ],
+            "javaEnums": [
+              {
+                "name": "MOODLE"
+              },
+              {
+                "name": "HTML"
+              },
+              {
+                "name": "PLAIN"
+              },
+              {
+                "name": "MARKDOWN"
+              }
+            ]
+          },
+          "messagetrust": {
+            "type": "integer",
+            "description": "Can we trust?"
+          },
+          "messageinlinefiles": {
+            "title": "Message Inline Files",
+            "type": "array",
+            "description": "post message inline files",
+            "items": {
+              "title": "File",
+              "type": "object",
+              "properties": {
+                "filename": {
+                  "type": "string",
+                  "description": "File name",
+                  "nullable": true
+                },
+                "filepath": {
+                  "type": "string",
+                  "description": "File path",
+                  "nullable": true
+                },
+                "filesize": {
+                  "type": "integer",
+                  "description": "File size",
+                  "nullable": true
+                },
+                "fileurl": {
+                  "type": "string",
+                  "format": "uri",
+                  "description": "Downloadable file url",
+                  "nullable": true
+                },
+                "timemodified": {
+                  "type": "integer",
+                  "description": "Time modified",
+                  "nullable": true
+                },
+                "mimetype": {
+                  "type": "string",
+                  "description": "File mime type",
+                  "nullable": true
+                },
+                "isexternalfile": {
+                  "type": "boolean",
+                  "description": "Whether is an external file",
+                  "nullable": true
+                },
+                "repositorytype": {
+                  "type": "string",
+                  "description": "The repository type for external files",
+                  "nullable": true
+                },
+                "icon": {
+                  "type": "string",
+                  "description": "Relative path to file type icon",
+                  "nullable": true
+                }
+              }
+            },
+            "nullable": true
+          },
+          "attachment": {
+            "type": "boolean",
+            "description": "Has attachments?"
+          },
+          "attachments": {
+            "title": "Attachments",
+            "type": "array",
+            "description": "attachments",
+            "items": {
+              "title": "File",
+              "type": "object",
+              "properties": {
+                "filename": {
+                  "type": "string",
+                  "description": "File name",
+                  "nullable": true
+                },
+                "filepath": {
+                  "type": "string",
+                  "description": "File path",
+                  "nullable": true
+                },
+                "filesize": {
+                  "type": "integer",
+                  "description": "File size",
+                  "nullable": true
+                },
+                "fileurl": {
+                  "type": "string",
+                  "description": "Downloadable file url",
+                  "nullable": true
+                },
+                "timemodified": {
+                  "type": "integer",
+                  "description": "Time modified",
+                  "nullable": true
+                },
+                "mimetype": {
+                  "type": "string",
+                  "description": "File mime type",
+                  "nullable": true
+                },
+                "isexternalfile": {
+                  "type": "boolean",
+                  "description": "Whether is an external file",
+                  "nullable": true
+                },
+                "repositorytype": {
+                  "type": "string",
+                  "description": "The repository type for external files",
+                  "nullable": true
+                },
+                "icon": {
+                  "type": "string",
+                  "description": "Relative path to file type icon",
+                  "nullable": true
+                }
+              }
+            },
+            "nullable": true
+          },
+          "totalscore": {
+            "type": "integer",
+            "description": "The post message total score"
+          },
+          "mailnow": {
+            "type": "boolean",
+            "description": "Mail now?"
+          },
+          "userfullname": {
+            "type": "string",
+            "description": "Post author full name"
+          },
+          "usermodifiedfullname": {
+            "type": "string",
+            "description": "Post modifier full name"
+          },
+          "userpictureurl": {
+            "type": "string",
+            "format": "uri",
+            "description": "Post author picture"
+          },
+          "usermodifiedpictureurl": {
+            "type": "string",
+            "format": "uri",
+            "description": "Post modifier picture"
+          },
+          "numreplies": {
+            "type": "integer",
+            "description": "The number of replies in the discussion"
+          },
+          "numunread": {
+            "type": "integer",
+            "description": "The number of unread discussions"
+          },
+          "pinned": {
+            "type": "boolean",
+            "description": "Is the discussion pinned"
+          },
+          "locked": {
+            "type": "boolean",
+            "description": "Is the discussion locked"
+          },
+          "starred": {
+            "type": "boolean",
+            "description": "Is the discussion starred"
+          },
+          "canreply": {
+            "type": "boolean",
+            "description": "Can the user reply to the discussion"
+          },
+          "canlock": {
+            "type": "boolean",
+            "description": "Can the user lock the discussion"
+          },
+          "canfavourite": {
+            "type": "boolean",
+            "description": "Can the user star the discussion"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "groupid",
+          "timemodified",
+          "usermodified",
+          "timestart",
+          "timeend",
+          "discussion",
+          "parent",
+          "userid",
+          "created",
+          "modified",
+          "mailed",
+          "subject",
+          "message",
+          "messageformat",
+          "messagetrust",
+          "attachment",
+          "totalscore",
+          "mailnow",
+          "userfullname",
+          "usermodifiedfullname",
+          "userpictureurl",
+          "usermodifiedpictureurl",
+          "numreplies",
+          "numunread",
+          "pinned",
+          "locked",
+          "starred",
+          "canreply",
+          "canlock",
+          "canfavourite"
+        ]
+      }
+    },
+    "warnings": {
+      "title": "Warnings",
+      "type": "array",
+      "description": "list of warnings",
+      "items": {
+        "title": "Warning",
+        "type": "object",
+        "properties": {
+          "item": {
+            "type": "string",
+            "description": "item",
+            "nullable": true
+          },
+          "itemid": {
+            "type": "integer",
+            "description": "item id",
+            "nullable": true
+          },
+          "warningcode": {
+            "type": "string",
+            "description": "the warning code can be used by the client app to implement specific behaviour"
+          },
+          "message": {
+            "type": "string",
+            "description": "untranslated english message to explain the warning"
+          }
+        },
+        "required": [
+          "warningcode",
+          "message"
+        ]
+      },
+      "nullable": true
+    }
+  },
+  "required": [
+    "discussions"
+  ]
+}

@@ -1,0 +1,218 @@
+UserSearchField:
+  type: string
+  enum:
+    - ID
+    - USERNAME
+    - EMAIL
+    - ID_NUMBER
+
+UserResponse:
+  type: object
+  properties:
+    users:
+      type: array
+      items:
+        title: User
+        type: object
+        properties:
+          id:
+            type: integer
+            description: ID of the user
+          username:
+            type: string
+            description: The username
+            nullable: true
+          firstname:
+            type: string
+            description: The first name(s) of the user
+            nullable: true
+          lastname:
+            type: string
+            description: The family name of the user
+            nullable: true
+          fullname:
+            type: string
+            description: The fullname of the user
+          email:
+            type: string
+            format: email
+            description: An email address - allow email as root@localhost
+            nullable: true
+          address:
+            type: string
+            description: Postal address
+            nullable: true
+          phone1:
+            type: string
+            description: Phone 1
+            nullable: true
+          phone2:
+            type: string
+            description: Phone 2
+            nullable: true
+          department:
+            type: string
+            description: Department
+            nullable: true
+          institution:
+            type: string
+            description: Institution
+            nullable: true
+          idnumber:
+            type: string
+            description: An arbitrary ID code number perhaps from the institution
+            nullable: true
+          interests:
+            type: string
+            description: User interests (separated by commas)
+            nullable: true
+          firstaccess:
+            type: string
+            format: date-time
+            description: First access to the site (0 if never)
+            nullable: true
+          lastaccess:
+            type: string
+            format: date-time
+            description: Last access to the site (0 if never)
+            nullable: true
+          auth:
+            type: string
+            description: Auth plugins include manual, ldap, etc
+            nullable: true
+          suspended:
+            type: boolean
+            description:
+              Suspend user account, either false to enable user login or true to
+              disable it
+            nullable: true
+          confirmed:
+            type: boolean
+            description: Whether the user has confirmed their email address, either false or true
+            nullable: true
+          lang:
+            type: string
+            description: Language code such as 'en', must exist on server
+            nullable: true
+          calendartype:
+            type: string
+            description: Calendar type such as 'gregorian', must exist on server
+            nullable: true
+          theme:
+            type: string
+            description: Theme name such as 'standard', must exist on server
+            nullable: true
+          timezone:
+            type: string
+            description: Timezone code such as Australia/Perth, or 99 for default
+            nullable: true
+          mailformat:
+            type: string
+            description: Mail format code
+            nullable: true
+            enum:
+              - MOODLE
+              - HTML
+              - PLAIN
+              - MARKDOWN
+          trackforums:
+            type: boolean
+            description: Whether the user is tracking forums
+            nullable: true
+          description:
+            type: string
+            description: User profile description
+            nullable: true
+          descriptiontext:
+            type: string
+            description: User profile description text only
+            nullable: true
+          descriptionformat:
+            type: string
+            description: User profile description format
+            nullable: true
+            enum:
+              - MOODLE
+              - HTML
+              - PLAIN
+              - MARKDOWN
+          city:
+            type: string
+            description: Home city of the user
+            nullable: true
+          country:
+            type: string
+            description: Home country code of the user, such as AU or CZ
+            nullable: true
+          profileimageurlsmall:
+            type: string
+            format: uri
+            description: User image profile URL - small version
+          privateprofileimageurlsmall:
+            type: string
+            format: uri
+            description: User private file image URL - small version
+          profileimageurl:
+            type: string
+            format: uri
+            description: User image profile URL - big version
+          privateprofileimageurl:
+            type: string
+            format: uri
+            description: User private image profile URL - big version
+          customfields:
+            title: Custom Fields
+            description: User custom fields (also known as user profile fields)
+            type: array
+            nullable: true
+            items:
+              title: Custom Field
+              type: object
+              properties:
+                type:
+                  type: string
+                  description: The type of the custom field - text field, checkbox...
+                value:
+                  type: string
+                  description: The value of the custom field (as stored in the database)
+                displayvalue:
+                  type: string
+                  description: The value of the custom field for display
+                  nullable: true
+                name:
+                  type: string
+                  description: The name of the custom field
+                shortname:
+                  type: string
+                  description:
+                    The shortname of the custom field - to be able to build the field
+                    class in the code
+              required:
+                - type
+                - value
+                - name
+                - shortname
+          preferences:
+            title: Preferences
+            description: User preferences
+            type: array
+            nullable: true
+            items:
+              title: Preference
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: The name of the preference
+                value:
+                  type: string
+                  description: The value of the preference
+              required:
+                - name
+                - value
+        required:
+          - id
+          - fullname
+          - profileimageurlsmall
+          - profileimageurl
+

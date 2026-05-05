@@ -1,0 +1,135 @@
+CalendarEventsResponse:
+  type: object
+  properties:
+    events:
+      title: EventList
+      type: array
+      items:
+        title: Event
+        type: object
+        properties:
+          id:
+            type: integer
+            description: Event ID
+          name:
+            type: string
+            description: Event name
+          description:
+            type: string
+            description: Description
+            nullable: true
+          descriptiontext:
+            type: string
+            description: Description parsed
+            nullable: true
+          format:
+            type: string
+            description: Description format (1 = HTML, 0 = MOODLE, 2 = PLAIN, or 4 = MARKDOWN)
+            enum:
+              - MOODLE
+              - HTML
+              - PLAIN
+              - MARKDOWN
+          courseid:
+            type: integer
+            description: Course ID
+          categoryid:
+            type: integer
+            description: Category ID (only for category events)
+            nullable: true
+          groupid:
+            type: integer
+            description: Group ID
+          userid:
+            type: integer
+            description: User ID
+          repeatid:
+            type: integer
+            description: Repeat ID
+          modulename:
+            type: string
+            description: Module name
+            nullable: true
+          instance:
+            type: integer
+            description: Instance ID
+          eventtype:
+            type: string
+            description: Event type
+          timestart:
+            type: string
+            format: date-time
+            description: Timestart
+          timeend:
+            type: string
+            format: date-time
+            description: Timeend
+          timeduration:
+            type: integer
+            description: Time duration
+          visible:
+            type: boolean
+            description: Visible
+          uuid:
+            type: string
+            description: Unique ID of iCal events
+            nullable: true
+          sequence:
+            type: integer
+            description: Sequence
+          timemodified:
+            type: string
+            format: date-time
+            description: Time modified
+          subscriptionid:
+            type: integer
+            description: Subscription ID
+            nullable: true
+        required:
+          - id
+          - name
+          - format
+          - courseid
+          - groupid
+          - userid
+          - repeatid
+          - instance
+          - eventtype
+          - timestart
+          - timeduration
+          - visible
+          - sequence
+          - timemodified
+    warnings:
+      title: WarningList
+      type: array
+      description: List of warnings
+      nullable: true
+      items:
+        title: Warning
+        type: object
+        properties:
+          item:
+            type: string
+            description: Item
+            nullable: true
+          itemid:
+            type: integer
+            description: Item ID
+            nullable: true
+          warningcode:
+            type: string
+            description:
+              The warning code can be used by the client app to implement
+              specific behaviour
+          message:
+            type: string
+            description: Untranslated English message to explain the warning
+        required:
+          - warningcode
+          - message
+  required:
+    - events
+
+
+

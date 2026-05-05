@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GetPublicConfigRequest",
+  "description": "Returns a list of the site public settings, those not requiring authentication.",
+  "type": "object",
+  "properties": {
+    "wsfunction": {
+      "type": "string",
+      "default": "tool_mobile_get_public_config"
+    }
+  }
+}

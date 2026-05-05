@@ -1,0 +1,33 @@
+{
+  "description": "Test case for login adapter",
+  "request": {
+    "method": "GET",
+    "path": "/users",
+    "headers": [
+      {
+        "name": "X-MOODLE-TOKEN",
+        "value": "{{TOKEN}}"
+      },
+      {
+        "name": "X-MOODLE-HOST",
+        "value": "{{HOST}}"
+      }
+    ]
+  },
+  "expectedResponse": {
+    "status": 400,
+    "body": {
+      "code": "BAD_REQUEST",
+      "message": "Required query parameter 'field' is not present.",
+      "timestamp": "${json-unit.any-string}",
+      "traceId": "${json-unit.any-string}",
+      "errors": [
+        {
+          "field": "exception",
+          "message": "400 BAD_REQUEST \"Required query parameter 'field' is not present.\""
+        }
+      ]
+    }
+  },
+  "moodleApiMocks": []
+}

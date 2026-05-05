@@ -1,0 +1,301 @@
+DiscussionsResponse:
+  title: Discussions Response
+  type: object
+  properties:
+    forumdiscussions:
+      title: Forum Discussions
+      type: array
+      items:
+        title: Forum Discussion
+        type: object
+        properties:
+          forumid:
+            type: integer
+            description: Forum id
+          discussions:
+            title: Discussion List
+            type: array
+            items:
+              $ref: '#/Discussion'
+          warnings:
+            title: Warnings
+            type: array
+            description: list of warnings
+            nullable: true
+            items:
+              title: Warning
+              type: object
+              properties:
+                item:
+                  type: string
+                  description: item
+                  nullable: true
+                itemid:
+                  type: integer
+                  description: item id
+                  nullable: true
+                warningcode:
+                  type: string
+                  description: the warning code can be used by the client app to implement specific behaviour
+                message:
+                  type: string
+                  description: untranslated english message to explain the warning
+              required:
+                - warningcode
+                - message
+          required:
+            - discussions
+
+
+Discussion:
+
+  title: Discussion
+  type: object
+  properties:
+    id:
+      type: integer
+      description: Post id
+    name:
+      type: string
+      description: Discussion name
+    groupid:
+      type: integer
+      description: Group id
+    timemodified:
+      type: string
+      format: date-time
+      description: Time modified
+    usermodified:
+      type: integer
+      description: The id of the user who last modified
+    timestart:
+      type: string
+      format: date-time
+      description: Time discussion can start
+    timeend:
+      type: string
+      format: date-time
+      description: Time discussion ends
+    discussion:
+      type: integer
+      description: Discussion id
+    parent:
+      type: integer
+      description: Parent id
+    userid:
+      type: integer
+      description: User who started the discussion id
+    created:
+      type: string
+      format: date-time
+      description: Creation time
+    modified:
+      type: string
+      format: date-time
+      description: Time modified
+    mailed:
+      type: boolean
+      description: Mailed?
+    subject:
+      type: string
+      description: The post subject
+    message:
+      type: string
+      description: The post message
+    messagetext:
+      type: string
+      description: The post message parsed
+    messageformat:
+      type: string
+      description: message format (1 = HTML, 0 = MOODLE, 2 = PLAIN, 4 = MARKDOWN)
+      enum: [ MOODLE, HTML, PLAIN, MARKDOWN ]
+    messagetrust:
+      type: boolean
+      description: Can we trust?
+    messageinlinefiles:
+      title: Message Inline Files
+      type: array
+      description: post message inline files
+      nullable: true
+      items:
+        title: File
+        type: object
+        properties:
+          filename:
+            type: string
+            description: File name
+            nullable: true
+          filepath:
+            type: string
+            description: File path
+            nullable: true
+          filesize:
+            type: integer
+            description: File size
+            nullable: true
+          fileurl:
+            type: string
+            format: uri
+            description: Downloadable file url
+            nullable: true
+          timemodified:
+            type: string
+            format: date-time
+            description: Time modified
+            nullable: true
+          mimetype:
+            type: string
+            description: File mime type
+            nullable: true
+          isexternalfile:
+            type: boolean
+            description: Whether is an external file
+            nullable: true
+          repositorytype:
+            type: string
+            description: The repository type for external files
+            nullable: true
+          icon:
+            type: string
+            description: Relative path to file type icon
+            nullable: true
+    attachment:
+      type: boolean
+      description: Has attachments?
+    attachments:
+      title: Attachments
+      type: array
+      description: attachments
+      nullable: true
+      items:
+        title: File
+        type: object
+        properties:
+          filename:
+            type: string
+            description: File name
+            nullable: true
+          filepath:
+            type: string
+            description: File path
+            nullable: true
+          filesize:
+            type: integer
+            description: File size
+            nullable: true
+          fileurl:
+            type: string
+            description: Downloadable file url
+            nullable: true
+          timemodified:
+            type: string
+            format: date-time
+            description: Time modified
+            nullable: true
+          mimetype:
+            type: string
+            description: File mime type
+            nullable: true
+          isexternalfile:
+            type: boolean
+            description: Whether is an external file
+            nullable: true
+          repositorytype:
+            type: string
+            description: The repository type for external files
+            nullable: true
+          icon:
+            type: string
+            description: Relative path to file type icon
+            nullable: true
+    totalscore:
+      type: integer
+      description: The post message total score
+    mailnow:
+      type: boolean
+      description: Mail now?
+    userfullname:
+      type: string
+      description: Post author full name
+    usermodifiedfullname:
+      type: string
+      description: Post modifier full name
+    privateuserpictureurl:
+      type: string
+      format: uri
+      description: Post author picture private
+    userpictureurl:
+      type: string
+      format: uri
+      description: Post author picture
+    usermodifiedpictureurl:
+      type: string
+      format: uri
+      description: Post modifier picture
+    privateusermodifiedpictureurl:
+      type: string
+      format: uri
+      description: Post modifier picture private
+    numreplies:
+      type: integer
+      description: The number of replies in the discussion
+    numunread:
+      type: integer
+      description: The number of unread discussions
+    pinned:
+      type: boolean
+      description: Is the discussion pinned
+    locked:
+      type: boolean
+      description: Is the discussion locked
+    starred:
+      type: boolean
+      description: Is the discussion starred
+    canreply:
+      type: boolean
+      description: Can the user reply to the discussion
+    canlock:
+      type: boolean
+      description: Can the user lock the discussion
+    canfavourite:
+      type: boolean
+      description: Can the user star the discussion
+    posts:
+      nullable: true
+      type: array
+      description: List of posts in the discussion, only included if requested with the "include=posts" query parameter
+      items:
+        $ref: '../forums/posts_response.yaml#/Post'
+  required:
+    - id
+    - name
+    - groupid
+    - timemodified
+    - usermodified
+    - timestart
+    - timeend
+    - discussion
+    - parent
+    - userid
+    - created
+    - modified
+    - mailed
+    - subject
+    - message
+    - messageformat
+    - messagetrust
+    - attachment
+    - totalscore
+    - mailnow
+    - userfullname
+    - usermodifiedfullname
+    - userpictureurl
+    - usermodifiedpictureurl
+    - numreplies
+    - numunread
+    - pinned
+    - locked
+    - starred
+    - canreply
+    - canlock
+    - canfavourite

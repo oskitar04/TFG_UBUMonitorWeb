@@ -1,0 +1,141 @@
+CourseActivitiesCompletionResponse:
+  type: object
+  properties:
+    activitiescompletion:
+      type: array
+      items:
+        title: Activities Completion
+        type: object
+        description: Course activities completion status
+        properties:
+          courseid:
+            type: integer
+            description: Course id
+          userid:
+            type: integer
+            description: User id
+          statuses:
+            type: array
+            description: List of activities status
+            items:
+              title: Activity Completion Status
+              type: object
+              properties:
+                cmid:
+                  type: integer
+                  description: course module ID
+                modname:
+                  type: string
+                  description: activity module name
+                instance:
+                  type: integer
+                  description: instance ID
+                state:
+                  type: string
+                  enum:
+                    - INCOMPLETE
+                    - COMPLETE
+                    - PASS
+                    - FAIL
+                  description: Completion state
+                timecompleted:
+                  type: string
+                  format: date-time
+                  description: iso date for completed activity
+                tracking:
+                  type: string
+                  enum:
+                    - NONE
+                    - MANUAL
+                    - AUTOMATIC
+                  description: type of tracking
+                overrideby:
+                  type: integer
+                  nullable: true
+                  description: User id who overrode the status, or null
+                valueused:
+                  type: boolean
+                  description: Whether the completion status affects availability of another activity
+                hascompletion:
+                  type: boolean
+                  description: Whether this activity has completion enabled
+                isautomatic:
+                  type: boolean
+                  description: Whether completion is tracked automatically
+                istrackeduser:
+                  type: boolean
+                  description: Whether completion is tracked for this user
+                uservisible:
+                  type: boolean
+                  description: Whether this activity is visible to the user
+                details:
+                  type: array
+                  description: Completion status details
+                  default: [ ]
+                  items:
+                    title: Completion Detail
+                    type: object
+                    properties:
+                      rulename:
+                        type: string
+                        description: Rule name
+                      rulevalue:
+                        title: Rule value
+                        type: object
+                        properties:
+                          status:
+                            type: integer
+                            description: Completion status
+                          description:
+                            type: string
+                            description: Completion description
+                        required:
+                          - status
+                          - description
+                    required:
+                      - rulename
+                      - rulevalue
+                isoverallcomplete:
+                  type: boolean
+                  description: Whether overall completion should be marked as complete
+              required:
+                - cmid
+                - modname
+                - instance
+                - state
+                - timecompleted
+                - tracking
+                - valueused
+                - hascompletion
+                - isautomatic
+                - istrackeduser
+                - uservisible
+                - details
+                - isoverallcomplete
+          warnings:
+            type: array
+            nullable: true
+            description: list of warnings
+            items:
+              title: Warning
+              type: object
+              properties:
+                item:
+                  type: string
+                  nullable: true
+                  description: item
+                itemid:
+                  type: integer
+                  nullable: true
+                  description: item id
+                warningcode:
+                  type: string
+                  description: warning code
+                message:
+                  type: string
+                  description: untranslated english message
+              required:
+                - warningcode
+                - message
+        required:
+          - statuses

@@ -1,0 +1,34 @@
+post:
+  tags:
+    - Logs
+  operationId: Process CSV file
+  summary: Process a Moodle course logs CSV
+  description: >
+    Receives a CSV file containing course logs optionally any additional headers specified by the client.
+  security: [ ]
+  requestBody:
+    required: true
+    content:
+      multipart/form-data:
+        schema:
+          type: object
+          properties:
+            file:
+              type: string
+              format: binary
+              description: The CSV file containing Moodle course logs
+            options:
+              $ref: "../../components/schemas/logs/log_process_request.yaml#/Options"
+          required:
+            - file
+  responses:
+    '200':
+      description: Processed CSV containing optional headers
+      content:
+        text/csv:
+          schema:
+            type: string
+            format: binary
+    '400':
+      $ref: '../../components/responses/bad_request_400.yaml'
+

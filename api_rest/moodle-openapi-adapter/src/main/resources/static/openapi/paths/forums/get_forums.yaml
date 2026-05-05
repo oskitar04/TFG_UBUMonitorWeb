@@ -1,0 +1,39 @@
+get:
+  tags:
+    - Forums
+  summary: Get forums by course ids
+  operationId: getForums
+  description: Returns a list of forum instances in a provided set of courses, if no courses are provided then all the forum instances the user has access to will be returned.
+  parameters:
+    - name: courseids
+      in: query
+      style: form
+      explode: false
+      schema:
+        type: array
+        items:
+          type: integer
+      description: "Array of course ids to filter the forums. If not provided, all forums the user has access to will be returned."
+    - name: include
+      in: query
+      style: form
+      explode: false
+      description: "Array of additional fields to include in the response for each forum, include discussion and posts. If not provided, no additional fields will be included."
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+            - discussions
+            - posts
+  responses:
+    '200':
+      description: Get forums by course ids
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/forums/forums_response.yaml#/ForumsResponse'
+    '400':
+      $ref: '../../components/responses/bad_request_400.yaml'
+    '401':
+      $ref: '../../components/responses/unauthorized_401.yaml'

@@ -1,0 +1,69 @@
+get:
+  tags:
+    - Forums
+  summary: Get discussions by forum ids
+  operationId: getDiscussions
+  description: Returns a list of forum discussions optionally sorted and paginated.
+  parameters:
+    - name: forumids
+      in: query
+      required: true
+      style: form
+      explode: false
+      schema:
+        type: array
+        items:
+          type: integer
+        minItems: 1
+      description: IDs of the forum
+    - name: include
+      in: query
+      style: form
+      explode: false
+      description: "Array of additional fields to include in the response for each forum. If not provided, no additional fields will be included."
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+            - posts
+    - name: sortorder
+      in: query
+      schema:
+        type: string
+        enum:
+          - LASTPOST_DESC
+          - LASTPOST_ASC
+          - CREATED_DESC
+          - CREATED_ASC
+          - REPLIES_DESC
+          - REPLIES_ASC
+      description: "Sort order of the discussions"
+    - name: page
+      in: query
+      schema:
+        type: integer
+        minimum: -1
+      description: "Page number for pagination (starting from 0), default current page -1"
+    - name: perpage
+      in: query
+      schema:
+        type: integer
+        minimum: 0
+        description: "Number of discussions per page for paginatiom, 0 for all discussions, deafault 0"
+    - name: groupid
+      in: query
+      schema:
+        type: integer
+      description: "Group id to filter discussions, 0 for all groups, default 0"
+  responses:
+    '200':
+      description: Get discussions by forum id
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/forums/discussions_response.yaml#/DiscussionsResponse'
+    '400':
+      $ref: '../../components/responses/bad_request_400.yaml'
+    '401':
+      $ref: '../../components/responses/unauthorized_401.yaml'

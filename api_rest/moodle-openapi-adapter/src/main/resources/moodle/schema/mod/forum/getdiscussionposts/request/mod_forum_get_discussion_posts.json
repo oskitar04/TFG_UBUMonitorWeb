@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GetDiscussionPostsRequest",
+  "description": "Returns a list of forum posts for a discussion.",
+  "type": "object",
+  "properties": {
+    "wsfunction": {
+      "type": "string",
+      "default": "mod_forum_get_discussion_posts"
+    },
+    "discussionid": {
+      "type": "integer",
+      "description": "Discussion id"
+    },
+    "sortby": {
+      "type": "string",
+      "description": "Sort by this element: id, created or modified",
+      "enum": [
+        "id",
+        "created",
+        "modified"
+      ],
+      "javaEnums": [
+        {
+          "name": "ID"
+        },
+        {
+          "name": "CREATED"
+        },
+        {
+          "name": "MODIFIED"
+        }
+      ]
+    },
+    "sortdirection": {
+      "type": "string",
+      "description": "Sort direction: ASC or DESC",
+      "enum": [
+        "ASC",
+        "DESC"
+      ]
+    },
+    "includeinlineattachments": {
+      "type": "integer",
+      "description": "Whether inline attachments should be included or not"
+    }
+  },
+  "required": [
+    "discussionid"
+  ]
+}

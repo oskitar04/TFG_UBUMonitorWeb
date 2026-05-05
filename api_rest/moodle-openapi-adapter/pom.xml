@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>3.5.12</version>
+    <relativePath/>
+  </parent>
+
+  <groupId>es.ubu.lsi</groupId>
+  <artifactId>moodle-openapi-adapter</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>moodle-oauth2-adapter</name>
+  <description>Spring Boot adapter para Moodle con Feign, MapStruct y OpenAPI</description>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <java.version>25</java.version>
+    <maven.compiler.source>25</maven.compiler.source>
+    <maven.compiler.target>25</maven.compiler.target>
+    <mapstruct.version>1.6.3</mapstruct.version>
+    <lombok.version>1.18.42</lombok.version>
+    <logbook.version>3.12.3</logbook.version>
+  </properties>
+
+  <dependencies>
+    <!-- Spring Boot Web -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-webflux</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-devtools</artifactId>
+      <scope>runtime</scope>
+      <optional>true</optional>
+    </dependency>
+
+    <dependency>
+      <groupId>org.zalando</groupId>
+      <artifactId>logbook-spring-boot-starter</artifactId>
+      <version>${logbook.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.zalando</groupId>
+      <artifactId>logbook-json</artifactId>
+      <version>${logbook.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.zalando</groupId>
+      <artifactId>logbook-spring-webflux</artifactId>
+      <version>${logbook.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.krakens</groupId>
+      <artifactId>java-grok</artifactId>
+      <version>0.1.9</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jsoup</groupId>
+      <artifactId>jsoup</artifactId>
+      <version>1.22.1</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.vladsch.flexmark</groupId>
+      <artifactId>flexmark</artifactId>
+      <version>0.64.8</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.dataformat</groupId>
+      <artifactId>jackson-dataformat-csv</artifactId>
+
+      <scope>compile</scope>
+    </dependency>
+
+    <!-- Lombok -->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>${lombok.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- MapStruct -->
+    <dependency>
+      <groupId>org.mapstruct</groupId>
+      <artifactId>mapstruct</artifactId>
+      <version>${mapstruct.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mapstruct</groupId>
+      <artifactId>mapstruct-processor</artifactId>
+      <version>${mapstruct.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+
+    <!-- Spring Boot Test -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-json</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>net.javacrumbs.json-unit</groupId>
+      <artifactId>json-unit-assertj</artifactId>
+      <version>5.1.0</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- WireMock -->
+    <dependency>
+      <groupId>org.wiremock</groupId>
+      <artifactId>wiremock-standalone</artifactId>
+      <version>3.13.2</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- SpringDoc OpenAPI -->
+    <dependency>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
+      <version>2.8.16</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <!-- Validation -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-validation</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+  </dependencies>
+
+
+  <build>
+    <plugins>
+      <!-- Compiler Plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.10.1</version>
+        <configuration>
+          <excludes>
+            <exclude>**/OpenApiGeneratorApplication.java</exclude>
+          </excludes>
+          <annotationProcessorPaths>
+            <path>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+              <version>${lombok.version}</version>
+            </path>
+            <path>
+              <groupId>org.mapstruct</groupId>
+              <artifactId>mapstruct-processor</artifactId>
+              <version>${mapstruct.version}</version>
+            </path>
+          </annotationProcessorPaths>
+          <release>${java.version}</release>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.5.5</version>
+        <configuration>
+          <argLine>-Dfile.encoding=UTF-8</argLine>
+        </configuration>
+      </plugin>
+
+      <!-- Spring Boot Maven Plugin -->
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+
+      <!-- OpenAPI Generator -->
+      <plugin>
+        <groupId>org.openapitools</groupId>
+        <artifactId>openapi-generator-maven-plugin</artifactId>
+        <version>7.2.0</version>
+        <executions>
+          <execution>
+            <id>generate-moodle-api</id>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+
+              <inputSpec>${project.basedir}/src/main/resources/static/openapi/openapi.yaml</inputSpec>
+              <generatorName>spring</generatorName>
+              <invokerPackage>es.ubu.lsi.moodleadapter</invokerPackage>
+              <apiPackage>es.ubu.lsi.moodleadapter.controller</apiPackage>
+              <modelPackage>es.ubu.lsi.moodleadapter.dto</modelPackage>
+              <output>${project.build.directory}/generated-sources/openapi</output>
+              <library>spring-boot</library>
+              <modelNameSuffix>Dto</modelNameSuffix>
+              <apiNameSuffix>Api</apiNameSuffix>
+              <generateApiTests>false</generateApiTests>
+              <generateModelTests>false</generateModelTests>
+              <supportingFilesToGenerate>
+                ApiUtil.java
+              </supportingFilesToGenerate>
+              <configOptions>
+                <reactive>true</reactive>
+                <delegatePattern>true</delegatePattern>
+                <generateBuilders>false</generateBuilders>
+                <useJakartaEe>true</useJakartaEe>
+                <openApiNullable>false</openApiNullable>
+                <skipDefaultInterface>false</skipDefaultInterface>
+                <interfaceOnly>false</interfaceOnly>
+                <generateSupportingFiles>false</generateSupportingFiles>
+                <useTags>true</useTags>
+                <useBeanValidation>true</useBeanValidation>
+                <useSingleRequestResponse>true</useSingleRequestResponse>
+                <sortModelProperties>false</sortModelProperties>
+                <sortParamsByRequiredFlag>false</sortParamsByRequiredFlag>
+                <useResponseEntity>true</useResponseEntity>
+                <jackson>true</jackson>
+                <useEnumAsRef>true</useEnumAsRef>
+              </configOptions>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- JSON Schema to POJO -->
+      <plugin>
+        <groupId>org.jsonschema2pojo</groupId>
+        <artifactId>jsonschema2pojo-maven-plugin</artifactId>
+        <version>1.3.3</version>
+        <configuration>
+          <sourceDirectory>${basedir}/src/main/resources/moodle/schema</sourceDirectory>
+          <targetPackage>es.ubu.lsi.moodleadapter.moodle.model</targetPackage>
+          <outputDirectory>${project.build.directory}/generated-sources/jsonschema2pojo</outputDirectory>
+          <addCompileSourceRoot>true</addCompileSourceRoot>
+          <generateBuilders>false</generateBuilders>
+          <annotationStyle>jackson2</annotationStyle>
+          <includeAdditionalProperties>false</includeAdditionalProperties>
+          <includeHashcodeAndEquals>false</includeHashcodeAndEquals>
+          <includeToString>false</includeToString>
+          <useTitleAsClassname>true</useTitleAsClassname>
+          <includeJsr303Annotations>true</includeJsr303Annotations>
+          <useJakartaValidation>true</useJakartaValidation>
+          <useLongIntegers>true</useLongIntegers>
+          <usePrimitives>false</usePrimitives>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>3.5.0</version>
+        <executions>
+          <execution>
+            <id>add-test-source</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>add-test-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>${project.build.directory}/generated-sources/openapi/src/test/java</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

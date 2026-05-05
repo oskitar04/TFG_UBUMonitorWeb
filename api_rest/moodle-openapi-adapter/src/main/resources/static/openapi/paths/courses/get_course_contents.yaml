@@ -1,0 +1,56 @@
+get:
+  summary: Retrieve course contents
+  description: "Retrieve sections and modules of a specific course. Options are sent as query parameters. Defaults follow Moodle's documentation: if no option is sent, all content is returned."
+  operationId: getCourseContents
+  tags:
+    - Courses
+  parameters:
+    - name: courseid
+      in: path
+      required: true
+      schema:
+        type: integer
+      description: ID of the course
+    - name: options
+      in: query
+      style: deepObject
+      explode: true
+      schema:
+        type: object
+        properties:
+          excludemodules:
+            type: boolean
+            description: Do not return modules, return only the sections structure
+          excludecontents:
+            type: boolean
+            description: "Do not return module contents (i.e: files inside a resource)"
+          includestealthmodules:
+            type: boolean
+            description: Return stealth modules for students in a special section (with id -1)
+          sectionid:
+            type: integer
+            description: Return only this section
+          sectionnumber:
+            type: integer
+            description: Return only this section with number (order)
+          cmid:
+            type: integer
+            description: Return only this module information (among the whole sections structure)
+          modname:
+            type: string
+            description: Return only modules with this name "label, forum, etc..."
+          modid:
+            type: integer
+            description: Return only the module with this id (to be used with modname)
+
+  responses:
+    '200':
+      description: List of users
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/courses/course_contents_response.yaml#/CourseContentsResponse'
+    '400':
+      $ref: '../../components/responses/bad_request_400.yaml'
+    '401':
+      $ref: '../../components/responses/unauthorized_401.yaml'
