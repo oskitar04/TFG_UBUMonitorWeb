@@ -1,11 +1,14 @@
 import { useState } from "react";
 //import { getCursos } from "../api/cursos";
-import Chart from "../componentes/graficos";
+import Graficos from "../componentes/graficos";
+import { useNavigate } from "react-router-dom";
 
 export default function Principal() {
     const [token, setToken] = useState("");
     const [cursos, setCursos] = useState([]);
     const [chartData, setChartData] = useState([]);
+
+    const navigate = useNavigate();
 
     const handleFetch = async () => {
     try {
@@ -30,6 +33,7 @@ export default function Principal() {
     }
     };
 
+    
     return (
     <div style={{ padding: "40px" }}>
         <h1>UBUMonitor Web</h1>
@@ -48,7 +52,7 @@ export default function Principal() {
         <button onClick={handleFetch} style={{
             padding: "10px 20px",
             fontSize: "16px",
-            backgroundColor: "var(--accent)",
+            backgroundColor: "black",
             color: "white",
             border: "none",
             borderRadius: "5px",
@@ -56,6 +60,10 @@ export default function Principal() {
             marginTop: "10px"
             }}>
             Cargar cursos (Opcion 2)
+        </button>
+
+        <button onClick={() => navigate("/cursos")}>
+            Ver cursos
         </button>
 
         {/* Datos */}
@@ -67,7 +75,7 @@ export default function Principal() {
         </div>
 
         {/* Gráfico */}
-        <Chart data={chartData} />
+        <Graficos data={chartData} />
     </div>
 );
 }

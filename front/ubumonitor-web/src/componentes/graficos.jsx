@@ -1,6 +1,6 @@
 import { LineChart, Line, XAxis, YAxis, Tooltip } from "recharts";
 
-export default function Chart({ data }) {
+export default function Graficos({ data }) {
   return (
     <LineChart width={400} height={300} data={data}>
       <XAxis dataKey="name" />
