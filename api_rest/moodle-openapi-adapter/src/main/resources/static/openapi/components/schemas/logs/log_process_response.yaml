@@ -1,8 +1,0 @@
-LogProcessResponse:
-  type: object
-  properties:
-    output:
-      type: string
-      format: uri
-  required:
-    - output
