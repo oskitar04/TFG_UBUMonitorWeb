@@ -1,0 +1,13 @@
+spring:
+  config:
+    import: classpath:application-moodlerules.yml
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: false
+  devtools:
+    add-properties: false
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false

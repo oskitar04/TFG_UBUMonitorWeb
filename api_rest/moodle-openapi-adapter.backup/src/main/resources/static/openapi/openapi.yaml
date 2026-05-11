@@ -1,0 +1,68 @@
+openapi: 3.0.3
+info:
+  title: Moodle Adapter API
+  version: "1.0.0"
+  description: Adapter for Moodle REST API to standard REST endpoints.
+
+servers:
+  - url: http://localhost:8080/api
+    description: Local development server
+components:
+  securitySchemes:
+    moodle_header_token:
+      type: apiKey
+      name: X-Moodle-Token
+      in: header
+      description: Moodle authentication token passed in the header of each request. Obtain this token by authenticating with the Moodle API using your username and password.
+    moodle_header_host:
+      type: apiKey
+      name: X-Moodle-Host
+      in: header
+      description: Moodle host URL passed in the header of each request. This should be the base URL of your Moodle instance (e.g., https://school.moodledemo.net/).
+
+security:
+  - moodle_header_token: [ ]
+    moodle_header_host: [ ]
+
+paths:
+  /public/login/token:
+    $ref: './paths/login/login_token.yaml'
+
+  /public/logs/process/file:
+    $ref: './paths/logs/post_course_logs_process_file.yaml'
+
+  /public/logs/process/path:
+    $ref: './paths/logs/post_course_logs_process_path.yaml'
+
+  /site/info:
+    $ref: './paths/site/site_info.yaml'
+
+  /users:
+    $ref: './paths/users/get_users.yaml'
+
+  /users/{userid}/courses:
+    $ref: './paths/users/get_user_courses.yaml'
+
+  /courses/{courseid}/activities/completion:
+    $ref: './paths/courses/get_course_activities_completion.yaml'
+
+  /courses/{courseid}/users:
+    $ref: './paths/courses/get_course_users.yaml'
+
+  /courses/{courseid}/contents:
+    $ref: './paths/courses/get_course_contents.yaml'
+
+  /courses/{courseid}/grades:
+    $ref: './paths/courses/get_course_grades.yaml'
+
+  /forums:
+    $ref: './paths/forums/get_forums.yaml'
+
+  /forums/discussions:
+    $ref: './paths/forums/get_discussions.yaml'
+
+  /discussions/posts:
+    $ref: './paths/forums/get_discussion_posts.yaml'
+
+  /calendars/events:
+    $ref: './paths/calendars/get_calendar_events.yaml'

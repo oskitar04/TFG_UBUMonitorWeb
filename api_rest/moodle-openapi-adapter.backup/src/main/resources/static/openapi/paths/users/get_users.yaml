@@ -1,0 +1,32 @@
+get:
+  tags: [ Users ]
+  summary: Get user by field and values
+  description: Get a Moodle user by their user ID
+  operationId: getUser
+  parameters:
+    - name: field
+      in: query
+      description: The name of the field to search by.
+      required: true
+      schema:
+        $ref: '../../components/schemas/users/users_response.yaml#/UserSearchField'
+    - name: values
+      in: query
+      description: the values to match
+      required: true
+      schema:
+        type: array
+        items:
+          type: string
+  responses:
+    '200':
+      description: User found
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/users/users_response.yaml#/UserResponse'
+    '400':
+      $ref: '../../components/responses/bad_request_400.yaml'
+    '401':
+      $ref: '../../components/responses/unauthorized_401.yaml'
+

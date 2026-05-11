@@ -1,0 +1,13 @@
+description: Bad Request - invalid field
+content:
+  application/json:
+    schema:
+      $ref: '../schemas/common/error_response.yaml#/ErrorResponse'
+    example:
+      code: BAD_REQUEST,
+      message: "Missing required header: X-Moodle-Host"
+      timestamp: "2026-04-05T02:41:49.5759267+02:00"
+      traceId: 4a253e64-5203-477a-8f4c-db25fd11a067
+      errors:
+        - field: exception
+          message: '400 BAD_REQUEST "Missing required header: X-Moodle-Host"'

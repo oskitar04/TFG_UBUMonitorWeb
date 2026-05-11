@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "GetUsersCoursesRequest",
+  "description": "Get the list of courses where a user is enrolled in",
+  "properties": {
+    "wsfunction": {
+      "type": "string",
+      "default": "core_enrol_get_users_courses"
+    },
+    "userid": {
+      "type": "integer"
+    },
+    "returnusercount": {
+      "description": "Include count of enrolled users for each course? This can add several seconds to the response time if a user is on several large courses, so set this to false if the value will not be used to improve performance.",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "userid"
+  ]
+}

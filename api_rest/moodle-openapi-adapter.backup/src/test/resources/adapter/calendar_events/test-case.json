@@ -1,0 +1,375 @@
+{
+  "description": "Test case for calendar events adapter",
+  "request": {
+    "method": "GET",
+    "path": "/calendars/events",
+    "queryParams": [
+      {
+        "name": "courseids",
+        "value": "69,72"
+      },
+      {
+        "name": "userevents",
+        "value": "false"
+      },
+      {
+        "name": "siteevents",
+        "value": "false"
+      }
+    ],
+    "headers": [
+      {
+        "name": "X-MOODLE-TOKEN",
+        "value": "{{TOKEN}}"
+      },
+      {
+        "name": "X-MOODLE-HOST",
+        "value": "{{HOST}}"
+      }
+    ]
+  },
+  "expectedResponse": {
+    "status": 200,
+    "body": {
+      "events": [
+        {
+          "id": 490,
+          "name": "About this course should be completed",
+          "description": "<div class=\"no-overflow\"><p dir=\"ltr\" style=\"text-align:left;\">Learning outcomes and completion information.</p></div>",
+          "descriptiontext": "Learning outcomes and completion information.",
+          "format": "HTML",
+          "courseid": 69,
+          "categoryid": null,
+          "groupid": null,
+          "userid": 13,
+          "repeatid": null,
+          "modulename": "book",
+          "instance": 12,
+          "eventtype": "expectcompletionon",
+          "timestart": "2022-04-28T08:00:00Z",
+          "timeend": "2022-04-28T08:00:00Z",
+          "timeduration": 0,
+          "visible": true,
+          "uuid": null,
+          "sequence": 1,
+          "timemodified": "2022-04-13T10:12:57Z",
+          "subscriptionid": null
+        },
+        {
+          "id": 486,
+          "name": "Your personal action plan closes",
+          "description": "<div class=\"no-overflow\"><p dir=\"ltr\" style=\"text-align:left;\">As you work through the course, keep a note here of your areas for improvement or any gaps in your understanding. This activity is only visible to you, the course participant, and to your teacher, so be honest!</p></div>",
+          "descriptiontext": "As you work through the course, keep a note here of your areas for improvement or any gaps in your understanding. This activity is only visible to you, the course participant, and to your teacher, so be honest!",
+          "format": "HTML",
+          "courseid": 69,
+          "categoryid": null,
+          "groupid": null,
+          "userid": 2,
+          "repeatid": null,
+          "modulename": "data",
+          "instance": 28,
+          "eventtype": "close",
+          "timestart": "2024-08-07T14:38:00Z",
+          "timeend": "2024-08-07T14:38:00Z",
+          "timeduration": 0,
+          "visible": true,
+          "uuid": null,
+          "sequence": 1,
+          "timemodified": "2023-04-14T17:00:08Z",
+          "subscriptionid": null
+        },
+        {
+          "id": 485,
+          "name": "Prior experience check closes",
+          "description": "<div class=\"no-overflow\"><p dir=\"ltr\" style=\"text-align:left;\">What's your experience of mindfulness? </p></div>",
+          "descriptiontext": "What's your experience of mindfulness?",
+          "format": "HTML",
+          "courseid": 69,
+          "categoryid": null,
+          "groupid": null,
+          "userid": 2,
+          "repeatid": null,
+          "modulename": "choice",
+          "instance": 21,
+          "eventtype": "close",
+          "timestart": "2024-08-08T14:37:00Z",
+          "timeend": "2024-08-08T14:37:00Z",
+          "timeduration": 0,
+          "visible": true,
+          "uuid": null,
+          "sequence": 1,
+          "timemodified": "2023-04-14T16:59:53Z",
+          "subscriptionid": null
+        },
+        {
+          "id": 518,
+          "name": "Summative assignment is due",
+          "description": "<p>Choose <strong>one </strong>of the two proposed assignment topics. Make sure you keep to the word count and include the items listed.</p>",
+          "descriptiontext": "Choose one of the two proposed assignment topics. Make sure you keep to the word count and include the items listed.",
+          "format": "HTML",
+          "courseid": 72,
+          "categoryid": null,
+          "groupid": null,
+          "userid": null,
+          "repeatid": null,
+          "modulename": "assign",
+          "instance": 145,
+          "eventtype": "due",
+          "timestart": "2024-10-29T23:00:00Z",
+          "timeend": "2024-10-29T23:00:00Z",
+          "timeduration": 0,
+          "visible": true,
+          "uuid": null,
+          "sequence": 1,
+          "timemodified": "2023-12-07T11:27:26Z",
+          "subscriptionid": null
+        },
+        {
+          "id": 519,
+          "name": "Summative assignment is due to be graded",
+          "description": "<p>Choose <strong>one </strong>of the two proposed assignment topics. Make sure you keep to the word count and include the items listed.</p>",
+          "descriptiontext": "Choose one of the two proposed assignment topics. Make sure you keep to the word count and include the items listed.",
+          "format": "HTML",
+          "courseid": 72,
+          "categoryid": null,
+          "groupid": null,
+          "userid": null,
+          "repeatid": null,
+          "modulename": "assign",
+          "instance": 145,
+          "eventtype": "gradingdue",
+          "timestart": "2024-10-31T23:00:00Z",
+          "timeend": "2024-10-31T23:00:00Z",
+          "timeduration": 0,
+          "visible": true,
+          "uuid": null,
+          "sequence": 1,
+          "timemodified": "2023-12-07T11:27:26Z",
+          "subscriptionid": null
+        },
+        {
+          "id": 520,
+          "name": "Memory poem is due",
+          "description": "<p>Write a poem about memory! More details when you click to submit.</p>",
+          "descriptiontext": "Write a poem about memory! More details when you click to submit.",
+          "format": "HTML",
+          "courseid": 72,
+          "categoryid": null,
+          "groupid": null,
+          "userid": null,
+          "repeatid": null,
+          "modulename": "assign",
+          "instance": 146,
+          "eventtype": "due",
+          "timestart": "2024-11-19T23:00:00Z",
+          "timeend": "2024-11-19T23:00:00Z",
+          "timeduration": 0,
+          "visible": true,
+          "uuid": null,
+          "sequence": 1,
+          "timemodified": "2023-11-14T16:23:03Z",
+          "subscriptionid": null
+        },
+        {
+          "id": 521,
+          "name": "Memory poem is due to be graded",
+          "description": "<p>Write a poem about memory! More details when you click to submit.</p>",
+          "descriptiontext": "Write a poem about memory! More details when you click to submit.",
+          "format": "HTML",
+          "courseid": 72,
+          "categoryid": null,
+          "groupid": null,
+          "userid": null,
+          "repeatid": null,
+          "modulename": "assign",
+          "instance": 146,
+          "eventtype": "gradingdue",
+          "timestart": "2024-11-26T23:00:00Z",
+          "timeend": "2024-11-26T23:00:00Z",
+          "timeduration": 0,
+          "visible": true,
+          "uuid": null,
+          "sequence": 1,
+          "timemodified": "2023-11-14T16:23:03Z",
+          "subscriptionid": null
+        }
+      ],
+      "warnings": []
+    }
+  },
+  "moodleApiMocks": [
+    {
+      "request": {
+        "formData": [
+          {
+            "name": "wsfunction",
+            "value": "core_calendar_get_calendar_events"
+          },
+          {
+            "name": "events[courseids][0]",
+            "value": "69"
+          },
+          {
+            "name": "events[courseids][1]",
+            "value": "72"
+          },
+          {
+            "name": "options[userevents]",
+            "value": "0"
+          },
+          {
+            "name": "options[siteevents]",
+            "value": "0"
+          }
+        ]
+      },
+      "response": {
+        "body": {
+          "events": [
+            {
+              "id": 490,
+              "name": "About this course should be completed",
+              "description": "<div class=\"no-overflow\"><p dir=\"ltr\" style=\"text-align:left;\">Learning outcomes and completion information.</p></div>",
+              "format": 1,
+              "courseid": 69,
+              "categoryid": null,
+              "groupid": null,
+              "userid": 13,
+              "repeatid": null,
+              "modulename": "book",
+              "instance": 12,
+              "eventtype": "expectcompletionon",
+              "timestart": 1651132800,
+              "timeduration": 0,
+              "visible": 1,
+              "sequence": 1,
+              "timemodified": 1649844777,
+              "subscriptionid": null
+            },
+            {
+              "id": 486,
+              "name": "Your personal action plan closes",
+              "description": "<div class=\"no-overflow\"><p dir=\"ltr\" style=\"text-align:left;\">As you work through the course, keep a note here of your areas for improvement or any gaps in your understanding. This activity is only visible to you, the course participant, and to your teacher, so be honest!</p></div>",
+              "format": 1,
+              "courseid": 69,
+              "categoryid": null,
+              "groupid": null,
+              "userid": 2,
+              "repeatid": null,
+              "modulename": "data",
+              "instance": 28,
+              "eventtype": "close",
+              "timestart": 1723041480,
+              "timeduration": 0,
+              "visible": 1,
+              "sequence": 1,
+              "timemodified": 1681491608,
+              "subscriptionid": null
+            },
+            {
+              "id": 485,
+              "name": "Prior experience check closes",
+              "description": "<div class=\"no-overflow\"><p dir=\"ltr\" style=\"text-align:left;\">What's your experience of mindfulness? </p></div>",
+              "format": 1,
+              "courseid": 69,
+              "categoryid": null,
+              "groupid": null,
+              "userid": 2,
+              "repeatid": null,
+              "modulename": "choice",
+              "instance": 21,
+              "eventtype": "close",
+              "timestart": 1723127820,
+              "timeduration": 0,
+              "visible": 1,
+              "sequence": 1,
+              "timemodified": 1681491593,
+              "subscriptionid": null
+            },
+            {
+              "id": 518,
+              "name": "Summative assignment is due",
+              "description": "<p>Choose <strong>one </strong>of the two proposed assignment topics. Make sure you keep to the word count and include the items listed.</p>",
+              "format": 1,
+              "courseid": 72,
+              "categoryid": null,
+              "groupid": null,
+              "userid": null,
+              "repeatid": null,
+              "modulename": "assign",
+              "instance": 145,
+              "eventtype": "due",
+              "timestart": 1730242800,
+              "timeduration": 0,
+              "visible": 1,
+              "sequence": 1,
+              "timemodified": 1701948446,
+              "subscriptionid": null
+            },
+            {
+              "id": 519,
+              "name": "Summative assignment is due to be graded",
+              "description": "<p>Choose <strong>one </strong>of the two proposed assignment topics. Make sure you keep to the word count and include the items listed.</p>",
+              "format": 1,
+              "courseid": 72,
+              "categoryid": null,
+              "groupid": null,
+              "userid": null,
+              "repeatid": null,
+              "modulename": "assign",
+              "instance": 145,
+              "eventtype": "gradingdue",
+              "timestart": 1730415600,
+              "timeduration": 0,
+              "visible": 1,
+              "sequence": 1,
+              "timemodified": 1701948446,
+              "subscriptionid": null
+            },
+            {
+              "id": 520,
+              "name": "Memory poem is due",
+              "description": "<p>Write a poem about memory! More details when you click to submit.</p>",
+              "format": 1,
+              "courseid": 72,
+              "categoryid": null,
+              "groupid": null,
+              "userid": null,
+              "repeatid": null,
+              "modulename": "assign",
+              "instance": 146,
+              "eventtype": "due",
+              "timestart": 1732057200,
+              "timeduration": 0,
+              "visible": 1,
+              "sequence": 1,
+              "timemodified": 1699978983,
+              "subscriptionid": null
+            },
+            {
+              "id": 521,
+              "name": "Memory poem is due to be graded",
+              "description": "<p>Write a poem about memory! More details when you click to submit.</p>",
+              "format": 1,
+              "courseid": 72,
+              "categoryid": null,
+              "groupid": null,
+              "userid": null,
+              "repeatid": null,
+              "modulename": "assign",
+              "instance": 146,
+              "eventtype": "gradingdue",
+              "timestart": 1732662000,
+              "timeduration": 0,
+              "visible": 1,
+              "sequence": 1,
+              "timemodified": 1699978983,
+              "subscriptionid": null
+            }
+          ],
+          "warnings": []
+        }
+      }
+    }
+  ]
+}

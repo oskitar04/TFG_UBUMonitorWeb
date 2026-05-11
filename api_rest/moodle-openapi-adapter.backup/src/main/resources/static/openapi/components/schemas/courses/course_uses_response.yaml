@@ -1,0 +1,245 @@
+CourseUsersResponse:
+  type: object
+  properties:
+    users:
+      type: array
+      items:
+        title: EnrolledUser
+        type: object
+        properties:
+          id:
+            type: integer
+            description: ID of the user
+          username:
+            type: string
+            description: Username policy is defined in Moodle security config
+            nullable: true
+          firstname:
+            type: string
+            description: The first name(s) of the user
+            nullable: true
+          lastname:
+            type: string
+            description: The family name of the user
+            nullable: true
+          fullname:
+            type: string
+            description: The fullname of the user
+          email:
+            type: string
+            description: An email address - allow email as root@localhost
+            nullable: true
+          address:
+            type: string
+            description: Postal address
+            nullable: true
+          phone1:
+            type: string
+            description: Phone 1
+            nullable: true
+          phone2:
+            type: string
+            description: Phone 2
+            nullable: true
+          department:
+            type: string
+            description: Department
+            nullable: true
+          institution:
+            type: string
+            description: Institution
+            nullable: true
+          idnumber:
+            type: string
+            description: An arbitrary ID code number perhaps from the institution
+            nullable: true
+          interests:
+            type: string
+            description: User interests (separated by commas)
+            nullable: true
+          firstaccess:
+            type: string
+            format: date-time
+            description: First access to the site (null if never)
+            nullable: true
+          lastaccess:
+            type: string
+            format: date-time
+            description: Last access to the site (null if never)
+            nullable: true
+          lastcourseaccess:
+            type: string
+            format: date-time
+            description: Last access to the course (null if never)
+            nullable: true
+          description:
+            type: string
+            description: User profile description
+            nullable: true
+          descriptiontext:
+            type: string
+            description: User profile description, only text
+          descriptionformat:
+            type: string
+            enum:
+              - MOODLE
+              - HTML
+              - PLAIN
+              - MARKDOWN
+            description: Description format
+            nullable: true
+          city:
+            type: string
+            description: Home city of the user
+            nullable: true
+          country:
+            type: string
+            description: Home country code of the user, such as AU or CZ
+            nullable: true
+          profileimageurlsmall:
+            type: string
+            format: uri
+            description: User image profile URL - small version
+            nullable: true
+          privateprofileimageurlsmall:
+            type: string
+            format: uri
+            description: User image profile private URL - small version
+          profileimageurl:
+            type: string
+            format: uri
+            description: User image profile URL - big version
+            nullable: true
+          privateprofileimageurl:
+            type: string
+            format: uri
+            description: User image profile private URL - big version
+          customfields:
+            type: array
+            description: User custom fields (also known as user profile fields)
+            nullable: true
+            items:
+              title: Custom Field
+              type: object
+              properties:
+                type:
+                  type: string
+                  description: The type of the custom field - text field, checkbox...
+                value:
+                  type: string
+                  description: The value of the custom field
+                name:
+                  type: string
+                  description: The name of the custom field
+                shortname:
+                  type: string
+                  description:
+                    The shortname of the custom field - to build the field class in
+                    code
+              required:
+                - type
+                - value
+                - name
+                - shortname
+          groups:
+            type: array
+            description: User groups
+            nullable: true
+            items:
+              title: Group
+              type: object
+              properties:
+                id:
+                  type: integer
+                  description: Group id
+                name:
+                  type: string
+                  description: Group name
+                description:
+                  type: string
+                  description: Group description
+                descriptiontext:
+                  type: string
+                  description: Group description only text
+                descriptionformat:
+                  type: string
+                  enum:
+                    - MOODLE
+                    - HTML
+                    - PLAIN
+                    - MARKDOWN
+                  description:
+                    Description format
+              required:
+                - id
+                - name
+                - description
+                - descriptionformat
+          roles:
+            type: array
+            description: User roles
+            nullable: true
+            items:
+              title: Role
+              type: object
+              properties:
+                roleid:
+                  type: integer
+                  description: Role id
+                name:
+                  type: string
+                  description: Role name
+                shortname:
+                  type: string
+                  description: Role shortname
+                sortorder:
+                  type: integer
+                  description: Role sortorder
+              required:
+                - roleid
+                - name
+                - shortname
+                - sortorder
+          preferences:
+            type: array
+            description: User preferences
+            nullable: true
+            items:
+              title: Preference
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: The name of the preference
+                value:
+                  type: string
+                  description: The value of the preference
+              required:
+                - name
+                - value
+          enrolledcourses:
+            type: array
+            description: Courses where the user is enrolled
+            nullable: true
+            items:
+              title: Enrolled Course
+              type: object
+              properties:
+                id:
+                  type: integer
+                  description: Id of the course
+                fullname:
+                  type: string
+                  description: Fullname of the course
+                shortname:
+                  type: string
+                  description: Shortname of the course
+              required:
+                - id
+                - fullname
+                - shortname
+          required:
+            - id
+            - fullname
+
+

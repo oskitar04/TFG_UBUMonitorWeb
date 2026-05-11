@@ -604,3 +604,4 @@ org.eclipse.core.runtime.CoreException: Could not resolve artifact org.webjars:s
 2026-05-05 20:55:33,939 [Worker-26: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 3 resources from src\main\resources to target\classes
 2026-05-05 20:55:33,966 [Worker-26: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 63 resources from src\main\resources to target\classes
 2026-05-05 20:55:34,084 [Worker-26: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 20 resources from src\test\resources to target\test-classes
+2026-05-11 23:52:36,272 [Worker-6: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.

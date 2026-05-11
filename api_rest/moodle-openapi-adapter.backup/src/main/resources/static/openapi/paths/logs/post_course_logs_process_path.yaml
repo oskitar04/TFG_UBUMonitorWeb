@@ -1,0 +1,39 @@
+post:
+  tags:
+    - Logs
+  operationId: Process CSV path
+  summary: Process a Moodle course logs CSV from path URI
+  description: >
+    Receives a CSV file containing course logs, extracts any additional headers specified by the client.
+  security: [ ]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            input:
+              type: string
+              format: uri
+              description: "URI or path to the CSV file containing Moodle course logs to process."
+              example: "file:///D:/Moodle/moodle-openapi-adapter-bruno/Moodle/collections/OpenAPI%20definition%20Adapter/Logs/input.csv"
+            output:
+              type: string
+              format: uri
+              description: "URI or path where the processed CSV file will be written."
+              example: "file:///D:/Moodle/moodle-openapi-adapter-bruno/Moodle/collections/OpenAPI%20definition%20Adapter/Logs/input_processed.csv"
+            options:
+              $ref: "../../components/schemas/logs/log_process_request.yaml#/Options"
+
+          required:
+            - input
+  responses:
+    '200':
+      description: Processed CSV containing optional headers
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/logs/log_process_response.yaml#/LogProcessResponse"
+    '400':
+      $ref: '../../components/responses/bad_request_400.yaml'

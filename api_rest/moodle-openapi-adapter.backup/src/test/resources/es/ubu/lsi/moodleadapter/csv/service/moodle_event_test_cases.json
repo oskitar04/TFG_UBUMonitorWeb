@@ -1,0 +1,1642 @@
+{
+  "cases": [
+    {
+      "component": "Activity report",
+      "eventName": "Outline report viewed",
+      "description": "The user with id '2' viewed the outline report for the user with id '48126' for the course with id '8354'.",
+      "expected": {
+        "user_id": 2,
+        "target_user_id": 48126,
+        "course_id": 8354
+      }
+    },
+    {
+      "component": "Assignment",
+      "eventName": "A submission has been submitted.",
+      "description": "The user with id '76097' has submitted the submission with id '2798186' for the assignment with course module id '3538734'.",
+      "expected": {
+        "user_id": 76097,
+        "submission_id": 2798186,
+        "course_module_id": 3538734
+      }
+    },
+    {
+      "component": "Assignment",
+      "eventName": "All the submissions are being downloaded.",
+      "description": "The user with id '7243' has downloaded all the submissions for the assignment with course module id '3538734'.",
+      "expected": {
+        "user_id": 7243,
+        "course_module_id": 3538734
+      }
+    },
+    {
+      "component": "Assignment",
+      "eventName": "Assignment override created",
+      "description": "The user with id '54969' created the override with id '2663' for the assign with course module id '3197817' for the user with id '65566'.",
+      "expected": {
+        "user_id": 54969,
+        "override_id": 2663,
+        "course_module_id": 3197817,
+        "target_user_id": 65566
+      }
+    },
+    {
+      "component": "Assignment",
+      "eventName": "Assignment override deleted",
+      "description": "The user with id '54969' deleted the override with id '2356' for the assign with course module id '3197655' for the group with id '15472'.",
+      "expected": {
+        "user_id": 54969,
+        "override_id": 2356,
+        "course_module_id": 3197655,
+        "group_id": 15472
+      }
+    },
+    {
+      "component": "Assignment",
+      "eventName": "Assignment override updated",
+      "description": "The user with id '54969' updated the override with id '2357' for the assign with course module id '3197655' for the group with id '15473'.",
+      "expected": {
+        "user_id": 54969,
+        "override_id": 2357,
+        "course_module_id": 3197655,
+        "group_id": 15473
+      }
+    },
+    {
+      "component": "Assignment",
+      "eventName": "Batch set workflow state viewed.",
+      "description": "The user with id '7243' viewed the batch set workflow for the assignment with course module id '3538734'.",
+      "expected": {
+        "user_id": 7243,
+        "course_module_id": 3538734
+      }
+    },
+    {
+      "component": "Assignment",
+      "eventName": "Course module instance list viewed",
+      "description": "The user with id '33242' viewed the instance list for the module 'assign' in the course with id '8354'.",
+      "expected": {
+        "user_id": 33242,
+        "module_name": "assign",
+        "course_id": 8354
+      }
+    },
+    {
+      "component": "Assignment",
+      "eventName": "Course module viewed",
+      "description": "The user with id '81524' viewed the 'assign' activity with course module id '2226064'.",
+      "expected": {
+        "user_id": 81524,
+        "activity_name": "assign",
+        "course_module_id": 2226064
+      }
+    },
+    {
+      "component": "Assignment",
+      "eventName": "Feedback viewed",
+      "description": "The user with id '81524' viewed the feedback for the user with id '81524' for the assignment with course module id '2226064'.",
+      "expected": {
+        "user_id": 81524,
+        "target_user_id": 81524,
+        "course_module_id": 2226064
+      }
+    },
+    {
+      "component": "Assignment",
+      "eventName": "Grading form viewed",
+      "description": "The user with id '61880' viewed the grading form for the user with id '74045' for the assignment with course module id '3538734'.",
+      "expected": {
+        "user_id": 61880,
+        "target_user_id": 74045,
+        "course_module_id": 3538734
+      }
+    },
+    {
+      "component": "Assignment",
+      "eventName": "Grading table viewed",
+      "description": "The user with id '7243' viewed the grading table for the assignment with course module id '2381936'.",
+      "expected": {
+        "user_id": 7243,
+        "course_module_id": 2381936
+      }
+    },
+    {
+      "component": "Assignment",
+      "eventName": "Remove submission confirmation viewed.",
+      "description": "The user with id '74600' viewed their remove submission form for the assignment with course module id '3538741'.",
+      "expected": {
+        "user_id": 74600,
+        "course_module_id": 3538741
+      }
+    },
+    {
+      "component": "Assignment",
+      "eventName": "Submission confirmation form viewed.",
+      "description": "The user with id '76097' viewed the submission confirmation form for the assignment with course module id '3538734'.",
+      "expected": {
+        "user_id": 76097,
+        "course_module_id": 3538734
+      }
+    },
+    {
+      "component": "Assignment",
+      "eventName": "Submission form viewed.",
+      "description": "The user with id '76097' viewed their submission for the assignment with course module id '3538734'.",
+      "expected": {
+        "user_id": 76097,
+        "course_module_id": 3538734
+      }
+    },
+    {
+      "component": "Assignment",
+      "eventName": "Submission form viewed.",
+      "description": "The user with id '7243' viewed the submission form for the user with id '69307' for the assignment with course module id '3498638'.",
+      "expected": {
+        "user_id": 7243,
+        "target_user_id": 69307,
+        "course_module_id": 3498638
+      }
+    },
+    {
+      "component": "Assignment",
+      "eventName": "Submission removed.",
+      "description": "The user with id '74600' removed the submission with id '2797834' in the assignment with course module id '3538741' submitted by the user with id '74600'.",
+      "expected": {
+        "user_id": 74600,
+        "submission_id": 2797834,
+        "course_module_id": 3538741,
+        "target_user_id": 74600
+      }
+    },
+    {
+      "component": "Assignment",
+      "eventName": "The state of the workflow has been updated.",
+      "description": "The user with id '7243' has set the workflow state of the user with id '85021' to the state 'released' for the assignment with course module id '3538734'.",
+      "expected": {
+        "user_id": 7243,
+        "target_user_id": 85021,
+        "workflow_state": "released",
+        "course_module_id": 3538734
+      }
+    },
+    {
+      "component": "Assignment",
+      "eventName": "The status of the submission has been updated.",
+      "description": "The user with id '74600' has updated the status of the submission with id '2797834' for the assignment with course module id '3538741' to the status 'new'.",
+      "expected": {
+        "user_id": 74600,
+        "submission_id": 2797834,
+        "course_module_id": 3538741,
+        "submission_status": "new"
+      }
+    },
+    {
+      "component": "Assignment",
+      "eventName": "The status of the submission has been viewed.",
+      "description": "The user with id '81524' has viewed the submission status page for the assignment with course module id '2226064'.",
+      "expected": {
+        "user_id": 81524,
+        "course_module_id": 2226064
+      }
+    },
+    {
+      "component": "Assignment",
+      "eventName": "The submission has been graded.",
+      "description": "The user with id '7243' has graded the submission '1424369' for the user with id '85021' for the assignment with course module id '3538734'.",
+      "expected": {
+        "user_id": 7243,
+        "submission_id": 1424369,
+        "target_user_id": 85021,
+        "course_module_id": 3538734
+      }
+    },
+    {
+      "component": "Assignment",
+      "eventName": "The user has accepted the statement of the submission.",
+      "description": "The user with id '76097' has accepted the statement of the submission with id '2797835' for the assignment with course module id '3538741'.",
+      "expected": {
+        "user_id": 76097,
+        "submission_id": 2797835,
+        "course_module_id": 3538741
+      }
+    },
+    {
+      "component": "Book",
+      "eventName": "Chapter updated",
+      "description": "The user with id '7243' updated the chapter with id '3327' for the book with course module id '3415441'.",
+      "expected": {
+        "user_id": 7243,
+        "chapter_id": 3327,
+        "course_module_id": 3415441
+      }
+    },
+    {
+      "component": "Book",
+      "eventName": "Chapter viewed",
+      "description": "The user with id '6477' viewed the chapter with id '3308' for the book with course module id '3415441'.",
+      "expected": {
+        "user_id": 6477,
+        "chapter_id": 3308,
+        "course_module_id": 3415441
+      }
+    },
+    {
+      "component": "Book",
+      "eventName": "Course module viewed",
+      "description": "The user with id '6477' viewed the 'book' activity with course module id '3415441'.",
+      "expected": {
+        "user_id": 6477,
+        "activity_name": "book",
+        "course_module_id": 3415441
+      }
+    },
+    {
+      "component": "Book printing",
+      "eventName": "Book printed",
+      "description": "The user with id '69101' has printed the book with course module id '3415441'.",
+      "expected": {
+        "user_id": 69101,
+        "course_module_id": 3415441
+      }
+    },
+    {
+      "component": "Chat",
+      "eventName": "Course module instance list viewed",
+      "description": "The user with id '2' viewed the instance list for the module 'chat' in the course with id '8354'.",
+      "expected": {
+        "user_id": 2,
+        "module_name": "chat",
+        "course_id": 8354
+      }
+    },
+    {
+      "component": "Choice",
+      "eventName": "Choice answer added",
+      "description": "The user with id '74045' has added the option with id '14764' for the               user with id '74045' from the choice activity with course module id '3543282'.",
+      "expected": {
+        "user_id": 74045,
+        "option_id": 14764,
+        "target_user_id": 74045,
+        "course_module_id": 3543282
+      }
+    },
+    {
+      "component": "Choice",
+      "eventName": "Choice answer deleted",
+      "description": "The user with id '7243' has deleted the option with id '14761' for the               user with id '65846' from the choice activity with course module id '3543282'.",
+      "expected": {
+        "user_id": 7243,
+        "option_id": 14761,
+        "target_user_id": 65846,
+        "course_module_id": 3543282
+      }
+    },
+    {
+      "component": "Choice",
+      "eventName": "Choice report downloaded",
+      "description": "The user with id '7243' has downloaded the report in the 'xls' format for               the choice activity with course module id '3548212'",
+      "expected": {
+        "user_id": 7243,
+        "format_type": "xls",
+        "course_module_id": 3548212
+      }
+    },
+    {
+      "component": "Choice",
+      "eventName": "Choice report viewed",
+      "description": "The user with id '7243' has viewed the report for the choice activity with course module id               '3548212'",
+      "expected": {
+        "user_id": 7243,
+        "course_module_id": 3548212
+      }
+    },
+    {
+      "component": "Choice",
+      "eventName": "Course module instance list viewed",
+      "description": "The user with id '80861' viewed the instance list for the module 'choice' in the course with id '8354'.",
+      "expected": {
+        "user_id": 80861,
+        "module_name": "choice",
+        "course_id": 8354
+      }
+    },
+    {
+      "component": "Choice",
+      "eventName": "Course module viewed",
+      "description": "The user with id '70808' viewed the 'choice' activity with course module id '3548212'.",
+      "expected": {
+        "user_id": 70808,
+        "activity_name": "choice",
+        "course_module_id": 3548212
+      }
+    },
+    {
+      "component": "Excel spreadsheet",
+      "eventName": "XLS grade exported",
+      "description": "The user with id '7243' exported grades using the xls export in the gradebook.",
+      "expected": {
+        "user_id": 7243
+      }
+    },
+    {
+      "component": "External tool",
+      "eventName": "Course module instance list viewed",
+      "description": "The user with id '33242' viewed the instance list for the module 'lti' in the course with id '8354'.",
+      "expected": {
+        "user_id": 33242,
+        "module_name": "lti",
+        "course_id": 8354
+      }
+    },
+    {
+      "component": "External tool",
+      "eventName": "Course module viewed",
+      "description": "The user with id '79703' viewed the 'lti' activity with course module id '3417609'.",
+      "expected": {
+        "user_id": 79703,
+        "activity_name": "lti",
+        "course_module_id": 3417609
+      }
+    },
+    {
+      "component": "Feedback",
+      "eventName": "Course module instance list viewed",
+      "description": "The user with id '2' viewed the instance list for the module 'feedback' in the course with id '8354'.",
+      "expected": {
+        "user_id": 2,
+        "module_name": "feedback",
+        "course_id": 8354
+      }
+    },
+    {
+      "component": "Feedback",
+      "eventName": "Course module viewed",
+      "description": "The user with id '37746' viewed the 'feedback' activity with course module id '2437744'.",
+      "expected": {
+        "user_id": 37746,
+        "activity_name": "feedback",
+        "course_module_id": 2437744
+      }
+    },
+    {
+      "component": "File",
+      "eventName": "Course module viewed",
+      "description": "The user with id '64032' viewed the 'resource' activity with course module id '3544618'.",
+      "expected": {
+        "user_id": 64032,
+        "activity_name": "resource",
+        "course_module_id": 3544618
+      }
+    },
+    {
+      "component": "File submissions",
+      "eventName": "A file has been uploaded.",
+      "description": "The user with id '76097' has uploaded a file to the submission with id '2798186' in the assignment activity with course module id '3538734'.",
+      "expected": {
+        "user_id": 76097,
+        "submission_id": 2798186,
+        "course_module_id": 3538734
+      }
+    },
+    {
+      "component": "File submissions",
+      "eventName": "Submission created.",
+      "description": "The user with id '76097' created a file submission and uploaded '1' file/s in the assignment with course module id '3538734'.",
+      "expected": {
+        "user_id": 76097,
+        "file_count": 1,
+        "course_module_id": 3538734
+      }
+    },
+    {
+      "component": "File submissions",
+      "eventName": "Submission updated.",
+      "description": "The user with id '74600' updated a file submission and uploaded '1' file/s in the assignment with course module id '3538741'.",
+      "expected": {
+        "user_id": 74600,
+        "file_count": 1,
+        "course_module_id": 3538741
+      }
+    },
+    {
+      "component": "Folder",
+      "eventName": "Course module viewed",
+      "description": "The user with id '80200' viewed the 'folder' activity with course module id '2969021'.",
+      "expected": {
+        "user_id": 80200,
+        "activity_name": "folder",
+        "course_module_id": 2969021
+      }
+    },
+    {
+      "component": "Folder",
+      "eventName": "Folder updated",
+      "description": "The user with id '7243' updated the folder activity with course module id '2959095'.",
+      "expected": {
+        "user_id": 7243,
+        "course_module_id": 2959095
+      }
+    },
+    {
+      "component": "Folder",
+      "eventName": "Zip archive of folder downloaded",
+      "description": "The user with id '54792' downloaded a zip archive containing all the files from the folder activity with course module id '2969021'.",
+      "expected": {
+        "user_id": 54792,
+        "course_module_id": 2969021
+      }
+    },
+    {
+      "component": "Forum",
+      "eventName": "Course module instance list viewed",
+      "description": "The user with id '88944' viewed the instance list for the module 'forum' in the course with id '17868'.",
+      "expected": {
+        "user_id": 88944,
+        "module_name": "forum",
+        "course_id": 17868
+      }
+    },
+    {
+      "component": "Forum",
+      "eventName": "Course module viewed",
+      "description": "The user with id '64032' viewed the 'forum' activity with course module id '3519459'.",
+      "expected": {
+        "user_id": 64032,
+        "activity_name": "forum",
+        "course_module_id": 3519459
+      }
+    },
+    {
+      "component": "Forum",
+      "eventName": "Course searched",
+      "description": "The user with id '7243' has searched the course with id '8354' for forum posts containing \"consulta\".",
+      "expected": {
+        "user_id": 7243,
+        "course_id": 8354
+      }
+    },
+    {
+      "component": "Forum",
+      "eventName": "Discussion created",
+      "description": "The user with id '7197' has created the discussion with id '284419' in the forum with course module id '3502178'.",
+      "expected": {
+        "user_id": 7197,
+        "discussion_id": 284419,
+        "course_module_id": 3502178
+      }
+    },
+    {
+      "component": "Forum",
+      "eventName": "Discussion deleted",
+      "description": "The user with id '7243' has deleted the discussion with id '283168' in the forum with course module id '2881273'.",
+      "expected": {
+        "user_id": 7243,
+        "discussion_id": 283168,
+        "course_module_id": 2881273
+      }
+    },
+    {
+      "component": "Forum",
+      "eventName": "Discussion subscription created",
+      "description": "The user with id '61880' subscribed the user with id '61880' to the discussion  with id '281838' in the forum with the course module id '3536858'.",
+      "expected": {
+        "user_id": 61880,
+        "target_user_id": 61880,
+        "discussion_id": 281838,
+        "course_module_id": 3536858
+      }
+    },
+    {
+      "component": "Forum",
+      "eventName": "Discussion viewed",
+      "description": "The user with id '7197' has viewed the discussion with id '280175' in the forum with course module id '3502178'.",
+      "expected": {
+        "user_id": 7197,
+        "discussion_id": 280175,
+        "course_module_id": 3502178
+      }
+    },
+    {
+      "component": "Forum",
+      "eventName": "Post created",
+      "description": "The user with id '61880' has created the post with id '779287' in the discussion with id '284740' in the forum with course module id '3538740'.",
+      "expected": {
+        "user_id": 61880,
+        "post_id": 779287,
+        "discussion_id": 284740,
+        "course_module_id": 3538740
+      }
+    },
+    {
+      "component": "Forum",
+      "eventName": "Post deleted",
+      "description": "The user with id '7243' has deleted the post with id '776614' in the discussion with id '283168' in the forum with course module id '2881273'.",
+      "expected": {
+        "user_id": 7243,
+        "post_id": 776614,
+        "discussion_id": 283168,
+        "course_module_id": 2881273
+      }
+    },
+    {
+      "component": "Forum",
+      "eventName": "Post updated",
+      "description": "The user with id '7243' has updated the post with id '771770' in the discussion with id '281295' in the forum with course module id '3502218'.",
+      "expected": {
+        "user_id": 7243,
+        "post_id": 771770,
+        "discussion_id": 281295,
+        "course_module_id": 3502218
+      }
+    },
+    {
+      "component": "Forum",
+      "eventName": "Read tracking disabled",
+      "description": "The user with id '81210' has disabled read tracking for the user with id '81210' in the forum with course module id '2881273'.",
+      "expected": {
+        "user_id": 81210,
+        "target_user_id": 81210,
+        "course_module_id": 2881273
+      }
+    },
+    {
+      "component": "Forum",
+      "eventName": "Read tracking enabled",
+      "description": "The user with id '81210' has enabled read tracking for the user with id '81210' in the forum with course module id '2881273'.",
+      "expected": {
+        "user_id": 81210,
+        "target_user_id": 81210,
+        "course_module_id": 2881273
+      }
+    },
+    {
+      "component": "Forum",
+      "eventName": "Some content has been posted.",
+      "description": "The user with id '7197' has posted content in the forum post with id '778765' in the discussion '284419' located in the forum with course module id '3502178'.",
+      "expected": {
+        "user_id": 7197,
+        "post_id": 778765,
+        "discussion_id": 284419,
+        "course_module_id": 3502178
+      }
+    },
+    {
+      "component": "Forum",
+      "eventName": "Subscribers viewed",
+      "description": "The user with id '61880' has viewed the subscribers list for the forum with course module id '3519775'.",
+      "expected": {
+        "user_id": 61880,
+        "course_module_id": 3519775
+      }
+    },
+    {
+      "component": "Forum",
+      "eventName": "Subscription created",
+      "description": "The user with id '7243' subscribed the user with id '7243' to the forum with course module id '3538740'.",
+      "expected": {
+        "user_id": 7243,
+        "target_user_id": 7243,
+        "course_module_id": 3538740
+      }
+    },
+    {
+      "component": "Glossary",
+      "eventName": "Course module instance list viewed",
+      "description": "The user with id '2' viewed the instance list for the module 'glossary' in the course with id '8354'.",
+      "expected": {
+        "user_id": 2,
+        "module_name": "glossary",
+        "course_id": 8354
+      }
+    },
+    {
+      "component": "Grader report",
+      "eventName": "Grader report viewed",
+      "description": "The user with id '27693' viewed the grader report in the gradebook.",
+      "expected": {
+        "user_id": 27693
+      }
+    },
+    {
+      "component": "Guía Docente",
+      "eventName": "Guia docente viewed",
+      "description": "Guia docente viewed",
+      "expected": {}
+    },
+    {
+      "component": "Kaltura Video Resource",
+      "eventName": "Video resource viewed",
+      "description": "The user with id '88944' viewed the Kaltura video resource with the course module id '3554151'.",
+      "expected": {
+        "user_id": 88944,
+        "course_module_id": 3554151
+      }
+    },
+    {
+      "component": "Live logs",
+      "eventName": "Live log report viewed",
+      "description": "The user with id '2' viewed the live log report for the course with id '8354'.",
+      "expected": {
+        "user_id": 2,
+        "course_id": 8354
+      }
+    },
+    {
+      "component": "Logs",
+      "eventName": "Log report viewed",
+      "description": "The user with id '7243' viewed the log report for the course with id '17821'.",
+      "expected": {
+        "user_id": 7243,
+        "course_id": 17821
+      }
+    },
+    {
+      "component": "Logs",
+      "eventName": "User log report viewed",
+      "description": "The user with id '37746' viewed the user log report for the user with id '74891'.",
+      "expected": {
+        "user_id": 37746,
+        "target_user_id": 74891
+      }
+    },
+    {
+      "component": "OpenDocument spreadsheet",
+      "eventName": "OpenDocument grade exported",
+      "description": "The user with id '7243' exported grades using the ods export in the gradebook.",
+      "expected": {
+        "user_id": 7243
+      }
+    },
+    {
+      "component": "Overview report",
+      "eventName": "Grade overview report viewed",
+      "description": "The user with id '7243' viewed the overview report in the gradebook.",
+      "expected": {
+        "user_id": 7243
+      }
+    },
+    {
+      "component": "Page",
+      "eventName": "Course module viewed",
+      "description": "The user with id '61880' viewed the 'page' activity with course module id '2226058'.",
+      "expected": {
+        "user_id": 61880,
+        "activity_name": "page",
+        "course_module_id": 2226058
+      }
+    },
+    {
+      "component": "Question bank",
+      "eventName": "Course module instance list viewed",
+      "description": "The user with id '2' viewed the instance list for the module 'qbank' in the course with id '8354'.",
+      "expected": {
+        "user_id": 2,
+        "module_name": "qbank",
+        "course_id": 8354
+      }
+    },
+    {
+      "component": "Quiz",
+      "eventName": "Course module instance list viewed",
+      "description": "The user with id '88944' viewed the instance list for the module 'quiz' in the course with id '17868'.",
+      "expected": {
+        "user_id": 88944,
+        "module_name": "quiz",
+        "course_id": 17868
+      }
+    },
+    {
+      "component": "Quiz",
+      "eventName": "Course module viewed",
+      "description": "The user with id '88944' viewed the 'quiz' activity with course module id '3541517'.",
+      "expected": {
+        "user_id": 88944,
+        "activity_name": "quiz",
+        "course_module_id": 3541517
+      }
+    },
+    {
+      "component": "Quiz",
+      "eventName": "Page break created",
+      "description": "The user with id '7243' created the page break before the slot with id '467072' and slot number '21' belonging to the quiz with course module id '3538882'.",
+      "expected": {
+        "user_id": 7243,
+        "slot_id": 467072,
+        "slot_number": 21,
+        "course_module_id": 3538882
+      }
+    },
+    {
+      "component": "Quiz",
+      "eventName": "Page break deleted",
+      "description": "The user with id '7243' deleted the page break before the slot with id '467106' and slot number '11' belonging to the quiz with course module id '3538882'.",
+      "expected": {
+        "user_id": 7243,
+        "slot_id": 467106,
+        "slot_number": 11,
+        "course_module_id": 3538882
+      }
+    },
+    {
+      "component": "Quiz",
+      "eventName": "Question manually graded",
+      "description": "The user with id '7243' manually graded the question with id '10105935' for the attempt with id '1321836' for the quiz with course module id '3538881'.",
+      "expected": {
+        "user_id": 7243,
+        "question_id": 10105935,
+        "attempt_id": 1321836,
+        "course_module_id": 3538881
+      }
+    },
+    {
+      "component": "Quiz",
+      "eventName": "Quiz attempt abandoned",
+      "description": "The user with id '69986' has had their attempt with id '1295864' marked as abandoned for the quiz with course module id '2335379'.",
+      "expected": {
+        "user_id": 69986,
+        "attempt_id": 1295864,
+        "course_module_id": 2335379
+      }
+    },
+    {
+      "component": "Quiz",
+      "eventName": "Quiz attempt auto-saved",
+      "description": "The user with id '88944' is working on page '2' of the attempt with id '1320351' for the quiz with course module id '3514130', and their latest responses have been saved automatically.",
+      "expected": {
+        "user_id": 88944,
+        "page_number": 2,
+        "attempt_id": 1320351,
+        "course_module_id": 3514130
+      }
+    },
+    {
+      "component": "Quiz",
+      "eventName": "Quiz attempt graded",
+      "description": "The attempt with id 1324630 for for quiz with course module id 3541517 by user with id 64060 had automatic grading performed.",
+      "expected": {
+        "attempt_id": 1324630,
+        "course_module_id": 3541517,
+        "user_id": 64060
+      }
+    },
+    {
+      "component": "Quiz",
+      "eventName": "Quiz attempt preview started",
+      "description": "The user with id '27693' has had their attempt with id '1317880' previewed by the user with id '27693' for the quiz with course module id '3541098'.",
+      "expected": {
+        "user_id": 27693,
+        "attempt_id": 1317880,
+        "target_user_id": 27693,
+        "course_module_id": 3541098
+      }
+    },
+    {
+      "component": "Quiz",
+      "eventName": "Quiz attempt reviewed",
+      "description": "The user with id '88506' has reviewed quiz attempt with id '1318708' by user with id '88506' for the quiz with course module id '3514102'.",
+      "expected": {
+        "user_id": 88506,
+        "attempt_id": 1318708,
+        "target_user_id": 88506,
+        "course_module_id": 3514102
+      }
+    },
+    {
+      "component": "Quiz",
+      "eventName": "Quiz attempt started",
+      "description": "The user with id '64060' has started the attempt with id '1324630' for the quiz with course module id '3541517'.",
+      "expected": {
+        "user_id": 64060,
+        "attempt_id": 1324630,
+        "course_module_id": 3541517
+      }
+    },
+    {
+      "component": "Quiz",
+      "eventName": "Quiz attempt submitted",
+      "description": "The user with id '64060' has submitted the attempt with id '1324630' for the quiz with course module id '3541517'.",
+      "expected": {
+        "user_id": 64060,
+        "attempt_id": 1324630,
+        "course_module_id": 3541517
+      }
+    },
+    {
+      "component": "Quiz",
+      "eventName": "Quiz attempt summary viewed",
+      "description": "The user with id '64060' has viewed the summary for the attempt with id '1324630' belonging to the user with id '64060' for the quiz with course module id '3541517'.",
+      "expected": {
+        "user_id": 64060,
+        "attempt_id": 1324630,
+        "target_user_id": 64060,
+        "course_module_id": 3541517
+      }
+    },
+    {
+      "component": "Quiz",
+      "eventName": "Quiz attempt time limit exceeded",
+      "description": "The quiz attempt with id '1324630' belonging to the quiz with course module id '3541517' for the user with id '64060' became overdue.",
+      "expected": {
+        "attempt_id": 1324630,
+        "course_module_id": 3541517,
+        "user_id": 64060
+      }
+    },
+    {
+      "component": "Quiz",
+      "eventName": "Quiz attempt updated",
+      "description": "The user with id '64060' has updated responses on page '5' of the attempt with id '1324630' belonging to the user with id '64060' for the quiz with course module id '3541517'.",
+      "expected": {
+        "user_id": 64060,
+        "page_number": 5,
+        "attempt_id": 1324630,
+        "target_user_id": 64060,
+        "course_module_id": 3541517
+      }
+    },
+    {
+      "component": "Quiz",
+      "eventName": "Quiz attempt viewed",
+      "description": "The user with id '64060' has viewed page '4' of the attempt with id '1324630' belonging to the user with id '64060' for the quiz with course module id '3541517'.",
+      "expected": {
+        "user_id": 64060,
+        "page_number": "4",
+        "attempt_id": 1324630,
+        "target_user_id": 64060,
+        "course_module_id": 3541517
+      }
+    },
+    {
+      "component": "Quiz",
+      "eventName": "Quiz edit page viewed",
+      "description": "The user with id '6785' viewed the edit page for the quiz with course module id '3541517'.",
+      "expected": {
+        "user_id": 6785,
+        "course_module_id": 3541517
+      }
+    },
+    {
+      "component": "Quiz",
+      "eventName": "Quiz re-paginated",
+      "description": "The user with id '7243' re-paginated the quiz with course module id '3523081'  with the new option '1' slot(s) per page.",
+      "expected": {
+        "user_id": 7243,
+        "course_module_id": 3523081,
+        "slots_per_page": 1
+      }
+    },
+    {
+      "component": "Quiz",
+      "eventName": "Quiz report viewed",
+      "description": "The user with id '6785' viewed the report 'overview' for the quiz with course module id '3541517'.",
+      "expected": {
+        "user_id": 6785,
+        "report_name": "overview",
+        "course_module_id": 3541517
+      }
+    },
+    {
+      "component": "Quiz",
+      "eventName": "Section shuffle updated",
+      "description": "The user with id '27693' updated the section with id '32801' before the slot number '1' belonging to the quiz with course module id '3541098'. Its shuffle option was set to '1'.",
+      "expected": {
+        "user_id": 27693,
+        "section_id": 32801,
+        "slot_number": 1,
+        "course_module_id": 3541098,
+        "shuffle_option": 1
+      }
+    },
+    {
+      "component": "Quiz",
+      "eventName": "Slot created",
+      "description": "The user with id '27693' created a new slot with id '471817' and slot number '10' on page '10' of the quiz with course module id '3541098'.",
+      "expected": {
+        "user_id": 27693,
+        "slot_id": 471817,
+        "slot_number": 10,
+        "page_number": 10,
+        "course_module_id": 3541098
+      }
+    },
+    {
+      "component": "Quiz",
+      "eventName": "Slot deleted",
+      "description": "The user with id '7243' deleted the slot with id '352399' and slot number '3' from the quiz with course module id '3353387'.",
+      "expected": {
+        "user_id": 7243,
+        "slot_id": 352399,
+        "slot_number": 3,
+        "course_module_id": 3353387
+      }
+    },
+    {
+      "component": "Quiz",
+      "eventName": "Slot mark updated",
+      "description": "The user with id '7243' updated the slot with id '480915' belonging to the quiz with course module id '3353387'. Its max mark was changed from '1' to '25'.",
+      "expected": {
+        "user_id": 7243,
+        "slot_id": 480915,
+        "course_module_id": 3353387,
+        "old_mark": 1,
+        "new_mark": 25
+      }
+    },
+    {
+      "component": "Quiz",
+      "eventName": "Slot moved",
+      "description": "The user with id '7243' has moved the slot with id '467117' and slot number '30' to the new position after slot number '12' on page '1' belonging to the quiz with course module id '3538882'.",
+      "expected": {
+        "user_id": 7243,
+        "slot_id": 467117,
+        "slot_number": 30,
+        "new_slot_number": 12,
+        "page_number": 1,
+        "course_module_id": 3538882
+      }
+    },
+    {
+      "component": "Recycle bin",
+      "eventName": "Item created",
+      "description": "Item created with ID 467219.",
+      "expected": {
+        "item_id": 467219
+      }
+    },
+    {
+      "component": "Recycle bin",
+      "eventName": "Item created",
+      "description": "Item created with ID 485483.",
+      "expected": {
+        "item_id": 485483
+      }
+    },
+    {
+      "component": "Recycle bin",
+      "eventName": "Item deleted",
+      "description": "Item with ID 438261 deleted.",
+      "expected": {
+        "item_id": 438261
+      }
+    },
+    {
+      "component": "SCORM package",
+      "eventName": "Course module instance list viewed",
+      "description": "The user with id '88944' viewed the instance list for the module 'scorm' in the course with id '17868'.",
+      "expected": {
+        "user_id": 88944,
+        "module_name": "scorm",
+        "course_id": 17868
+      }
+    },
+    {
+      "component": "SCORM package",
+      "eventName": "Course module viewed",
+      "description": "The user with id '88506' viewed the 'scorm' activity with course module id '3514099'.",
+      "expected": {
+        "user_id": 88506,
+        "activity_name": "scorm",
+        "course_module_id": 3514099
+      }
+    },
+    {
+      "component": "SCORM package",
+      "eventName": "Sco launched",
+      "description": "The user with id '88506' launched the sco with id '8905' for the scorm with course module id '3514099'.",
+      "expected": {
+        "user_id": 88506,
+        "sco_id": 8905,
+        "course_module_id": 3514099
+      }
+    },
+    {
+      "component": "SCORM package",
+      "eventName": "Submitted SCORM status",
+      "description": "The user with the id '88506' submitted the element 'cmi.core.lesson_status' with the value of 'passed' for the attempt with the id '8010' for a scorm activity with the course module id '3514100'.",
+      "expected": {
+        "user_id": 88506,
+        "element_name": "cmi.core.lesson_status",
+        "element_value": "passed",
+        "attempt_id": 8010,
+        "course_module_id": 3514100
+      }
+    },
+    {
+      "component": "SMOWL",
+      "eventName": "Event created block instance",
+      "description": "Created block instance: 494085",
+      "expected": {
+        "block_instance_id": 494085
+      }
+    },
+    {
+      "component": "SMOWL",
+      "eventName": "Event deleted block instance",
+      "description": "Deleted block instance: 485858",
+      "expected": {
+        "block_instance_id": 485858
+      }
+    },
+    {
+      "component": "Single view",
+      "eventName": "Grade single view report viewed.",
+      "description": "The user with id '7243' viewed the singleview report in the gradebook.",
+      "expected": {
+        "user_id": 7243
+      }
+    },
+    {
+      "component": "Submission comments",
+      "eventName": "Comment created",
+      "description": "The user with id '79703' added the comment with id '145102' to the submission with id '2734688' for the assignment with course module id '2293859'.",
+      "expected": {
+        "user_id": 79703,
+        "comment_id": 145102,
+        "submission_id": 2734688,
+        "course_module_id": 2293859
+      }
+    },
+    {
+      "component": "Submission comments",
+      "eventName": "Comment deleted",
+      "description": "The user with id '37746' deleted the comment with id '147115' from the submission with id '2746639' for the assignment with course module id '1636340'.",
+      "expected": {
+        "user_id": 37746,
+        "comment_id": 147115,
+        "submission_id": 2746639,
+        "course_module_id": 1636340
+      }
+    },
+    {
+      "component": "Survey",
+      "eventName": "Course module instance list viewed",
+      "description": "The user with id '2' viewed the instance list for the module 'survey' in the course with id '8354'.",
+      "expected": {
+        "user_id": 2,
+        "module_name": "survey",
+        "course_id": 8354
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Badge listing viewed",
+      "description": "The user with id '54969' has viewed the list of available badges for the course with the id '13988'.",
+      "expected": {
+        "user_id": 54969,
+        "course_id": 13988
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Calendar event created",
+      "description": "The user with id '2' created the event 'Se cierra Cuestionario Módulo V (copia)' with id '663528'.",
+      "expected": {
+        "user_id": 2,
+        "event_name": "Se cierra Cuestionario Módulo V (copia)",
+        "event_id": 663528
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Calendar event deleted",
+      "description": "The user with id '2' deleted the event '[E-MP] Cuestionario de Nivelación debería ser completado' with id '666085'.",
+      "expected": {
+        "user_id": 2,
+        "event_name": "[E-MP] Cuestionario de Nivelación debería ser completado",
+        "event_id": 666085
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Calendar event updated",
+      "description": "The user with id '6785' updated the event 'Se cierra Cuestionario Módulo V' with id '663528'.",
+      "expected": {
+        "user_id": 6785,
+        "event_name": "Se cierra Cuestionario Módulo V",
+        "event_id": 663528
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Calendar subscription updated",
+      "description": "User 7047 has updated a calendar           subscription with id 4 of event type course.",
+      "expected": {
+        "user_id": 7047,
+        "subscription_id": 4
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Course activities overview page viewed",
+      "description": "The user with id '64060' viewed the course activity overview for the course with id '17823'.",
+      "expected": {
+        "user_id": 64060,
+        "course_id": 17823
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Course activity completion updated",
+      "description": "The user with id '6785' updated the completion state for the course module with id '3514130' for the user with id '6785'.",
+      "expected": {
+        "user_id": 6785,
+        "course_module_id": 3514130,
+        "target_user_id": 6785
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Course backup created",
+      "description": "The user with id '7243' created a backup of the course with the id '17821'.",
+      "expected": {
+        "user_id": 7243,
+        "course_id": 17821
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Course created",
+      "description": "The user with id '2' created the course with id '17821'.",
+      "expected": {
+        "user_id": 2,
+        "course_id": 17821
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Course module created",
+      "description": "The user with id '6785' created the 'resource' activity with course module id '3544618'.",
+      "expected": {
+        "user_id": 6785,
+        "activity_name": "resource",
+        "course_module_id": 3544618
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Course module deleted",
+      "description": "The user with id '6785' deleted the 'forum' activity with course module id '3502175'.",
+      "expected": {
+        "user_id": 6785,
+        "activity_name": "forum",
+        "course_module_id": 3502175
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Course module instance list viewed",
+      "description": "The user with id '88944' viewed the list of resources in the course with id '17868'.",
+      "expected": {
+        "user_id": 88944,
+        "course_id": 17868
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Course module updated",
+      "description": "The user with id '6785' updated the 'resource' activity with course module id '3514094'.",
+      "expected": {
+        "user_id": 6785,
+        "activity_name": "resource",
+        "course_module_id": 3514094
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Course reset ended",
+      "description": "The reset of the course with id '2167' has ended.",
+      "expected": {
+        "course_id": 2167
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Course reset started",
+      "description": "The user with id '2' started the reset of the course with id '2167'.",
+      "expected": {
+        "user_id": 2,
+        "course_id": 2167
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Course restored",
+      "description": "The user with id '6785' restored old course with id '16943' to a new course with id '17821'.",
+      "expected": {
+        "user_id": 6785,
+        "old_course_id": 16943,
+        "new_course_id": 17821
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Course section created",
+      "description": "The user with id '6785' created section number '3' for the course with id '17821'",
+      "expected": {
+        "user_id": 6785,
+        "section_number": 3,
+        "course_id": 17821
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Course section deleted",
+      "description": "The user with id '7243' deleted section number '6' (section name 'Nueva sección') for the course with id '17864'",
+      "expected": {
+        "user_id": 7243,
+        "section_number": 6,
+        "section_name": "Nueva sección",
+        "course_id": 17864
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Course section updated",
+      "description": "The user with id '6785' updated section number '3' for the course with id '17821'",
+      "expected": {
+        "user_id": 6785,
+        "section_number": 3,
+        "course_id": 17821
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Course summary viewed",
+      "description": "The user with id '0' viewed the course information for the course with id '8354'.",
+      "expected": {
+        "user_id": 0,
+        "course_id": 8354
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Course updated",
+      "description": "The user with id '6785' updated the course with id '17821'.",
+      "expected": {
+        "user_id": 6785,
+        "course_id": 17821
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Course user report viewed",
+      "description": "The user with id '88944' viewed the user report for the course with id '17821' for user with id '88944'.",
+      "expected": {
+        "user_id": 88944,
+        "course_id": 17821,
+        "target_user_id": 88944
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Course viewed",
+      "description": "The user with id '7243' viewed the course with id '17821'.",
+      "expected": {
+        "user_id": 7243,
+        "course_id": 17821
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Course viewed",
+      "description": "The user with id '69034' viewed the section number '35' of the course with id '8354'.",
+      "expected": {
+        "user_id": 69034,
+        "section_number": 35,
+        "course_id": 8354
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Enrolment instance created",
+      "description": "The user with id '2' created the instance of enrolment method 'ubuenrol' with id '68095'.",
+      "expected": {
+        "user_id": 2,
+        "enrolment_method": "ubuenrol",
+        "enrolment_id": 68095
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Grade deleted",
+      "description": "The user with id '7243' deleted the grade with id '16326538' for the user with id '61880' for the grade item with id '927647'.",
+      "expected": {
+        "user_id": 7243,
+        "grade_id": 16326538,
+        "target_user_id": 61880,
+        "grade_item_id": 927647
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Grade item created",
+      "description": "The user with id '6785' created a grade item with id '941744' of type 'mod' and name 'Cuestionario Módulo V' in the course with the id '17821'.",
+      "expected": {
+        "user_id": 6785,
+        "grade_item_id": 941744,
+        "grade_item_type": "mod",
+        "grade_item_name": "Cuestionario Módulo V",
+        "course_id": 17821
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Grade item deleted",
+      "description": "The user with id '7243' deleted a grade item with id '927647' of type 'category' and name '' from the course with the id '8354'.",
+      "expected": {
+        "user_id": 7243,
+        "grade_item_id": 927647,
+        "grade_item_type": "category",
+        "grade_item_name": "",
+        "course_id": 8354
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Grade item updated",
+      "description": "The user with id '6785' updated a grade item with id '941744' of type 'mod' and name 'Cuestionario Módulo V' in the course with the id '17821'.",
+      "expected": {
+        "user_id": 6785,
+        "grade_item_id": 941744,
+        "grade_item_type": "mod",
+        "grade_item_name": "Cuestionario Módulo V",
+        "course_id": 17821
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Group member added",
+      "description": "The user with id '54969' added the user with id '73951' to the group with id '15472'.",
+      "expected": {
+        "user_id": 54969,
+        "target_user_id": 73951,
+        "group_id": 15472
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Group member removed",
+      "description": "The user with id '54969' removed the user with id '73951' from the group with id '15473'.",
+      "expected": {
+        "user_id": 54969,
+        "target_user_id": 73951,
+        "group_id": 15473
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Question category created",
+      "description": "The user with id '7243' created the question category with id '118369'.",
+      "expected": {
+        "user_id": 7243,
+        "category_id": 118369
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Question category deleted",
+      "description": "The user with id '7243' deleted the question category with id '115740'.",
+      "expected": {
+        "user_id": 7243,
+        "category_id": 115740
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Question category updated",
+      "description": "The user with id '7243' updated the question category with id '115740'.",
+      "expected": {
+        "user_id": 7243,
+        "category_id": 115740
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Question category viewed",
+      "description": "The user with id '7243' viewed the question category with id '10456'.",
+      "expected": {
+        "user_id": 7243,
+        "category_id": 10456
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Question created",
+      "description": "The user with id '6785' created a question with the id of '10104391' in the category with the id '114259'.",
+      "expected": {
+        "user_id": 6785,
+        "question_id": 10104391,
+        "category_id": 114259
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Question deleted",
+      "description": "The user with id '7243' deleted the question with id '10060210' from the category with the id '115740'.",
+      "expected": {
+        "user_id": 7243,
+        "question_id": 10060210,
+        "category_id": 115740
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Question moved",
+      "description": "The user with id '7243' moved the question with the id of '10087659' from the category with the id of '117761' to the category with the id of '117996'.",
+      "expected": {
+        "user_id": 7243,
+        "question_id": 10087659,
+        "source_category_id": 117761,
+        "target_category_id": 117996
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Question updated",
+      "description": "The user with id '7243' updated the question with the id of '10060759'.",
+      "expected": {
+        "user_id": 7243,
+        "question_id": 10060759
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Question viewed",
+      "description": "The user with id '6785' viewed the question with the id of '10043544'.",
+      "expected": {
+        "user_id": 6785,
+        "question_id": 10043544
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Questions exported",
+      "description": "The user with id '7243' exported questions in 'xml' format from the category with id '115739'.",
+      "expected": {
+        "user_id": 7243,
+        "format_type": "xml",
+        "category_id": 115739
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Questions imported",
+      "description": "The user with id '7243' imported questions in 'xml' format into the category with id '117761'.",
+      "expected": {
+        "user_id": 7243,
+        "format_type": "xml",
+        "category_id": 117761
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Recent activity viewed",
+      "description": "The user with id '65783' viewed the recent activity report in the course with id '2204'.",
+      "expected": {
+        "user_id": 65783,
+        "course_id": 2204
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Role assigned",
+      "description": "The user with id '2' assigned the role with id '5' to the user with id '59992'.",
+      "expected": {
+        "user_id": 2,
+        "role_id": 5,
+        "target_user_id": 59992
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Role unassigned",
+      "description": "The user with id '2' unassigned the role with id '5' from the user with id '39017'.",
+      "expected": {
+        "user_id": 2,
+        "role_id": 5,
+        "target_user_id": 39017
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "Section viewed",
+      "description": "The user with id '88944' viewed the section with id '10175871'.",
+      "expected": {
+        "user_id": 88944,
+        "section_id": 10175871
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "User enrolled in course",
+      "description": "The user with id '2' enrolled the user with id '59992' using the enrolment method 'ubuenrol' in the course with id '17821'.",
+      "expected": {
+        "user_id": 2,
+        "target_user_id": 59992,
+        "enrolment_method": "ubuenrol",
+        "course_id": 17821
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "User graded",
+      "description": "The user with id '-1' updated the grade with id '16454204' for the user with id '64060' for the grade item with id '936555'.",
+      "expected": {
+        "user_id": -1,
+        "grade_id": 16454204,
+        "target_user_id": 64060,
+        "grade_item_id": 936555
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "User list viewed",
+      "description": "The user with id '6785' viewed the list of users in the course with id '17821'.",
+      "expected": {
+        "user_id": 6785,
+        "course_id": 17821
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "User profile viewed",
+      "description": "The user with id '2' viewed the profile for the user with id '6785' in the course with id '17821'.",
+      "expected": {
+        "user_id": 2,
+        "target_user_id": 6785,
+        "course_id": 17821
+      }
+    },
+    {
+      "component": "System",
+      "eventName": "User unenrolled from course",
+      "description": "The user with id '2' unenrolled the user with id '39017' using the enrolment method 'ubuenrol' from the course with id '8354'.",
+      "expected": {
+        "user_id": 2,
+        "target_user_id": 39017,
+        "enrolment_method": "ubuenrol",
+        "course_id": 8354
+      }
+    },
+    {
+      "component": "Tab display",
+      "eventName": "Course module viewed",
+      "description": "The user with id '85021' viewed the 'tab' activity with course module id '2377053'.",
+      "expected": {
+        "user_id": 85021,
+        "activity_name": "tab",
+        "course_module_id": 2377053
+      }
+    },
+    {
+      "component": "URL",
+      "eventName": "Course module viewed",
+      "description": "The user with id '88506' viewed the 'url' activity with course module id '3532136'.",
+      "expected": {
+        "user_id": 88506,
+        "activity_name": "url",
+        "course_module_id": 3532136
+      }
+    },
+    {
+      "component": "User report",
+      "eventName": "Grade user report viewed",
+      "description": "The user with id '59992' viewed the user report in the gradebook.",
+      "expected": {
+        "user_id": 59992
+      }
+    },
+    {
+      "component": "User tours",
+      "eventName": "Tour ended",
+      "description": "The user with id '88506' has ended the tour with id '9' at step index '0' (id '33') on the page with URL 'https://example.es/course/view.php?id=17821'.",
+      "expected": {
+        "user_id": 88506,
+        "tour_id": "9",
+        "step_index": "0",
+        "step_id": "33",
+        "page_url": "https://example.es/course/view.php?id=17821"
+      }
+    },
+    {
+      "component": "User tours",
+      "eventName": "Tour reset",
+      "description": "The user with id '7192' has reset the state of tour with id '9' on the page with URL 'https://example.es/course/view.php?id=11728'.",
+      "expected": {
+        "user_id": 7192,
+        "tour_id": "9",
+        "page_url": "https://example.es/course/view.php?id=11728"
+      }
+    },
+    {
+      "component": "User tours",
+      "eventName": "Tour started",
+      "description": "The user with id '88506' has started the tour with id '9' on the page with URL 'https://example.es/course/view.php?id=17821'.",
+      "expected": {
+        "user_id": 88506,
+        "tour_id": "9",
+        "page_url": "https://example.es/course/view.php?id=17821"
+      }
+    }
+  ]
+}

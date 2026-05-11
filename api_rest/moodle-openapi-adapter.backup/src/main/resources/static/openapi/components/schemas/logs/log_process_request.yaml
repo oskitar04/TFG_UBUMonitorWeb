@@ -1,0 +1,43 @@
+Options:
+  type: object
+  properties:
+    headers:
+      $ref: "#/LogHeaders"
+    threads:
+      type: integer
+      description: Number of parallel threads use for processing CSV
+      default: 4
+
+LogHeader:
+  type: string
+  enum:
+    - Time
+    - User full name
+    - User id
+    - Affected user id
+    - Affected user
+    - Component
+    - Component name
+    - Event name
+    - Description
+    - Origin
+    - IP address
+    - Course module id
+
+LogHeaders:
+  type: array
+  items:
+    $ref: '#/LogHeader'
+    default:
+      - Time
+      - User full name
+      - User id
+      - Affected user id
+      - Affected user
+      - Component
+      - Component name
+      - Event name
+      - Description
+      - Origin
+      - IP address
+      - Course module id

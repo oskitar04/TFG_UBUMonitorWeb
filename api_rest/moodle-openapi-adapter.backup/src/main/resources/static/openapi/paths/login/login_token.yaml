@@ -1,0 +1,23 @@
+post:
+  tags: [ Login ]
+  operationId: LoginToken
+  summary: Get Moodle token
+  description: |
+    Receives host, username, and password. Returns a token to be used in subsequent Moodle API calls.
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/schemas/login/login_token_request.yaml#/LoginTokenRequest'
+
+  security: [ ]
+  responses:
+    '200':
+      description: Token retrieved successfully
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/login/login_token_response.yaml#/LoginTokenResponse"
+    '401':
+      $ref: '../../components/responses/unauthorized_401.yaml'

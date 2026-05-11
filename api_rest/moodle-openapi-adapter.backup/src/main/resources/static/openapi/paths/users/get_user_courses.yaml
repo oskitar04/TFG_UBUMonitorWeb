@@ -1,0 +1,29 @@
+get:
+  tags:
+    - Users
+  summary: List courses by userid
+  description: Get courses optionally by userid
+  operationId: getUserCourses
+  parameters:
+    - name: userid
+      in: path
+      description: Filter courses by user ID
+      required: true
+      schema:
+        type: integer
+    - name: returnusercount
+      in: query
+      description: Include count of enrolled users for each course? This can add several seconds to the response time if a user is on several large courses, so set this to false if the value will not be used to improve performance.
+      schema:
+        type: boolean
+  responses:
+    '200':
+      description: List of courses
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/users/user_courses_response.yaml#/UserCoursesResponse'
+    '400':
+      $ref: '../../components/responses/bad_request_400.yaml'
+    '401':
+      $ref: '../../components/responses/unauthorized_401.yaml'

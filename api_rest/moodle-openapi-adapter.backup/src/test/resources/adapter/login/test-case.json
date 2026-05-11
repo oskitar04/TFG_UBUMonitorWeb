@@ -1,0 +1,53 @@
+{
+  "description": "Test case for login adapter",
+  "request": {
+    "method": "POST",
+    "path": "/public/login/token",
+    "headers": [
+      {
+        "name": "Content-Type",
+        "value": "application/json;charset=UTF-8"
+      }
+    ],
+    "body": {
+      "host": "{{HOST}}",
+      "username": "teacher",
+      "password": "moodle25"
+    }
+  },
+  "expectedResponse": {
+    "status": 200,
+    "body": {
+      "token": "8138957179ff8771ec6fdceb7eee89d5",
+      "privatetoken": "36BtRN5boQLulWddJ2AGR5wqxeoQ5BwuqDEUecssLPtv0qNdunHr7g1Qns0F8ZCO"
+    }
+  },
+  "moodleLoginMocks": [
+    {
+      "request": {
+        "method": "POST",
+        "path": "/login/token.php",
+        "formData": [
+          {
+            "name": "username",
+            "value": "teacher"
+          },
+          {
+            "name": "password",
+            "value": "moodle25"
+          },
+          {
+            "name": "service",
+            "value": "moodle_mobile_app"
+          }
+        ]
+      },
+      "response": {
+        "body": {
+          "token": "8138957179ff8771ec6fdceb7eee89d5",
+          "privatetoken": "36BtRN5boQLulWddJ2AGR5wqxeoQ5BwuqDEUecssLPtv0qNdunHr7g1Qns0F8ZCO"
+        }
+      }
+    }
+  ]
+}

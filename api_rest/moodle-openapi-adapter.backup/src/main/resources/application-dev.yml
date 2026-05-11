@@ -1,0 +1,16 @@
+spring:
+  config:
+    import: classpath:application-moodlerules.yml
+  devtools:
+    add-properties: true
+  web:
+    resources:
+      add-mappings: true
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+
+  swagger-ui:
+    path: /swagger-ui.html
+    url: /openapi/openapi.yaml

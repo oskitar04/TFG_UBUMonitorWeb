@@ -1,0 +1,1159 @@
+{
+  "description": "Test case for get users by field using ID adapter",
+  "request": {
+    "method": "GET",
+    "path": "/users",
+    "queryParams": [
+      {
+        "name": "field",
+        "value": "ID"
+      },
+      {
+        "name": "values",
+        "value": "13,14"
+      }
+    ],
+    "headers": [
+      {
+        "name": "X-MOODLE-TOKEN",
+        "value": "{{TOKEN}}"
+      },
+      {
+        "name": "X-MOODLE-HOST",
+        "value": "{{HOST}}"
+      }
+    ]
+  },
+  "expectedResponse": {
+    "status": 200,
+    "body": {
+      "users": [
+        {
+          "id": 13,
+          "username": "teacher",
+          "firstname": "Jeffrey",
+          "lastname": "Sanders",
+          "fullname": "Jeffrey Sanders",
+          "email": "jeffreysanders199@example.com",
+          "address": null,
+          "phone1": null,
+          "phone2": null,
+          "department": "Senior staff, SE",
+          "institution": null,
+          "idnumber": null,
+          "interests": "travel, gardening, chess, peace, politics, Films, history",
+          "firstaccess": "2010-06-09T06:17:00Z",
+          "lastaccess": "2026-04-05T13:33:23Z",
+          "auth": "manual",
+          "suspended": false,
+          "confirmed": true,
+          "lang": "en",
+          "calendartype": null,
+          "theme": "",
+          "timezone": "99",
+          "mailformat": "HTML",
+          "trackforums": false,
+          "description": "<p>The world and its environment has been going through an enormous upheaval particularly in the last few decades. We need to develop thinkers who will be creative, engaged, skilled, informed and thoughtful about the past, present and future interactions of people with each other and their environment. I am passionate about education and enjoy my role at Mount Orange.</p>",
+          "descriptiontext": "The world and its environment has been going through an enormous upheaval particularly in the last few decades. We need to develop thinkers who will be creative, engaged, skilled, informed and thoughtful about the past, present and future interactions of people with each other and their environment. I am passionate about education and enjoy my role at Mount Orange.",
+          "descriptionformat": "HTML",
+          "city": "Orange City",
+          "country": "AU",
+          "profileimageurlsmall": "https://school.moodledemo.net/pluginfile.php/160/user/icon/boost/f2?rev=75854",
+          "privateprofileimageurlsmall": "https://school.moodledemo.net/webservice/pluginfile.php/160/user/icon/boost/f2?rev=75854",
+          "profileimageurl": "https://school.moodledemo.net/pluginfile.php/160/user/icon/boost/f1?rev=75854",
+          "privateprofileimageurl": "https://school.moodledemo.net/webservice/pluginfile.php/160/user/icon/boost/f1?rev=75854",
+          "customfields": [],
+          "preferences": [
+            {
+              "name": "assign_filter",
+              "value": ""
+            },
+            {
+              "name": "assign_markerfilter",
+              "value": ""
+            },
+            {
+              "name": "assign_perpage",
+              "value": "20"
+            },
+            {
+              "name": "assign_quickgrading",
+              "value": "0"
+            },
+            {
+              "name": "assign_workflowfilter",
+              "value": ""
+            },
+            {
+              "name": "assignment_mailinfo",
+              "value": "0"
+            },
+            {
+              "name": "auth_forcepasswordchange",
+              "value": "0"
+            },
+            {
+              "name": "auth_manual_passwordupdatetime",
+              "value": "1735904573"
+            },
+            {
+              "name": "block_myoverview_hidden_course_56",
+              "value": "1"
+            },
+            {
+              "name": "block_myoverview_hidden_course_57",
+              "value": "1"
+            },
+            {
+              "name": "block_myoverview_hidden_course_6",
+              "value": "1"
+            },
+            {
+              "name": "block_myoverview_hidden_course_67",
+              "value": "1"
+            },
+            {
+              "name": "block_myoverview_last_tab",
+              "value": "timeline"
+            },
+            {
+              "name": "block_myoverview_user_grouping_preference",
+              "value": "all"
+            },
+            {
+              "name": "block_myoverview_user_view_preference",
+              "value": "cards"
+            },
+            {
+              "name": "block_timeline_user_filter_preference",
+              "value": "next6months"
+            },
+            {
+              "name": "block262hidden",
+              "value": "0"
+            },
+            {
+              "name": "block263hidden",
+              "value": "0"
+            },
+            {
+              "name": "block694hidden",
+              "value": "0"
+            },
+            {
+              "name": "calendar_savedflt",
+              "value": "13"
+            },
+            {
+              "name": "core_message_migrate_data",
+              "value": "1"
+            },
+            {
+              "name": "core_user_welcome",
+              "value": "1649737736"
+            },
+            {
+              "name": "course_overview_course_sortorder",
+              "value": "62,66,59,64,56,63,35,41,27,58,49,51,40,60,38"
+            },
+            {
+              "name": "course_overview_number_of_courses",
+              "value": "7"
+            },
+            {
+              "name": "coursesectionspreferences_59",
+              "value": "{\"indexcollapsed\":[459]}"
+            },
+            {
+              "name": "coursesectionspreferences_69",
+              "value": "{\"contentcollapsed\":{\"3\":557,\"4\":554}}"
+            },
+            {
+              "name": "coursesectionspreferences_73",
+              "value": "{\"contentcollapsed\":[]}"
+            },
+            {
+              "name": "coursesectionspreferences_75",
+              "value": "{\"contentcollapsed\":[602,601,600,599]}"
+            },
+            {
+              "name": "data_perpage_1",
+              "value": "50"
+            },
+            {
+              "name": "docked_block_instance_242",
+              "value": "0"
+            },
+            {
+              "name": "docked_block_instance_262",
+              "value": "0"
+            },
+            {
+              "name": "docked_block_instance_263",
+              "value": "0"
+            },
+            {
+              "name": "docked_block_instance_4",
+              "value": "0"
+            },
+            {
+              "name": "docked_block_instance_5",
+              "value": "0"
+            },
+            {
+              "name": "docked_block_instance_694",
+              "value": "0"
+            },
+            {
+              "name": "docked_block_instance_702",
+              "value": "1"
+            },
+            {
+              "name": "docked_block_instance_758",
+              "value": "0"
+            },
+            {
+              "name": "docked_block_instance_761",
+              "value": "0"
+            },
+            {
+              "name": "docked_block_instance_834",
+              "value": "0"
+            },
+            {
+              "name": "docked_block_instance_838",
+              "value": "1"
+            },
+            {
+              "name": "docked_block_instance_868",
+              "value": "0"
+            },
+            {
+              "name": "drawer-open-block",
+              "value": "0"
+            },
+            {
+              "name": "drawer-open-index",
+              "value": "1"
+            },
+            {
+              "name": "filepicker_recentlicense",
+              "value": "unknown"
+            },
+            {
+              "name": "filepicker_recentrepository",
+              "value": "4"
+            },
+            {
+              "name": "flextable_mod_assign_grading",
+              "value": "{\"collapse\":[],\"sortby\":{\"timesubmitted\":3,\"userid\":4},\"i_first\":\"\",\"i_last\":\"\",\"textsort\":[]}"
+            },
+            {
+              "name": "forum_displaymode",
+              "value": "3"
+            },
+            {
+              "name": "forum_markasreadonnotification",
+              "value": "1"
+            },
+            {
+              "name": "forum_useexperimentalui",
+              "value": "0"
+            },
+            {
+              "name": "grade_report_showonlyactiveenrol",
+              "value": "1"
+            },
+            {
+              "name": "gradingform_guide-showmarkerdesc",
+              "value": "1"
+            },
+            {
+              "name": "gradingform_guide-showstudentdesc",
+              "value": "1"
+            },
+            {
+              "name": "htmleditor",
+              "value": ""
+            },
+            {
+              "name": "ifirst",
+              "value": ""
+            },
+            {
+              "name": "ilast",
+              "value": ""
+            },
+            {
+              "name": "last_time_enrolments_synced",
+              "value": "1775395859"
+            },
+            {
+              "name": "login_failed_count_since_success",
+              "value": "0"
+            },
+            {
+              "name": "message_beepnewmessage",
+              "value": "0"
+            },
+            {
+              "name": "message_blocknoncontacts",
+              "value": "0"
+            },
+            {
+              "name": "message_processor_email_email",
+              "value": "jeffreysanders199@example.com"
+            },
+            {
+              "name": "message_provider_enrol_manual_expiry_notification_enabled",
+              "value": "email"
+            },
+            {
+              "name": "message_provider_enrol_self_expiry_notification_enabled",
+              "value": "email"
+            },
+            {
+              "name": "message_provider_mod_assign_assign_notification_enabled",
+              "value": "email"
+            },
+            {
+              "name": "message_provider_mod_feedback_message_enabled",
+              "value": "email"
+            },
+            {
+              "name": "message_provider_mod_feedback_submission_enabled",
+              "value": "email"
+            },
+            {
+              "name": "message_provider_mod_forum_posts_enabled",
+              "value": "email,popup"
+            },
+            {
+              "name": "message_provider_mod_lesson_graded_essay_enabled",
+              "value": "email"
+            },
+            {
+              "name": "message_provider_moodle_badgecreatornotice_enabled",
+              "value": "email"
+            },
+            {
+              "name": "message_provider_moodle_badgerecipientnotice_enabled",
+              "value": "email,popup"
+            },
+            {
+              "name": "message_provider_moodle_courserequestapproved_enabled",
+              "value": "email"
+            },
+            {
+              "name": "message_provider_moodle_courserequestrejected_enabled",
+              "value": "email"
+            },
+            {
+              "name": "message_provider_moodle_errors_enabled",
+              "value": "email,popup"
+            },
+            {
+              "name": "message_provider_moodle_instantmessage_enabled",
+              "value": "email,popup"
+            },
+            {
+              "name": "message_provider_moodle_notices_enabled",
+              "value": "email,popup"
+            },
+            {
+              "name": "message_provider_tool_messageinbound_invalidrecipienthandler_enabled",
+              "value": "email"
+            },
+            {
+              "name": "message_provider_tool_messageinbound_messageprocessingerror_enabled",
+              "value": "email"
+            },
+            {
+              "name": "message_provider_tool_messageinbound_messageprocessingsuccess_enabled",
+              "value": "email"
+            },
+            {
+              "name": "message_provider_tool_monitor_notification_enabled",
+              "value": "popup"
+            },
+            {
+              "name": "mod_imscp_mod_form_showadvanced",
+              "value": "1"
+            },
+            {
+              "name": "mod_wiki_mod_form_showadvanced",
+              "value": "1"
+            },
+            {
+              "name": "qbank_managecategories_includesubcategories_filter_default",
+              "value": "0"
+            },
+            {
+              "name": "qtype_multichoice_answernumbering",
+              "value": "none"
+            },
+            {
+              "name": "qtype_multichoice_defaultmark",
+              "value": "1"
+            },
+            {
+              "name": "qtype_multichoice_penalty",
+              "value": "0.3333333"
+            },
+            {
+              "name": "qtype_multichoice_showstandardinstruction",
+              "value": "0"
+            },
+            {
+              "name": "qtype_multichoice_shuffleanswers",
+              "value": "1"
+            },
+            {
+              "name": "qtype_multichoice_single",
+              "value": "1"
+            },
+            {
+              "name": "qtype_ordering_defaultmark",
+              "value": "1"
+            },
+            {
+              "name": "qtype_ordering_gradingtype",
+              "value": "0"
+            },
+            {
+              "name": "qtype_ordering_layouttype",
+              "value": "1"
+            },
+            {
+              "name": "qtype_ordering_numberingstyle",
+              "value": "none"
+            },
+            {
+              "name": "qtype_ordering_penalty",
+              "value": "0.3333333"
+            },
+            {
+              "name": "qtype_ordering_selectcount",
+              "value": "2"
+            },
+            {
+              "name": "qtype_ordering_selecttype",
+              "value": "0"
+            },
+            {
+              "name": "qtype_ordering_showgrading",
+              "value": "1"
+            },
+            {
+              "name": "qtype_truefalse_defaultmark",
+              "value": "1"
+            },
+            {
+              "name": "qtype_truefalse_penalty",
+              "value": "1"
+            },
+            {
+              "name": "qtype_truefalse_showstandardinstruction",
+              "value": "0"
+            },
+            {
+              "name": "question_bank_qperpage",
+              "value": "100"
+            },
+            {
+              "name": "question_bank_recurse",
+              "value": "1"
+            },
+            {
+              "name": "question_bank_showhidden",
+              "value": "0"
+            },
+            {
+              "name": "quiz_qbanktool_open",
+              "value": "1"
+            },
+            {
+              "name": "recently_viewed_open_banks",
+              "value": "2359"
+            },
+            {
+              "name": "repository_wikimedia_maxwidth",
+              "value": "500"
+            },
+            {
+              "name": "theme_splash_chosen_colour",
+              "value": "orange"
+            },
+            {
+              "name": "tool_usertours_tour_completion_time_14",
+              "value": "1670068199"
+            },
+            {
+              "name": "tool_usertours_tour_completion_time_15",
+              "value": "1661764561"
+            },
+            {
+              "name": "tool_usertours_tour_completion_time_17",
+              "value": "1670083805"
+            },
+            {
+              "name": "tool_usertours_tour_completion_time_18",
+              "value": "1669886945"
+            },
+            {
+              "name": "tool_usertours_tour_completion_time_19",
+              "value": "1736127827"
+            },
+            {
+              "name": "tool_usertours_tour_completion_time_2",
+              "value": "1487081102"
+            },
+            {
+              "name": "tool_usertours_tour_completion_time_3",
+              "value": "1487245991"
+            },
+            {
+              "name": "tool_usertours_tour_completion_time_4",
+              "value": "1547725836"
+            },
+            {
+              "name": "tool_usertours_tour_completion_time_5",
+              "value": "1547725790"
+            },
+            {
+              "name": "tool_usertours_tour_completion_time_6",
+              "value": "1621245344"
+            },
+            {
+              "name": "tool_usertours_tour_completion_time_7",
+              "value": "1649318512"
+            },
+            {
+              "name": "tool_usertours_tour_completion_time_8",
+              "value": "1621246083"
+            },
+            {
+              "name": "tool_usertours_tour_completion_time_9",
+              "value": "1649318607"
+            },
+            {
+              "name": "userselector_autoselectunique",
+              "value": "0"
+            },
+            {
+              "name": "userselector_preserveselected",
+              "value": "0"
+            },
+            {
+              "name": "workshop_perpage",
+              "value": "20"
+            },
+            {
+              "name": "_lastloaded",
+              "value": "1775396574"
+            }
+          ]
+        },
+        {
+          "id": 14,
+          "username": null,
+          "firstname": "Mark",
+          "lastname": "Dunn",
+          "fullname": "Mark Dunn",
+          "email": "markdunn215@example.com",
+          "address": null,
+          "phone1": null,
+          "phone2": null,
+          "department": null,
+          "institution": null,
+          "idnumber": null,
+          "interests": "Eagles, science, bushwalking, physics, green energy, bike riding, Manchester United football club",
+          "firstaccess": null,
+          "lastaccess": null,
+          "auth": null,
+          "suspended": false,
+          "confirmed": null,
+          "lang": null,
+          "calendartype": null,
+          "theme": null,
+          "timezone": "99",
+          "mailformat": null,
+          "trackforums": false,
+          "description": "General lecturer in the Faculty of Health and Medicine",
+          "descriptiontext": "General lecturer in the Faculty of Health and Medicine",
+          "descriptionformat": "HTML",
+          "city": "Orange City",
+          "country": "AU",
+          "profileimageurlsmall": "https://school.moodledemo.net/pluginfile.php/161/user/icon/boost/f2?rev=1",
+          "privateprofileimageurlsmall": "https://school.moodledemo.net/webservice/pluginfile.php/161/user/icon/boost/f2?rev=1",
+          "profileimageurl": "https://school.moodledemo.net/pluginfile.php/161/user/icon/boost/f1?rev=1",
+          "privateprofileimageurl": "https://school.moodledemo.net/webservice/pluginfile.php/161/user/icon/boost/f1?rev=1",
+          "customfields": [],
+          "preferences": []
+        }
+      ]
+    }
+  },
+  "moodleApiMocks": [
+    {
+      "request": {
+        "formData": [
+          {
+            "name": "wsfunction",
+            "value": "core_user_get_users_by_field"
+          },
+          {
+            "name": "field",
+            "value": "id"
+          },
+          {
+            "name": "values[0]",
+            "value": "13"
+          },
+          {
+            "name": "values[1]",
+            "value": "14"
+          }
+        ]
+      },
+      "response": {
+        "body": [
+          {
+            "id": 13,
+            "username": "teacher",
+            "firstname": "Jeffrey",
+            "lastname": "Sanders",
+            "fullname": "Jeffrey Sanders",
+            "email": "jeffreysanders199@example.com",
+            "department": "Senior staff, SE",
+            "interests": "travel, gardening, chess, peace, politics, Films, history",
+            "firstaccess": 1276064220,
+            "lastaccess": 1775396003,
+            "auth": "manual",
+            "suspended": false,
+            "confirmed": true,
+            "lang": "en",
+            "theme": "",
+            "timezone": "99",
+            "mailformat": 1,
+            "trackforums": 0,
+            "description": "<p>The world and its environment has been going through an enormous upheaval particularly in the last few decades. We need to develop thinkers who will be creative, engaged, skilled, informed and thoughtful about the past, present and future interactions of people with each other and their environment. I am passionate about education and enjoy my role at Mount Orange.</p>",
+            "descriptionformat": 1,
+            "city": "Orange City",
+            "country": "AU",
+            "profileimageurlsmall": "https://school.moodledemo.net/pluginfile.php/160/user/icon/boost/f2?rev=75854",
+            "profileimageurl": "https://school.moodledemo.net/pluginfile.php/160/user/icon/boost/f1?rev=75854",
+            "preferences": [
+              {
+                "name": "assign_filter",
+                "value": ""
+              },
+              {
+                "name": "assign_markerfilter",
+                "value": ""
+              },
+              {
+                "name": "assign_perpage",
+                "value": "20"
+              },
+              {
+                "name": "assign_quickgrading",
+                "value": "0"
+              },
+              {
+                "name": "assign_workflowfilter",
+                "value": ""
+              },
+              {
+                "name": "assignment_mailinfo",
+                "value": "0"
+              },
+              {
+                "name": "auth_forcepasswordchange",
+                "value": "0"
+              },
+              {
+                "name": "auth_manual_passwordupdatetime",
+                "value": "1735904573"
+              },
+              {
+                "name": "block_myoverview_hidden_course_56",
+                "value": "1"
+              },
+              {
+                "name": "block_myoverview_hidden_course_57",
+                "value": "1"
+              },
+              {
+                "name": "block_myoverview_hidden_course_6",
+                "value": "1"
+              },
+              {
+                "name": "block_myoverview_hidden_course_67",
+                "value": "1"
+              },
+              {
+                "name": "block_myoverview_last_tab",
+                "value": "timeline"
+              },
+              {
+                "name": "block_myoverview_user_grouping_preference",
+                "value": "all"
+              },
+              {
+                "name": "block_myoverview_user_view_preference",
+                "value": "cards"
+              },
+              {
+                "name": "block_timeline_user_filter_preference",
+                "value": "next6months"
+              },
+              {
+                "name": "block262hidden",
+                "value": "0"
+              },
+              {
+                "name": "block263hidden",
+                "value": "0"
+              },
+              {
+                "name": "block694hidden",
+                "value": "0"
+              },
+              {
+                "name": "calendar_savedflt",
+                "value": "13"
+              },
+              {
+                "name": "core_message_migrate_data",
+                "value": "1"
+              },
+              {
+                "name": "core_user_welcome",
+                "value": "1649737736"
+              },
+              {
+                "name": "course_overview_course_sortorder",
+                "value": "62,66,59,64,56,63,35,41,27,58,49,51,40,60,38"
+              },
+              {
+                "name": "course_overview_number_of_courses",
+                "value": "7"
+              },
+              {
+                "name": "coursesectionspreferences_59",
+                "value": "{\"indexcollapsed\":[459]}"
+              },
+              {
+                "name": "coursesectionspreferences_69",
+                "value": "{\"contentcollapsed\":{\"3\":557,\"4\":554}}"
+              },
+              {
+                "name": "coursesectionspreferences_73",
+                "value": "{\"contentcollapsed\":[]}"
+              },
+              {
+                "name": "coursesectionspreferences_75",
+                "value": "{\"contentcollapsed\":[602,601,600,599]}"
+              },
+              {
+                "name": "data_perpage_1",
+                "value": "50"
+              },
+              {
+                "name": "docked_block_instance_242",
+                "value": "0"
+              },
+              {
+                "name": "docked_block_instance_262",
+                "value": "0"
+              },
+              {
+                "name": "docked_block_instance_263",
+                "value": "0"
+              },
+              {
+                "name": "docked_block_instance_4",
+                "value": "0"
+              },
+              {
+                "name": "docked_block_instance_5",
+                "value": "0"
+              },
+              {
+                "name": "docked_block_instance_694",
+                "value": "0"
+              },
+              {
+                "name": "docked_block_instance_702",
+                "value": "1"
+              },
+              {
+                "name": "docked_block_instance_758",
+                "value": "0"
+              },
+              {
+                "name": "docked_block_instance_761",
+                "value": "0"
+              },
+              {
+                "name": "docked_block_instance_834",
+                "value": "0"
+              },
+              {
+                "name": "docked_block_instance_838",
+                "value": "1"
+              },
+              {
+                "name": "docked_block_instance_868",
+                "value": "0"
+              },
+              {
+                "name": "drawer-open-block",
+                "value": "0"
+              },
+              {
+                "name": "drawer-open-index",
+                "value": "1"
+              },
+              {
+                "name": "filepicker_recentlicense",
+                "value": "unknown"
+              },
+              {
+                "name": "filepicker_recentrepository",
+                "value": "4"
+              },
+              {
+                "name": "flextable_mod_assign_grading",
+                "value": "{\"collapse\":[],\"sortby\":{\"timesubmitted\":3,\"userid\":4},\"i_first\":\"\",\"i_last\":\"\",\"textsort\":[]}"
+              },
+              {
+                "name": "forum_displaymode",
+                "value": "3"
+              },
+              {
+                "name": "forum_markasreadonnotification",
+                "value": "1"
+              },
+              {
+                "name": "forum_useexperimentalui",
+                "value": "0"
+              },
+              {
+                "name": "grade_report_showonlyactiveenrol",
+                "value": "1"
+              },
+              {
+                "name": "gradingform_guide-showmarkerdesc",
+                "value": "1"
+              },
+              {
+                "name": "gradingform_guide-showstudentdesc",
+                "value": "1"
+              },
+              {
+                "name": "htmleditor",
+                "value": ""
+              },
+              {
+                "name": "ifirst",
+                "value": ""
+              },
+              {
+                "name": "ilast",
+                "value": ""
+              },
+              {
+                "name": "last_time_enrolments_synced",
+                "value": "1775395859"
+              },
+              {
+                "name": "login_failed_count_since_success",
+                "value": "0"
+              },
+              {
+                "name": "message_beepnewmessage",
+                "value": "0"
+              },
+              {
+                "name": "message_blocknoncontacts",
+                "value": "0"
+              },
+              {
+                "name": "message_processor_email_email",
+                "value": "jeffreysanders199@example.com"
+              },
+              {
+                "name": "message_provider_enrol_manual_expiry_notification_enabled",
+                "value": "email"
+              },
+              {
+                "name": "message_provider_enrol_self_expiry_notification_enabled",
+                "value": "email"
+              },
+              {
+                "name": "message_provider_mod_assign_assign_notification_enabled",
+                "value": "email"
+              },
+              {
+                "name": "message_provider_mod_feedback_message_enabled",
+                "value": "email"
+              },
+              {
+                "name": "message_provider_mod_feedback_submission_enabled",
+                "value": "email"
+              },
+              {
+                "name": "message_provider_mod_forum_posts_enabled",
+                "value": "email,popup"
+              },
+              {
+                "name": "message_provider_mod_lesson_graded_essay_enabled",
+                "value": "email"
+              },
+              {
+                "name": "message_provider_moodle_badgecreatornotice_enabled",
+                "value": "email"
+              },
+              {
+                "name": "message_provider_moodle_badgerecipientnotice_enabled",
+                "value": "email,popup"
+              },
+              {
+                "name": "message_provider_moodle_courserequestapproved_enabled",
+                "value": "email"
+              },
+              {
+                "name": "message_provider_moodle_courserequestrejected_enabled",
+                "value": "email"
+              },
+              {
+                "name": "message_provider_moodle_errors_enabled",
+                "value": "email,popup"
+              },
+              {
+                "name": "message_provider_moodle_instantmessage_enabled",
+                "value": "email,popup"
+              },
+              {
+                "name": "message_provider_moodle_notices_enabled",
+                "value": "email,popup"
+              },
+              {
+                "name": "message_provider_tool_messageinbound_invalidrecipienthandler_enabled",
+                "value": "email"
+              },
+              {
+                "name": "message_provider_tool_messageinbound_messageprocessingerror_enabled",
+                "value": "email"
+              },
+              {
+                "name": "message_provider_tool_messageinbound_messageprocessingsuccess_enabled",
+                "value": "email"
+              },
+              {
+                "name": "message_provider_tool_monitor_notification_enabled",
+                "value": "popup"
+              },
+              {
+                "name": "mod_imscp_mod_form_showadvanced",
+                "value": "1"
+              },
+              {
+                "name": "mod_wiki_mod_form_showadvanced",
+                "value": "1"
+              },
+              {
+                "name": "qbank_managecategories_includesubcategories_filter_default",
+                "value": "0"
+              },
+              {
+                "name": "qtype_multichoice_answernumbering",
+                "value": "none"
+              },
+              {
+                "name": "qtype_multichoice_defaultmark",
+                "value": "1"
+              },
+              {
+                "name": "qtype_multichoice_penalty",
+                "value": "0.3333333"
+              },
+              {
+                "name": "qtype_multichoice_showstandardinstruction",
+                "value": "0"
+              },
+              {
+                "name": "qtype_multichoice_shuffleanswers",
+                "value": "1"
+              },
+              {
+                "name": "qtype_multichoice_single",
+                "value": "1"
+              },
+              {
+                "name": "qtype_ordering_defaultmark",
+                "value": "1"
+              },
+              {
+                "name": "qtype_ordering_gradingtype",
+                "value": "0"
+              },
+              {
+                "name": "qtype_ordering_layouttype",
+                "value": "1"
+              },
+              {
+                "name": "qtype_ordering_numberingstyle",
+                "value": "none"
+              },
+              {
+                "name": "qtype_ordering_penalty",
+                "value": "0.3333333"
+              },
+              {
+                "name": "qtype_ordering_selectcount",
+                "value": "2"
+              },
+              {
+                "name": "qtype_ordering_selecttype",
+                "value": "0"
+              },
+              {
+                "name": "qtype_ordering_showgrading",
+                "value": "1"
+              },
+              {
+                "name": "qtype_truefalse_defaultmark",
+                "value": "1"
+              },
+              {
+                "name": "qtype_truefalse_penalty",
+                "value": "1"
+              },
+              {
+                "name": "qtype_truefalse_showstandardinstruction",
+                "value": "0"
+              },
+              {
+                "name": "question_bank_qperpage",
+                "value": "100"
+              },
+              {
+                "name": "question_bank_recurse",
+                "value": "1"
+              },
+              {
+                "name": "question_bank_showhidden",
+                "value": "0"
+              },
+              {
+                "name": "quiz_qbanktool_open",
+                "value": "1"
+              },
+              {
+                "name": "recently_viewed_open_banks",
+                "value": "2359"
+              },
+              {
+                "name": "repository_wikimedia_maxwidth",
+                "value": "500"
+              },
+              {
+                "name": "theme_splash_chosen_colour",
+                "value": "orange"
+              },
+              {
+                "name": "tool_usertours_tour_completion_time_14",
+                "value": "1670068199"
+              },
+              {
+                "name": "tool_usertours_tour_completion_time_15",
+                "value": "1661764561"
+              },
+              {
+                "name": "tool_usertours_tour_completion_time_17",
+                "value": "1670083805"
+              },
+              {
+                "name": "tool_usertours_tour_completion_time_18",
+                "value": "1669886945"
+              },
+              {
+                "name": "tool_usertours_tour_completion_time_19",
+                "value": "1736127827"
+              },
+              {
+                "name": "tool_usertours_tour_completion_time_2",
+                "value": "1487081102"
+              },
+              {
+                "name": "tool_usertours_tour_completion_time_3",
+                "value": "1487245991"
+              },
+              {
+                "name": "tool_usertours_tour_completion_time_4",
+                "value": "1547725836"
+              },
+              {
+                "name": "tool_usertours_tour_completion_time_5",
+                "value": "1547725790"
+              },
+              {
+                "name": "tool_usertours_tour_completion_time_6",
+                "value": "1621245344"
+              },
+              {
+                "name": "tool_usertours_tour_completion_time_7",
+                "value": "1649318512"
+              },
+              {
+                "name": "tool_usertours_tour_completion_time_8",
+                "value": "1621246083"
+              },
+              {
+                "name": "tool_usertours_tour_completion_time_9",
+                "value": "1649318607"
+              },
+              {
+                "name": "userselector_autoselectunique",
+                "value": "0"
+              },
+              {
+                "name": "userselector_preserveselected",
+                "value": "0"
+              },
+              {
+                "name": "workshop_perpage",
+                "value": "20"
+              },
+              {
+                "name": "_lastloaded",
+                "value": 1775396574
+              }
+            ]
+          },
+          {
+            "id": 14,
+            "firstname": "Mark",
+            "lastname": "Dunn",
+            "fullname": "Mark Dunn",
+            "email": "markdunn215@example.com",
+            "interests": "Eagles, science, bushwalking, physics, green energy, bike riding, Manchester United football club",
+            "firstaccess": 0,
+            "lastaccess": 0,
+            "suspended": false,
+            "timezone": "99",
+            "description": "General lecturer in the Faculty of Health and Medicine",
+            "descriptionformat": 1,
+            "city": "Orange City",
+            "country": "AU",
+            "profileimageurlsmall": "https://school.moodledemo.net/pluginfile.php/161/user/icon/boost/f2?rev=1",
+            "profileimageurl": "https://school.moodledemo.net/pluginfile.php/161/user/icon/boost/f1?rev=1"
+          }
+        ]
+      }
+    }
+  ]
+}

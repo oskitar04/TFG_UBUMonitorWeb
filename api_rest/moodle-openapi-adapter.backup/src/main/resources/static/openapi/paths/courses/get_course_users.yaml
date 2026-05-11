@@ -1,0 +1,65 @@
+get:
+  tags:
+    - Courses
+  summary: List users by courseid
+  description: Get users filtered by course ID
+  operationId: getCourseUsers
+  parameters:
+    - name: courseid
+      in: path
+      description: Filter courses by user ID
+      required: true
+      schema:
+        type: integer
+    - name: options
+      in: query
+      style: deepObject
+      explode: true
+      schema:
+        type: object
+        properties:
+          withcapability:
+            type: string
+            description: Return only users with this capability. This option requires 'moodle/role:review' on the course context.
+          groupid:
+            type: integer
+            description: Return only users in this group id. If the course has groups enabled and this param isn't defined, returns all the viewable users. This option requires 'moodle/site:accessallgroups' on the course context if the user doesn't belong to the group.
+          onlyactive:
+            type: boolean
+            description: Return only users with active enrolments and matching time restrictions. This option requires 'moodle/course:enrolreview' on the course context. Please note that this option can't be used together with onlysuspended (only one can be active).
+          onlysuspended:
+            type: boolean
+            description: Return only suspended users. This option requires 'moodle/course:enrolreview' on the course context. Please note that this option can't be used together with onlyactive (only one can be active).
+          userfields:
+            type: string
+            description: Return only the values of these user fields.
+          limitfrom:
+            type: integer
+            description: SQL limit from.
+          limitnumber:
+            type: integer
+            description: Maximum number of returned users.
+          sortby:
+            type: string
+            description: Sort by id, firstname or lastname. For ordering like the site does, use siteorder.
+            enum:
+              - ID
+              - FIRSTNAME
+              - LASTNAME
+              - SITEORDER
+          sortdirection:
+            type: string
+            enum:
+              - ASC
+              - DESC
+  responses:
+    '200':
+      description: List of users
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/courses/course_uses_response.yaml#/CourseUsersResponse'
+    '400':
+      $ref: '../../components/responses/bad_request_400.yaml'
+    '401':
+      $ref: '../../components/responses/unauthorized_401.yaml'

@@ -1,0 +1,9 @@
+LoginTokenResponse:
+  type: object
+  properties:
+    token:
+      type: string
+      format: sf-token
+    privatetoken:
+      type: string
+      format: sf-token
