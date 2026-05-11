@@ -1,0 +1,3 @@
+[submodule "api_rest/moodle-openapi-adapter"]
+	path = api_rest/moodle-openapi-adapter
+	url = https://github.com/UBUMonitor/moodle-openapi-adapter.git
