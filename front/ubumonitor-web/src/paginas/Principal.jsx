@@ -4,14 +4,19 @@ import { useState } from "react";
 //import { getCursos } from "../api/cursos";
 
 import { getCursos } from "../api/cursos";
+import { login } from "../api/login"
 
 
 
-import Graficos from "../componentes/graficos";
+//import Graficos from "../componentes/graficos";
 import { useNavigate } from "react-router-dom";
 
 export default function Principal() {
-    const [chartData, setChartData] = useState([]);
+    
+    // Usado para crear los cursos de prueba
+    //const [chartData, setChartData] = useState([]);
+    
+    
     /** Conseguir token */
     const [host, setHost] = useState("");
     const [username, setUsername] = useState("");
@@ -132,7 +137,7 @@ export default function Principal() {
         {/* Gráfico */}
         {/* Muestra el gráfico pasándole chartData como prop. El componente Graficos se 
             encarga de renderizarlo.*/}
-        <Graficos data={chartData} />
+        {/*<Graficos data={chartData} /> */}
     </div>
 );
 }
