@@ -2,7 +2,6 @@ import { useState } from "react";
 //import { getCursos } from "../api/cursos";
 import Graficos from "../componentes/graficos";
 import { useNavigate } from "react-router-dom";
-import { getCursos } from "../../../../../../../Desktop/Token";
 
 export default function Principal() {
     const [chartData, setChartData] = useState([]);
@@ -82,7 +81,7 @@ export default function Principal() {
     
         
 
-        {/* Entrada*/}
+        {/* Entrada */}
         <input
         type="text"
         placeholder="Introduce datos"
