@@ -59,6 +59,29 @@ export default function Principal() {
     <div style={{ padding: "40px" }}>
         <h1>UBUMonitor Web</h1>
 
+        {!token ? (
+            // Pantalla del login
+            <div>
+                <input placeholder="URL Moodle (ej: https://moodle.ubu.es)" value={host} onChange={e => setHost(e.target.value)} />
+                <input placeholder="Usuario" value={username} onChange={e => setUsername(e.target.value)} />
+                <input type="password" placeholder="Contraseña" value={password} onChange={e => setPassword(e.target.value)} />
+                <button onClick={handleLogin}>Login</button>
+            </div>
+        ) : (
+            // Inicio de sesión correcto
+            <div>
+                <p>Token obtenido correctamente</p>
+                <button onClick={handleFetch}>Cargar cursos</button>
+                {cursos.map(c => <div key={c.id}>{c.name}</div>)}
+            </div>
+        )}
+        </div>
+        )}
+        </div>
+    );
+    
+        
+
         {/* Entrada*/}
         <input
         type="text"
@@ -70,7 +93,6 @@ export default function Principal() {
             el input sería de solo lectura*/}
 
         {/* Botones */}
-        <button onClick={handleFetch}>Cargar cursos (Opcion 1)</button>
 
         <button onClick={handleFetch} style={{
             padding: "10px 20px",
