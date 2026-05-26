@@ -4,9 +4,15 @@ import Graficos from "../componentes/graficos";
 import { useNavigate } from "react-router-dom";
 
 export default function Principal() {
-    const [token, setToken] = useState("");
-    const [cursos, setCursos] = useState([]);
     const [chartData, setChartData] = useState([]);
+    /** Conseguir token */
+    const [host, setHost] = useState("");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [token, setToken] = useState(null);
+    const [cursos, setCursos] = useState("");
+
+
 
     const navigate = useNavigate();
 
