@@ -2,6 +2,7 @@ import { useState } from "react";
 //import { getCursos } from "../api/cursos";
 import Graficos from "../componentes/graficos";
 import { useNavigate } from "react-router-dom";
+import { getCursos } from "../../../../../../../Desktop/Token";
 
 export default function Principal() {
     const [chartData, setChartData] = useState([]);
@@ -10,12 +11,21 @@ export default function Principal() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [token, setToken] = useState(null);
-    const [cursos, setCursos] = useState("");
+    const [cursos, setCursos] = useState([]);
 
 
-
+    // Para cambiar de páginas sin necesidad de recargar. "Ver cursos" para ir a /cursos
     const navigate = useNavigate();
 
+    // Para guardar el token
+    const handleLogin = async () => {
+        const data = await login(host, username, password);
+        setToken(data.token); 
+    }
+
+    // Al pulsar los botones de cargar se se hace lo siguiente.
+    // Para los cursos, de momento les creo para probar. Se usan 
+    // estos datos para el gráfico
     const handleFetch = async () => {
     try {
         const data = [
@@ -39,18 +49,25 @@ export default function Principal() {
     }
     };
 
+    const handleFetch = async () => {
+        const data = await getCursos(token, host);
+        setCursos(data.cursos);
+    }
+
     
     return (
     <div style={{ padding: "40px" }}>
         <h1>UBUMonitor Web</h1>
 
-        {/* Entrada */}
+        {/* Entrada*/}
         <input
         type="text"
         placeholder="Introduce datos"
         value={token}
         onChange={(e) => setToken(e.target.value)}
-        />
+        /> {/*Input controlado. value = {token} lo vincula al estado, onChange
+            actualiza el estado cada vez que el usuario escribe. Sin el onChange,
+            el input sería de solo lectura*/}
 
         {/* Botones */}
         <button onClick={handleFetch}>Cargar cursos (Opcion 1)</button>
@@ -67,12 +84,20 @@ export default function Principal() {
             }}>
             Cargar cursos (Opcion 2)
         </button>
+        {/* Dos botones con la misma función (handleFetch), se diferencian 
+            en los estilos. La opcion 2 tiene CSS inline (fondo negro, texto blanco, etc.)*/}
 
+
+        {/* Botón para pasar a la página de cursos (sin recargar la app) */}
         <button onClick={() => navigate("/cursos")}>
             Ver cursos
         </button>
+        
+
 
         {/* Datos */}
+        {/* Renderiza la lista de cursos. Por cada elemento de cursos, crea un <div>. El 
+            key es obligatorio en React para identificar cada elemento de forma única*/}
         <div>
         <h2>Cursos Actuales:</h2>
         {cursos.map((c) => (
@@ -81,6 +106,8 @@ export default function Principal() {
         </div>
 
         {/* Gráfico */}
+        {/* Muestra el gráfico pasándole chartData como prop. El componente Graficos se 
+            encarga de renderizarlo.*/}
         <Graficos data={chartData} />
     </div>
 );
