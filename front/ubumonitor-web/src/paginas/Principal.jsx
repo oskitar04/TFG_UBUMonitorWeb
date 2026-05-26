@@ -1,5 +1,12 @@
 import { useState } from "react";
+
+
 //import { getCursos } from "../api/cursos";
+
+import { getCursos } from "../api/cursos";
+
+
+
 import Graficos from "../componentes/graficos";
 import { useNavigate } from "react-router-dom";
 
@@ -25,28 +32,28 @@ export default function Principal() {
     // Al pulsar los botones de cargar se se hace lo siguiente.
     // Para los cursos, de momento les creo para probar. Se usan 
     // estos datos para el gráfico
-    const handleFetch = async () => {
-    try {
-        const data = [
-            { id: 1, name: "Curso 1" },
-            { id: 2, name: "Curso 2" }
-            ];
-        //setCursos(data);
-        //const data = await getCourses(token);
+    // const handleFetch = async () => {
+    // try {
+    //     const data = [
+    //         { id: 1, name: "Curso 1" },
+    //         { id: 2, name: "Curso 2" }
+    //         ];
+    //     //setCursos(data);
+    //     //const data = await getCourses(token);
         
-        setCursos(data);
+    //     setCursos(data);
 
-        // Prueba de gráfico
-        const formatted = data.map((c, i) => ({
-        name: c.name,
-        value: i + 1
-        }));
+    //     // Prueba de gráfico
+    //     const formatted = data.map((c, i) => ({
+    //     name: c.name,
+    //     value: i + 1
+    //     }));
 
-        setChartData(formatted);
-    } catch (error) {
-        console.error(error);
-    }
-    };
+    //     setChartData(formatted);
+    // } catch (error) {
+    //     console.error(error);
+    // }
+    // };
 
     const handleFetch = async () => {
         const data = await getCursos(token, host);
@@ -74,10 +81,6 @@ export default function Principal() {
                 {cursos.map(c => <div key={c.id}>{c.name}</div>)}
             </div>
         )}
-        </div>
-        )}
-        </div>
-    );
     
         
 
