@@ -4,7 +4,7 @@ import { useState } from "react";
 //import { getCursos } from "../api/cursos";
 
 import { getCursos } from "../api/cursos";
-import { login } from "../api/login"
+import { login, getSiteInfo } from "../api/login"
 
 
 
@@ -24,18 +24,36 @@ export default function Principal() {
     // const [token, setToken] = useState(null);
     const [cursos, setCursos] = useState([]);
 
-    const [host, setHost] = useState(() => localStorage.getItem("host") || "");
-    const [token, setToken] = useState(() => localStorage.getItem("token") || null);
+    const [host, setHost] = useState(() => localStorage.getItem("host")   || "");
+    const [token, setToken]  = useState(() => localStorage.getItem("token")  || null);
+    const [userId, setUserId] = useState(() => localStorage.getItem("userId") || null);
 
     // Para cambiar de páginas sin necesidad de recargar. "Ver cursos" para ir a /cursos
     const navigate = useNavigate();
 
-    // Para guardar el token
+    // Para guardar el token y el userId
     const handleLogin = async () => {
-        const data = await login(host, username, password);
-        setToken(data.token); 
-        localStorage.setItem("token", data.token); // token guardado
-        localStorage.setItem("host", host); // host guardado
+        // const data = await login(host, username, password);                                                                                                             
+        // setToken(data.token);                                                                                                                                           
+        // localStorage.setItem("token", data.token); // token guardado                                                                                                    
+        // localStorage.setItem("host", host); // host guardado 
+        
+        // Saco el token
+        const loginData = await login(host, username, password);
+        const tokenObtenido = loginData.token;
+
+        // Uso el token para obtener el userId y demás datos
+        const siteData = await getSiteInfo(tokenObtenido, host);
+        const userIdObtenido = siteData.siteinfo.userid;
+
+        // Asigno valores
+        setToken(tokenObtenido);
+        setUserId(userIdObtenido);
+
+        // Uso localStorage para poder usar el token en otras páginas que use/haga
+        localStorage.setItem("token",  tokenObtenido);
+        localStorage.setItem("host",   host);
+        localStorage.setItem("userId", userIdObtenido);
     }
 
     // Al pulsar los botones de cargar se se hace lo siguiente.
@@ -65,15 +83,19 @@ export default function Principal() {
     // };
 
     const handleFetch = async () => {
-        const data = await getCursos(token, host);
-        setCursos(data.cursos);
+        // El campo en la respuesta del backend es "courses", no "cursos"
+        const data = await getCursos(token, host, userId);
+        setCursos(data.courses);
     }
 
     const handleLogout = () => {
         setToken(null);
+        setUserId(null);
         setHost("");
+        
         localStorage.removeItem("token");
         localStorage.removeItem("host");
+        localStorage.removeItem("userId");
     }
 
     
