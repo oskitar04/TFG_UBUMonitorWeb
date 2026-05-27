@@ -18,12 +18,14 @@ export default function Principal() {
     
     
     /** Conseguir token */
-    const [host, setHost] = useState("");
+    // const [host, setHost] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [token, setToken] = useState(null);
+    // const [token, setToken] = useState(null);
     const [cursos, setCursos] = useState([]);
 
+    const [host, setHost] = useState(() => localStorage.getItem("host") || "");
+    const [token, setToken] = useState(() => localStorage.getItem("token") || null);
 
     // Para cambiar de páginas sin necesidad de recargar. "Ver cursos" para ir a /cursos
     const navigate = useNavigate();
