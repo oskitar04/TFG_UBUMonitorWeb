@@ -34,6 +34,8 @@ export default function Principal() {
     const handleLogin = async () => {
         const data = await login(host, username, password);
         setToken(data.token); 
+        localStorage.setItem("token", data.token); // token guardado
+        localStorage.setItem("host", host); // host guardado
     }
 
     // Al pulsar los botones de cargar se se hace lo siguiente.
@@ -65,6 +67,13 @@ export default function Principal() {
     const handleFetch = async () => {
         const data = await getCursos(token, host);
         setCursos(data.cursos);
+    }
+
+    const handleLogout = () => {
+        setToken(null);
+        setHost("");
+        localStorage.removeItem("token");
+        localStorage.removeItem("host");
     }
 
     
@@ -118,6 +127,26 @@ export default function Principal() {
         {/* Dos botones con la misma función (handleFetch), se diferencian 
             en los estilos. La opcion 2 tiene CSS inline (fondo negro, texto blanco, etc.)*/}
 
+        <button onClick={handleLogout} style={{
+            position:"absolute",
+            top: "2px",
+            right: "2px",
+            width: "100px",
+            height:"40px",
+
+            // marginTop: "2px",
+            // marginRight: "2px",
+
+            fontSize: "16px",
+            backgroundColor: "black",
+            color: "white",
+            
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer"
+        }}>
+            Apagar
+        </button>
 
         {/* Botón para pasar a la página de cursos (sin recargar la app) */}
         <button onClick={() => navigate("/cursos")}>
