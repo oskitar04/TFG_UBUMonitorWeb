@@ -51,8 +51,8 @@ export default function Principal() {
             setUserId(userIdObtenido);
 
             // Uso localStorage para poder usar el token en otras páginas que use/haga
-            localStorage.setItem("token",  tokenObtenido);
-            localStorage.setItem("host",   host);
+            localStorage.setItem("token", tokenObtenido);
+            localStorage.setItem("host", host);
             localStorage.setItem("userId", userIdObtenido);
 
             // Redirigir automáticamente a la lista de cursos
@@ -115,7 +115,7 @@ export default function Principal() {
         {!token ? (
             // Pantalla del login
             <div>
-                <input placeholder="Host (ej: https://moodle.ubu.es)" value={host} onChange={e => setHost(e.target.value)} />
+                <input placeholder="Host (ej: https://ubuvirtual.ubu.es)" value={host} onChange={e => setHost(e.target.value)} />
                 <input placeholder="Usuario" value={username} onChange={e => setUsername(e.target.value)} />
                 <input type="password" placeholder="Contraseña" value={password} onChange={e => setPassword(e.target.value)} />
                 <button onClick={handleLogin} disabled={cargando}>

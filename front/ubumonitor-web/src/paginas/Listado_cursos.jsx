@@ -4,9 +4,9 @@ import { getCursos } from "../api/cursos";
 
 export default function ListaCursos() {
 
-    const [cursos,   setCursos]   = useState([]);
+    const [cursos, setCursos] = useState([]);
     const [cargando, setCargando] = useState(true);  // true hasta que la API responda
-    const [error,    setError]    = useState(null);
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
     // Lee los datos de sesión del localStorage (guardados al hacer login en Principal)
@@ -16,17 +16,17 @@ export default function ListaCursos() {
 
     useEffect(() => {
         // Sin sesión no hay nada que cargar
-        if (!token || !host || !userId) {
-            setCargando(false);
-            return;
-        }
+        // if (!token || !host || !userId) {
+        //     setCargando(false);
+        //     return;
+        // }
 
         const cargarCursos = async () => {
             try {
                 const data = await getCursos(token, host, userId);
                 setCursos(data.courses);
             } catch (e) {
-                setError("No se pudieron cargar los cursos. Comprueba que el servidor esté activo.");
+                setError("No se pueden cargar los cursos. Comprueba que el servidor esté activo.");
                 console.error(e);
             } finally {
                 setCargando(false); // Siempre para el spinner, haya error o no
@@ -36,7 +36,7 @@ export default function ListaCursos() {
         cargarCursos();
     }, []); // Solo al montar el componente
 
-    // Sin sesión → volver al login
+    // Sin sesión se vuelve al login
     if (!token) {
         return (
             <div style={{ padding: "40px" }}>

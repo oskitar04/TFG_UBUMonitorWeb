@@ -1,7 +1,6 @@
 import axios from "axios";
 
-const API_URL = ""; // Mismo caso que en login.js
-// // Vite proxy redirige /api/... -> localhost:8080/api/...
+const API_URL = "localhost:8080"; // Mismo caso que en login.js
 
 
 
