@@ -4,7 +4,9 @@ import { getCursos } from "../api/cursos";
 
 export default function ListaCursos() {
 
-    const [cursos, setCursos] = useState([]);
+    const [cursos,   setCursos]   = useState([]);
+    const [cargando, setCargando] = useState(true);  // true hasta que la API responda
+    const [error,    setError]    = useState(null);
     const navigate = useNavigate();
 
     // Lee los datos de sesión del localStorage (guardados al hacer login en Principal)
@@ -12,19 +14,29 @@ export default function ListaCursos() {
     const host   = localStorage.getItem("host");
     const userId = localStorage.getItem("userId");
 
-    // Carga los cursos automáticamente al entrar en la página
     useEffect(() => {
-        if (!token || !host || !userId) return; // Guardia: si no hay sesión, no llamar
+        // Sin sesión no hay nada que cargar
+        if (!token || !host || !userId) {
+            setCargando(false);
+            return;
+        }
 
         const cargarCursos = async () => {
-            const data = await getCursos(token, host, userId);
-            setCursos(data.courses);
+            try {
+                const data = await getCursos(token, host, userId);
+                setCursos(data.courses);
+            } catch (e) {
+                setError("No se pudieron cargar los cursos. Comprueba que el servidor esté activo.");
+                console.error(e);
+            } finally {
+                setCargando(false); // Siempre para el spinner, haya error o no
+            }
         };
 
         cargarCursos();
-    }, []); // Sale warning porque solo se ejecuta una vez al montar el componente
+    }, []); // Solo al montar el componente
 
-    // Si no hay sesión activa, redirigir al login
+    // Sin sesión → volver al login
     if (!token) {
         return (
             <div style={{ padding: "40px" }}>
@@ -39,14 +51,21 @@ export default function ListaCursos() {
             <h1>Lista de cursos</h1>
             <button onClick={() => navigate("/")}>Volver/Atrás</button>
 
-            {cursos.length === 0 ? (
-                <p>Cargando cursos...</p>
-            ) : (
-                <ul>
-                    {cursos.map(c => (
-                        <li key={c.id}>{c.fullname}</li>
-                    ))}
-                </ul>
+            {/* Mientras espera respuesta de la API */}
+            {cargando && <p>Cargando cursos...</p>}
+
+            {/* Si la API falló */}
+            {!cargando && error && <p style={{ color: "red" }}>{error}</p>}
+
+            {/* Cursos recibidos */}
+            {!cargando && !error && (
+                cursos.length === 0
+                    ? <p>No se encontraron cursos para este usuario.</p>
+                    : <ul>
+                        {cursos.map(c => (
+                            <li key={c.id}>{c.fullname}</li>
+                        ))}
+                      </ul>
             )}
         </div>
     );

@@ -25,35 +25,44 @@ export default function Principal() {
     const [cursos, setCursos] = useState([]);
 
     const [host, setHost] = useState(() => localStorage.getItem("host")   || "");
-    const [token, setToken]  = useState(() => localStorage.getItem("token")  || null);
+    const [token, setToken] = useState(() => localStorage.getItem("token")  || null);
     const [userId, setUserId] = useState(() => localStorage.getItem("userId") || null);
+    const [error, setError] = useState(null);   // Mensaje de error visible al usuario
+    const [cargando, setCargando] = useState(false);  // Feedback mientras se espera respuesta
 
     // Para cambiar de páginas sin necesidad de recargar. "Ver cursos" para ir a /cursos
     const navigate = useNavigate();
 
     // Para guardar el token y el userId
     const handleLogin = async () => {
-        // const data = await login(host, username, password);                                                                                                             
-        // setToken(data.token);                                                                                                                                           
-        // localStorage.setItem("token", data.token); // token guardado                                                                                                    
-        // localStorage.setItem("host", host); // host guardado 
-        
-        // Saco el token
-        const loginData = await login(host, username, password);
-        const tokenObtenido = loginData.token;
+        setError(null);
+        setCargando(true);
+        try {
+            // Saco el token
+            const loginData = await login(host, username, password);
+            const tokenObtenido = loginData.token;
 
-        // Uso el token para obtener el userId y demás datos
-        const siteData = await getSiteInfo(tokenObtenido, host);
-        const userIdObtenido = siteData.siteinfo.userid;
+            // Uso el token para obtener el userId y demás datos
+            const siteData = await getSiteInfo(tokenObtenido, host);
+            const userIdObtenido = siteData.siteinfo.userid;
 
-        // Asigno valores
-        setToken(tokenObtenido);
-        setUserId(userIdObtenido);
+            // Asigno valores
+            setToken(tokenObtenido);
+            setUserId(userIdObtenido);
 
-        // Uso localStorage para poder usar el token en otras páginas que use/haga
-        localStorage.setItem("token",  tokenObtenido);
-        localStorage.setItem("host",   host);
-        localStorage.setItem("userId", userIdObtenido);
+            // Uso localStorage para poder usar el token en otras páginas que use/haga
+            localStorage.setItem("token",  tokenObtenido);
+            localStorage.setItem("host",   host);
+            localStorage.setItem("userId", userIdObtenido);
+
+            // Redirigir automáticamente a la lista de cursos
+            navigate("/cursos");
+        } catch (e) {
+            setError("Error al iniciar sesión. Revisa el host, usuario y contraseña.");
+            console.error(e);
+        } finally {
+            setCargando(false);
+        }
     }
 
     // Al pulsar los botones de cargar se se hace lo siguiente.
@@ -92,7 +101,7 @@ export default function Principal() {
         setToken(null);
         setUserId(null);
         setHost("");
-        
+
         localStorage.removeItem("token");
         localStorage.removeItem("host");
         localStorage.removeItem("userId");
@@ -109,7 +118,11 @@ export default function Principal() {
                 <input placeholder="Host (ej: https://moodle.ubu.es)" value={host} onChange={e => setHost(e.target.value)} />
                 <input placeholder="Usuario" value={username} onChange={e => setUsername(e.target.value)} />
                 <input type="password" placeholder="Contraseña" value={password} onChange={e => setPassword(e.target.value)} />
-                <button onClick={handleLogin}>Login</button>
+                <button onClick={handleLogin} disabled={cargando}>
+                    {cargando ? "Iniciando sesión..." : "Login"}
+                </button>
+                {/* Mensaje de error si el login falla */}
+                {error && <p style={{ color: "red" }}>{error}</p>}
             </div>
         ) : (
             // Inicio de sesión correcto
