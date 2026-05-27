@@ -84,7 +84,7 @@ export default function Principal() {
         {!token ? (
             // Pantalla del login
             <div>
-                <input placeholder="URL Moodle (ej: https://moodle.ubu.es)" value={host} onChange={e => setHost(e.target.value)} />
+                <input placeholder="Host (ej: https://moodle.ubu.es)" value={host} onChange={e => setHost(e.target.value)} />
                 <input placeholder="Usuario" value={username} onChange={e => setUsername(e.target.value)} />
                 <input type="password" placeholder="Contraseña" value={password} onChange={e => setPassword(e.target.value)} />
                 <button onClick={handleLogin}>Login</button>
@@ -101,12 +101,12 @@ export default function Principal() {
         
 
         {/* Entrada */}
-        <input
+        {/* <input
         type="text"
         placeholder="Introduce datos"
         value={token}
-        onChange={(e) => setToken(e.target.value)}
-        /> {/*Input controlado. value = {token} lo vincula al estado, onChange
+        onChange={(e) => setToken(e.target.value)} /> */}
+        {/*Input controlado. value = {token} lo vincula al estado, onChange
             actualiza el estado cada vez que el usuario escribe. Sin el onChange,
             el input sería de solo lectura*/}
 
@@ -135,12 +135,12 @@ export default function Principal() {
             height:"40px",
 
             // marginTop: "2px",
-            // marginRight: "2px",
+            // marginRight: "2px", // Estos datos son con respecto a otro elemente que tenga al lado
 
             fontSize: "16px",
             backgroundColor: "black",
             color: "white",
-            
+
             border: "none",
             borderRadius: "5px",
             cursor: "pointer"
