@@ -22,7 +22,7 @@ export default function ListaCursos() {
         };
 
         cargarCursos();
-    }, []); // [] → solo se ejecuta una vez al montar el componente
+    }, []); // Sale warning porque solo se ejecuta una vez al montar el componente
 
     // Si no hay sesión activa, redirigir al login
     if (!token) {
@@ -37,7 +37,7 @@ export default function ListaCursos() {
     return (
         <div style={{ padding: "40px" }}>
             <h1>Lista de cursos</h1>
-            <button onClick={() => navigate("/")}>← Volver</button>
+            <button onClick={() => navigate("/")}>Volver/Atrás</button>
 
             {cursos.length === 0 ? (
                 <p>Cargando cursos...</p>

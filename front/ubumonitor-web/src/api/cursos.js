@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8080"; // Cambiar por puerto de backend
+const API_URL = ""; // Mismo caso que en login.js
+// // Vite proxy redirige /api/... -> localhost:8080/api/...
 
 
 
