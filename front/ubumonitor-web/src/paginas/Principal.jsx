@@ -63,7 +63,7 @@ export default function Principal() {
             // const tokenObtenido = loginData.token;
 
             //debug
-            addLog(`Paso 1 OK — token: ${loginData.token.substring(0, 40)}...`, "ok");   
+            addLog(`Paso 1 OK — token: ${loginData.token.substring(0, 10)}...`, "ok");   
 
             //debug
             addLog("Paso 2: obteniendo info del sitio (userId, username)...");  
@@ -99,7 +99,8 @@ export default function Principal() {
         } catch (e) {
             //debug
             addLog(`Error: ${e.message}`, "error"); 
-            setError("Error al iniciar sesión. Revisa el host, usuario y contraseña.");
+            //setError("Error al iniciar sesión. Revisa el host, usuario y contraseña.");
+            setError("Error al iniciar sesión. Revisa las credenciales.");
             console.error(e);
         } finally {
             setCargando(false);
@@ -192,7 +193,7 @@ export default function Principal() {
                 fontFamily: "monospace", fontSize: "12px"                                                                                                                                  
             }}>                                                                                                                                                                            
                 <strong>sessionStorage actual</strong>                                                                                                                                     
-                <div>token:  {sessionToken  ? `${sessionToken.substring(0, 12)}...` : "—"}</div>                                                                                           
+                <div>token:  {sessionToken  ? `${sessionToken.substring(0, 10)}...` : "—"}</div>                                                                                           
                 <div>host:   {sessionHost   || "—"}</div>                                                                                                                                  
                 <div>userId: {sessionUserId || "—"}</div>                                                                                                                                  
             </div> 
@@ -257,9 +258,9 @@ export default function Principal() {
 
 
             {/* Botón para pasar a la página de cursos (sin recargar la app) */}
-            <button onClick={() => navigate("/cursos")}>
+            {/* <button onClick={() => navigate("/cursos")}>
                 Ver cursos
-            </button>
+            </button> */}
             
 
 
