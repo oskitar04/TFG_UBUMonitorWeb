@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "localhost:8080"; // Mismo caso que en login.js
+const API_URL = "";
 
 
 

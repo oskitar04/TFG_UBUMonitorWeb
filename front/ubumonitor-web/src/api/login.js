@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Para conseguir el token al ahcer login
 
-const API_URL = "http://localhost:8080"; // No me dejaba comunicar con el localhost, se ha modificado también front\ubumonitor-web\vite.config.js
+const API_URL = "";
 
 
 export const login = async (host, username, password) => {
