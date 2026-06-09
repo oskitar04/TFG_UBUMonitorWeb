@@ -1,0 +1,42 @@
+{
+    // Use IntelliSense para saber los atributos posibles.
+    // Mantenga el puntero para ver las descripciones de los existentes atributos.
+    // Para más información, visite: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Application",
+            "request": "launch",
+            "mainClass": "es.ubu.lsi.Application",
+            "projectName": "es.ubu.lsi-moodle-openapi-adapter"
+        },
+        {
+            "type": "java",
+            "name": "Application(1)",
+            "request": "launch",
+            "mainClass": "es.ubu.lsi.Application",
+            "projectName": "moodle-openapi-adapter"
+        },
+
+
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Debug React (Vite)",
+            "url": "http://localhost:5173",
+            "webRoot": "${workspaceFolder}/front/ubumonitor-web/src",
+            "sourceMapPathOverrides": {
+                "/@fs/*": "${workspaceFolder}/*" 
+            } 
+        }
+
+        
+    ]
+}

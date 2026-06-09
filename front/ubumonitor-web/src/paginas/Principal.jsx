@@ -151,7 +151,7 @@ export default function Principal() {
                     {error && <p style={{ color: "red" }}>{error}</p>}
                 </div>
             ) : (
-                // Inicio de sesión correcto
+                // Inicio de sesión correcto (aparece cuando das a "Atrás" en los cursos)
                 <div>
                     <p>Sesión activa — userId: <strong>{userId}</strong></p>                                                                                                               
                     <button onClick={() => navigate("/cursos")}>Ver cursos</button>
