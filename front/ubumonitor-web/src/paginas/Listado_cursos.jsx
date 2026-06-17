@@ -16,6 +16,8 @@ export default function ListaCursos() {
     const token  = sessionStorage.getItem("token");
     const host   = sessionStorage.getItem("host");
     const userId = sessionStorage.getItem("userId");
+    // fullname
+    const fullname = sessionStorage.getItem("fullname");
 
     //debug
     const log = (mensaje, tipo = "info") => ({ hora: new Date().toLocaleTimeString(), mensaje, tipo });  
@@ -68,6 +70,13 @@ export default function ListaCursos() {
             <div style={{ padding: "16px 24px", borderBottom: "1px solid #ddd", display: "flex", alignItems: "center", gap: "16px" }}>
                 <button onClick={() => navigate("/")}>Atrás</button>
                 <h1 style={{ margin: 0, fontSize: "30px" }}>Lista de cursos</h1>
+                {/* Igual que en Principal, pongo el usuario para saber quien ha iniciado sesión */}
+                <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: "12px" }}>
+                    <span style={{ fontSize: "14px", color: "#555" }}>{fullname}</span>
+                    <button onClick={() => { sessionStorage.clear(); navigate("/"); }}>
+                        Cerrar sesión
+                    </button>
+                </div>
             </div>
 
             {/* Cuerpo: sidebar izquierdo + área derecha */}
