@@ -26,12 +26,15 @@ export default function Principal() {
     // const [cargando, setCargando] = useState(false);  // Feedback mientras se espera respuesta
 
     //sessionStorage
-    const [host, setHost]   = useState(() => sessionStorage.getItem("host")   || "");                                                                                                      
-    const [token, setToken] = useState(() => sessionStorage.getItem("token")  || null);                                                                                                    
-    const [userId, setUserId] = useState(() => sessionStorage.getItem("userId") || null);                                                                                                  
-    const [error, setError]     = useState(null);                                                                                                                                          
-    const [cargando, setCargando] = useState(false);                                                                                                                                       
-    const [logs, setLogs] = useState([]);          
+    const [host, setHost] = useState(() => sessionStorage.getItem("host")   || "");
+    const [token, setToken] = useState(() => sessionStorage.getItem("token")  || null);
+    const [userId, setUserId] = useState(() => sessionStorage.getItem("userId") || null);
+    const [error, setError] = useState(null);
+    const [cargando, setCargando] = useState(false);
+    const [logs, setLogs] = useState([]);
+
+    // fullname para mostrar que usuario está iniciado, va junto al userId
+    const [fullname, setFullname] = useState(() => sessionStorage.getItem("fullname") || null);
 
 
     // Para cambiar de páginas sin necesidad de recargar. "Ver cursos" para ir a /cursos
@@ -86,11 +89,14 @@ export default function Principal() {
             // localStorage.setItem("userId", userIdObtenido);
             
             //sessionStorage
-            sessionStorage.setItem("token",  loginData.token);                                                                                                                             
-            sessionStorage.setItem("host",   host);                                                                                                                                        
+            sessionStorage.setItem("token", loginData.token);
+            sessionStorage.setItem("host", host);
             sessionStorage.setItem("userId", userIdObtenido);
-            //debug                                                                                                                              
-            addLog("Sesión guardada en sessionStorage.", "ok");  
+            // Incluyo fullname
+            sessionStorage.setItem("fullname", siteData.siteinfo.fullname);
+            setFullname(siteData.siteinfo.fullname);
+            //debug
+            addLog("Sesión guardada en sessionStorage.", "ok");
 
             //debug
             addLog("Redirigiendo a /cursos..."); 
@@ -123,15 +129,22 @@ export default function Principal() {
         // localStorage.removeItem("userId");
 
         //sessionStorage
-        sessionStorage.removeItem("token");                                                                                                                                                
-        sessionStorage.removeItem("host");                                                                                                                                                 
-        sessionStorage.removeItem("userId");                                                                                                                                               
+        sessionStorage.removeItem("token");
+        sessionStorage.removeItem("host");
+        sessionStorage.removeItem("userId");
+
+        //fullname para mostrar
+        sessionStorage.removeItem("fullname");
+        setFullname(null);
         setLogs([]);
     };
 
-    const sessionToken  = sessionStorage.getItem("token");                                                                                                                                 
-    const sessionHost   = sessionStorage.getItem("host");                                                                                                                                  
-    const sessionUserId = sessionStorage.getItem("userId"); 
+    const sessionToken = sessionStorage.getItem("token");
+    const sessionHost = sessionStorage.getItem("host");
+    const sessionUserId = sessionStorage.getItem("userId");
+    
+    // fullname para mostrar
+    const sessionFullname = sessionStorage.getItem("fullname");
 
     
     return (
@@ -153,7 +166,17 @@ export default function Principal() {
             ) : (
                 // Inicio de sesión correcto (aparece cuando das a "Atrás" en los cursos)
                 <div>
-                    <p>Sesión activa — userId: <strong>{userId}</strong></p>                                                                                                               
+                {/* 
+                <p>Sesión activa — userId: <strong>{userId}</strong></p>
+                <button onClick={() => navigate("/cursos")}>Ver cursos</button>
+                */}
+                    <p style={{ color: "#888", fontSize: "14px", margin: "0 0 4px 0" }}>
+                        Ubicación actual: <strong>Página Principal</strong>
+                        {/* Ir ajustando tamaño y echar un ojo a ver si es necesario ponerlo en la página principal*/}
+                    </p>
+                    
+                    {/* Nombre del usuario completo junto con el userId para ver quien está con la sesión activa en caso de volver a la pagina principal */}
+                    <p>Sesión activa: <strong>{fullname} ({userId})</strong></p>
                     <button onClick={() => navigate("/cursos")}>Ver cursos</button>
 
                     {/* sessionStorage
@@ -192,10 +215,12 @@ export default function Principal() {
                 backgroundColor: "#f0f0f0", borderRadius: "8px",                                                                                                                           
                 fontFamily: "monospace", fontSize: "12px"                                                                                                                                  
             }}>                                                                                                                                                                            
-                <strong>sessionStorage actual</strong>                                                                                                                                     
-                <div>token:  {sessionToken  ? `${sessionToken.substring(0, 10)}...` : "—"}</div>                                                                                           
-                <div>host:   {sessionHost   || "—"}</div>                                                                                                                                  
-                <div>userId: {sessionUserId || "—"}</div>                                                                                                                                  
+                <strong>sessionStorage actual</strong>
+                <div>token: {sessionToken ? `${sessionToken.substring(0, 10)}...` : "—"}</div>
+                <div>host: {sessionHost || "—"}</div>
+                <div>userId: {sessionUserId || "—"}</div>
+                {/* Comporbar que también está el fullname*/}
+                <div>fullname: {sessionFullname || "—"}</div>
             </div> 
 
 
