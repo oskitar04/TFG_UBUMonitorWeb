@@ -8,6 +8,8 @@ export default function ListaCursos() {
     const [cargando, setCargando] = useState(true);
     const [error, setError] = useState(null);
     const [logs, setLogs] = useState([]);
+    //Filtro para probar
+    const [filtro, setFiltro] = useState("");
 
     const navigate = useNavigate();
 
@@ -78,13 +80,31 @@ export default function ListaCursos() {
                     overflowY: "auto",
                     padding: "16px"
                 }}>
+                    <input
+                        type="text"
+                        placeholder="Buscar curso"
+                        value={filtro}
+                        onChange={e => setFiltro(e.target.value)}
+                        style={{
+                            width: "100%", 
+                            boxSizing: "border-box",
+                            padding: "8px 10px", 
+                            marginBottom: "12px",
+                            border: "1px solid #ccc", 
+                            borderRadius: "6px", 
+                            fontSize: "14px"
+                        }}
+                    />
                     {cargando && <p>Cargando cursos...</p>}
                     {!cargando && error && <p style={{ color: "red" }}>{error}</p>}
-                    {!cargando && !error && (
-                        cursos.length === 0
-                            ? <p>No se encontraron cursos.</p>
+                    {!cargando && !error && (() => {
+                        const cursosFiltrados = cursos.filter(c => // Se crea la variable para que a la hora de borrar lo del filtro devuelva los cursos sin tener que volver a llamar a la api
+                            c.fullname.toLowerCase().includes(filtro.toLowerCase()) // Para evitar problema con mayúsculas o minúsculas
+                        );
+                        return cursosFiltrados.length === 0
+                            ? <p>No se encontraron cursos con ese nombre</p>
                             : <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-                                {cursos.map(c => (
+                                {cursosFiltrados.map(c => (
                                     <li key={c.id} style={{
                                         padding: "10px 12px",
                                         borderRadius: "6px",
@@ -97,8 +117,8 @@ export default function ListaCursos() {
                                         {c.fullname}
                                     </li>
                                 ))}
-                              </ul>
-                    )}
+                              </ul>;
+                    })()}
                 </div>
 
                 {/* Área principal derecha (para futuro detalle del curso) */}
