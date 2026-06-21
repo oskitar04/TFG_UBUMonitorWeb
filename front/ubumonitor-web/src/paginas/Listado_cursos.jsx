@@ -114,7 +114,8 @@ export default function ListaCursos() {
                             ? <p>No se encontraron cursos con ese nombre</p>
                             : <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
                                 {cursosFiltrados.map(c => (
-                                    <li key={c.id} style={{
+                                    // fullname para pasar el curso a a página siguiente sin volver a llamar a la api
+                                    <li key={c.id} onClick={() => navigate(`/cursos/${c.id}`, { state: { nombre: c.fullname } })} style={{
                                         padding: "10px 12px",
                                         borderRadius: "6px",
                                         cursor: "pointer",
