@@ -7,8 +7,7 @@ export default function Curso() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    // Nombre completo del curso en la cabecera (revisar bug: si llegas 
-    // por url (a mano) sin pulsar en Listado_cursos.jsx pone Curso 42)
+    // Nombre completo del curso en la cabecera 
     const nombre = location.state?.nombre ?? `Curso ${id}`;
 
     const token = sessionStorage.getItem("token");
@@ -48,6 +47,7 @@ export default function Curso() {
             <div style={{ padding: "16px 24px", borderBottom: "1px solid #ddd", display: "flex", alignItems: "center", gap: "16px" }}>
                 <button onClick={() => navigate("/cursos")}>Atrás</button>
                 <h1 style={{ margin: 0, fontSize: "24px" }}>{nombre}</h1> {/* Nombre de la asigantura*/}
+                <button onClick={() => navigate(`/cursos/${id}/participantes`, { state: { nombre } })}>Participantes</button>
                 <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: "12px" }}>
                     <span style={{ fontSize: "14px", color: "#555" }}>{fullname}</span>
                     <button onClick={() => { sessionStorage.clear(); navigate("/"); }}>Cerrar sesión</button>
@@ -85,7 +85,8 @@ export default function Curso() {
                                         )} {/* Icono de la izquierda del contenido */}
                                         <div>
                                             <span style={{ fontSize: "14px", fontWeight: "500" }}>{mod.name}</span> {/* Nombre módulo, el texto del contenido */}
-                                            <span style={{ fontSize: "12px", color: "#888", marginLeft: "8px" }}>({mod.modname})</span> {/* Aparece a la derecha del contenido, es el nombre técino de Moodle, como quiz que es cuestionario */}
+                                            <span style={{ fontSize: "12px", color: "#888", marginLeft: "8px" }}>({mod.modname})</span> {/* Aparece a la derecha del contenido, es el nombre técino de Moodle, como quiz que es cuestionario.
+                                                                                                                                                Una vez que se lo muestre en la reunión preguntar si quiere que esto se vea*/}
                                         </div>
                                     </li>
                                 ))}
