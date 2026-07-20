@@ -18,8 +18,13 @@ export default function Participantes() {
     const [error, setError] = useState(null);
 
     const [busqueda, setBusqueda] = useState("");
-    const [grupoFiltro, setGrupoFiltro] = useState("");
-    const [rolFiltro, setRolFiltro] = useState("");
+
+    // const [grupoFiltro, setGrupoFiltro] = useState("");
+    // const [rolFiltro, setRolFiltro] = useState("");
+
+    // Para combinar filtros
+    const [gruposSeleccionados, setGruposSeleccionados] = useState(new Set());
+    const [rolesSeleccionados, setRolesSeleccionados] = useState(new Set());
 
     useEffect(() => {
         const cargar = async () => {
@@ -48,14 +53,37 @@ export default function Participantes() {
         return [...mapa.entries()].map(([shortname, name]) => ({ shortname, name }));
     }, [usuarios]);
 
+    // Marcar y quitar casillas
+    const toggleRol = (shortname) => {
+        setRolesSeleccionados(prev => {
+            const next = new Set(prev);
+            if (next.has(shortname)) next.delete(shortname);
+            else next.add(shortname);
+            return next;
+        });
+    };
+
+    const toggleGrupo = (id) => {
+        setGruposSeleccionados(prev => {
+            const next = new Set(prev);
+            if (next.has(id)) next.delete(id);
+            else next.add(id);
+            return next;
+        });
+    };
+
     const usuariosFiltrados = useMemo(() => {
         return usuarios.filter(u => {
             if (busqueda && !u.fullname.toLowerCase().includes(busqueda.toLowerCase())) return false;
-            if (grupoFiltro && !u.groups?.some(g => g.id === Number(grupoFiltro))) return false;
-            if (rolFiltro && !u.roles?.some(r => r.shortname === rolFiltro)) return false;
+
+            // if (grupoFiltro && !u.groups?.some(g => g.id === Number(grupoFiltro))) return false;
+            // if (rolFiltro && !u.roles?.some(r => r.shortname === rolFiltro)) return false;
+
+            if (gruposSeleccionados.size > 0 && !u.groups?.some(g => gruposSeleccionados.has(g.id))) return false;
+            if (rolesSeleccionados.size > 0 && !u.roles?.some(r => rolesSeleccionados.has(r.shortname))) return false;
             return true;
         });
-    }, [usuarios, busqueda, grupoFiltro, rolFiltro]); 
+    }, [usuarios, busqueda, gruposSeleccionados, rolesSeleccionados]);
 
     if (!token) return (
         <div style={{ padding: "40px" }}>
@@ -81,7 +109,7 @@ export default function Participantes() {
             <div style={{ flex: 1, padding: "24px", overflowY: "auto" }}>
 
                 {/* Filtro */}
-                <div style={{ marginBottom: "16px", display: "flex", gap: "12px", flexWrap: "wrap", alignItems: "center" }}>
+                <div style={{ marginBottom: "16px", display: "flex", gap: "24px", flexWrap: "wrap", alignItems: "flex-start" }}>
                     <input
                         type="text"
                         placeholder="Buscar participante"
@@ -89,6 +117,7 @@ export default function Participantes() {
                         onChange={e => setBusqueda(e.target.value)}
                         style={{ padding: "6px 10px", borderRadius: "4px", border: "1px solid #ccc", fontSize: "14px" }}
                     />
+                    {/*
                     <select value={grupoFiltro} onChange={e => setGrupoFiltro(e.target.value)}
                         style={{ padding: "6px 10px", borderRadius: "4px", border: "1px solid #ccc", fontSize: "14px" }}>
                         <option value="">Todos los grupos</option>
@@ -99,6 +128,45 @@ export default function Participantes() {
                         <option value="">Todos los roles</option>
                         {roles.map(r => <option key={r.shortname} value={r.shortname}>{r.name}</option>)}
                     </select>
+                    */}
+
+                    {/* Casillas para filtro de rol */}
+                    <div>
+                        <div style={filterColumnTitleStyle}>Rol</div>
+                        <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
+                            {roles.map(r => (
+                                <label key={r.shortname} style={checkboxLabelStyle}>
+                                    <input
+                                        type="checkbox"
+                                        checked={rolesSeleccionados.has(r.shortname)}
+                                        onChange={() => toggleRol(r.shortname)}
+                                    />
+                                    {r.name}
+                                </label>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Casillas para filtro de grupo*/}
+                    <div>
+                        <div style={filterColumnTitleStyle}>Grupo</div>
+                        {grupos.length === 0 ? (
+                            <p style={{ fontSize: "13px", color: "#888", margin: 0 }}>Este curso no tiene grupos.</p>
+                        ) : (
+                            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
+                                {grupos.map(g => (
+                                    <label key={g.id} style={checkboxLabelStyle}>
+                                        <input
+                                            type="checkbox"
+                                            checked={gruposSeleccionados.has(g.id)}
+                                            onChange={() => toggleGrupo(g.id)}
+                                        />
+                                        {g.name}
+                                    </label>
+                                ))}
+                            </div>
+                        )}
+                    </div>
                 </div>
                 {cargando && <p>Cargando participantes...</p>}
                 {error && <p style={{ color: "red" }}>{error}</p>}
@@ -159,3 +227,7 @@ const chipStyle = {
     backgroundColor: "#e8f0fe", color: "#1a56db",
     padding: "2px 8px", borderRadius: "12px", fontSize: "12px"
 };
+
+// Constantes de estilos para las columnas de casillas de rol y grupo
+const filterColumnTitleStyle = { fontWeight: "600", fontSize: "13px", marginBottom: "4px" };
+const checkboxLabelStyle = { display: "flex", alignItems: "center", gap: "6px", fontSize: "14px", cursor: "pointer" };
