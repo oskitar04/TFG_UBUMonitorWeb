@@ -4,7 +4,7 @@ const API_URL = "";
 
 export const procesarLogs = async(archivo) => {
     const formData = new FormData();
-    formData.append("archivo", archivo);
+    formData.append("file", archivo);
 
     const response = await axios.post(`${API_URL}/api/public/logs/process/file`, formData, {
        headers: {"Content-Type": "multipart/form-data"}, 

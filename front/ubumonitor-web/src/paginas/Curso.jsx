@@ -131,6 +131,15 @@ export default function Curso() {
                 <button onClick={() => navigate("/cursos")}>Atrás</button>
                 <h1 style={{ margin: 0, fontSize: "24px" }}>{nombre}</h1> {/* Nombre de la asigantura*/}
                 <button onClick={() => navigate(`/cursos/${id}/participantes`, { state: { nombre } })}>Participantes</button>
+                <button onClick={() => navigate("/logs")}>Logs</button>
+                {/* Descarga el CSV de logs directamente desde el propio host que ponga, lo malo es que necesita iniciar sesión y permisos en el host, solo se puede ver por el momento en mount orange */}
+                <a
+                    href={`${host}/report/log/index.php?download=csv&id=${id}&modid=&chooselog=1&logreader=logstore_standard`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Descargar logs (CSV)
+                </a>
                 <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: "12px" }}>
                     <span style={{ fontSize: "14px", color: "#555" }}>{fullname}</span>
                     <button onClick={() => { sessionStorage.clear(); navigate("/"); }}>Cerrar sesión</button>
