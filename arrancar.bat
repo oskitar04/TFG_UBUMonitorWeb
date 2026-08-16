@@ -13,3 +13,8 @@ echo.
 echo Ambos servicios arrancando en ventanas separadas.
 echo Backend  ^>  http://localhost:8080/swagger-ui/index.html
 echo Frontend ^>  http://localhost:5173
+
+echo.
+echo Esperando a que el frontend arranque...
+timeout /t 5 /nobreak >nul
+start http://localhost:5173
