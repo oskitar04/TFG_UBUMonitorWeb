@@ -8,7 +8,6 @@ export default function ListaCursos() {
     const [cargando, setCargando] = useState(true);
     const [error, setError] = useState(null);
     const [logs, setLogs] = useState([]);
-    //Filtro para probar
     const [filtro, setFiltro] = useState("");
 
     const navigate = useNavigate();
@@ -36,10 +35,8 @@ export default function ListaCursos() {
                 const data = await getCursos(token, host, userId);
                 setCursos(data.courses);
                 //debug
-                // addLog(`OK — ${data.courses.length} cursos recibidos.`, "ok");
                 setLogs(prev => [...prev, log(`OK — ${data.courses.length} cursos recibidos.`, "ok")]);  
             } catch (e) {
-                // addLog(`Error: ${e.message}`, "error");
                 setLogs(prev => [...prev, log(`Error: ${e.message}`, "error")]);  
                 setError("No se pueden cargar los cursos. Comprueba que el servidor esté activo.");
                 console.error(e);
@@ -63,47 +60,68 @@ export default function ListaCursos() {
 
     return (
 
-        <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
-            {/* Se pone en columna a la izquierda */}
+        <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
 
-            {/* Cabecera */}
-            <div style={{ padding: "16px 24px", borderBottom: "1px solid #ddd", display: "flex", alignItems: "center", gap: "16px" }}>
-                <button onClick={() => navigate("/")}>Atrás</button>
-                <h1 style={{ margin: 0, fontSize: "30px" }}>Lista de cursos</h1>
-                {/* Igual que en Principal, pongo el usuario para saber quien ha iniciado sesión */}
-                <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: "12px" }}>
-                    <span style={{ fontSize: "14px", color: "#555" }}>{fullname}</span>
-                    <button onClick={() => { sessionStorage.clear(); navigate("/"); }}>
+            {/* Cabecera: título centrado y los botones de "Atrás" y "Cerrar sesión" a los laterales */}
+            <div style={{
+                padding: "16px 24px", borderBottom: "1px solid #ddd",
+                display: "grid", gridTemplateColumns: "1fr auto 1fr", alignItems: "center"
+            }}>
+                <div>
+                    <button onClick={() => navigate("/")} style={{
+                        padding: "6px 20px",
+                        fontSize: "16px",
+                        backgroundColor: "black",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "5px",
+                        cursor: "pointer"
+                    }}>Atrás</button>
+                </div>
+                <h1 style={{ margin: 0, fontSize: "40px", textAlign: "center" }}>Lista de cursos</h1>
+                {/* Usuario al la derecha al lado del botón de "Cerrar sesión" */}
+                <div style={{ justifySelf: "end", display: "flex", alignItems: "center", gap: "12px" }}>
+                    <span style={{ fontSize: "20px", color: "#1dbdaf" }}>{fullname}</span>
+                    <button onClick={() => { sessionStorage.clear(); navigate("/"); }} style = {{
+                        padding: "6px 20px",
+                        fontSize: "16px",
+                        backgroundColor: "black",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "5px",
+                        cursor: "pointer" 
+                    }}>
                         Cerrar sesión
                     </button>
                 </div>
             </div>
 
-            {/* Cuerpo: sidebar izquierdo + área derecha */}
-            <div style={{ display: "flex", flex: 1, overflow: "hidden" }}>
+            {/* Cuerpo: una sola columna centrada, filtro, listado con su scroll y logs abajo. */}
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "24px" }}>
 
-                {/* Sidebar de cursos */}
-                <div style={{
-                    width: "300px", minWidth: "300px",
-                    borderRight: "1px solid #ddd",
-                    overflowY: "auto",
-                    padding: "16px"
-                }}>
-                    <input
-                        type="text"
-                        placeholder="Buscar curso"
-                        value={filtro}
-                        onChange={e => setFiltro(e.target.value)}
-                        style={{
-                            width: "100%", 
-                            boxSizing: "border-box",
-                            padding: "8px 10px", 
-                            marginBottom: "12px",
-                            border: "1px solid #ccc", 
-                            borderRadius: "6px", 
-                            fontSize: "14px"
-                        }}
-                    />
+                <p style={{ color: "#aaa", width: "100%", maxWidth: "400px" }}>
+                    Selecciona un curso para ver su detalle.
+                </p>
+
+                <input
+                    type="text"
+                    placeholder="Buscar curso"
+                    value={filtro}
+                    onChange={e => setFiltro(e.target.value)}
+                    style={{
+                        width: "100%", 
+                        maxWidth: "400px",
+                        boxSizing: "border-box",
+                        padding: "8px 10px",
+                        marginTop: "12px",
+                        border: "1px solid #ccc",
+                        borderRadius: "6px",
+                        fontSize: "14px"
+                    }}
+                />
+
+                {/* Listado: altura adaptada para que no ocupe la pantalla entera. Así deja espacio al filtro y los logs de momento */}
+                <div style={{maxWidth: "50%", maxHeight: "50vh", overflowY: "auto", marginTop: "12px" }}>
                     {cargando && <p>Cargando cursos...</p>}
                     {!cargando && error && <p style={{ color: "red" }}>{error}</p>}
                     {!cargando && !error && (() => {
@@ -131,31 +149,26 @@ export default function ListaCursos() {
                     })()}
                 </div>
 
-                {/* Área principal derecha (para futuro detalle del curso) */}
-                <div style={{ flex: 1, padding: "24px", overflowY: "auto" }}>
-                    <p style={{ color: "#aaa" }}>Selecciona un curso para ver su detalle.</p>
-
-                    {/* Panel de debug */}
-                    {logs.length > 0 && (
-                        <div style={{
-                            marginTop: "20px", padding: "15px",
-                            backgroundColor: "#1e1e1e", borderRadius: "8px",
-                            fontFamily: "monospace", fontSize: "13px"
-                        }}>
-                            <strong style={{ color: "#aaa" }}>Información de Listado_cursos</strong>
-                            <div style={{ marginTop: "8px" }}>
-                                {logs.map((log, i) => (
-                                    <div key={i} style={{
-                                        color: log.tipo === "error" ? "#f88" : log.tipo === "ok" ? "#8f8" : "#ccc",
-                                        padding: "2px 0"
-                                    }}>
-                                        <span style={{ color: "#666" }}>[{log.hora}]</span> {log.mensaje}
-                                    </div>
-                                ))}
-                            </div>
+                {/* Panel de debug */}
+                {logs.length > 0 && (
+                    <div style={{
+                        marginTop: "20px", padding: "15px", width: "100%", maxWidth: "600px",
+                        backgroundColor: "#1e1e1e", borderRadius: "8px",
+                        fontFamily: "monospace", fontSize: "13px", textAlign: "left"
+                    }}>
+                        <strong style={{ color: "#aaa" }}>Información de Listado_cursos</strong>
+                        <div style={{ marginTop: "8px" }}>
+                            {logs.map((log, i) => (
+                                <div key={i} style={{
+                                    color: log.tipo === "error" ? "#f88" : log.tipo === "ok" ? "#8f8" : "#ccc",
+                                    padding: "2px 0"
+                                }}>
+                                    <span style={{ color: "#666" }}>[{log.hora}]</span> {log.mensaje}
+                                </div>
+                            ))}
                         </div>
-                    )}
-                </div>
+                    </div>
+                )}
             </div>
         </div>
     );
