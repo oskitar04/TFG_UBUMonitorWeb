@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCursos } from "../api/cursos";
+import { leerCache } from "../api/cache";
 
 export default function ListaCursos() {
 
@@ -9,13 +10,15 @@ export default function ListaCursos() {
     const [error, setError] = useState(null);
     const [logs, setLogs] = useState([]);
     const [filtro, setFiltro] = useState("");
+    
+    const [actualizarDatos, setActualizarDatos] = useState(false);
+    const [comprobandoId, setComprobandoId] = useState(null);
 
     const navigate = useNavigate();
 
     const token  = sessionStorage.getItem("token");
     const host   = sessionStorage.getItem("host");
     const userId = sessionStorage.getItem("userId");
-    // fullname
     const fullname = sessionStorage.getItem("fullname");
 
     //debug
@@ -47,6 +50,22 @@ export default function ListaCursos() {
 
         cargarCursos();
     }, [token, host, userId]);
+
+    // Mira la cache y en base a si hay datos para ese curso o no, va directo a 
+    // Curso.jsx o pasa por Logs.jsx
+    const handleClickCurso = async (curso) => {
+        setComprobandoId(curso.id);
+        try {
+            const cache = await leerCache(host, userId, curso.id, token);
+            if (actualizarDatos || cache === null) {
+                navigate("/logs", { state: { cursoId: curso.id, nombre: curso.fullname, primeraVez: cache === null } });
+            } else {
+                navigate(`/cursos/${curso.id}`, { state: { nombre: curso.fullname } });
+            }
+        } finally {
+            setComprobandoId(null);
+        }
+    };
 
     // Sin sesión se vuelve al login
     if (!token) {
@@ -132,8 +151,7 @@ export default function ListaCursos() {
                             ? <p>No se encontraron cursos con ese nombre</p>
                             : <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
                                 {cursosFiltrados.map(c => (
-                                    // fullname para pasar el curso a a página siguiente sin volver a llamar a la api
-                                    <li key={c.id} onClick={() => navigate(`/cursos/${c.id}`, { state: { nombre: c.fullname } })} style={{
+                                    <li key={c.id} onClick={() => handleClickCurso(c)} style={{
                                         padding: "10px 12px",
                                         borderRadius: "6px",
                                         cursor: "pointer",
@@ -142,12 +160,26 @@ export default function ListaCursos() {
                                         onMouseEnter={e => e.currentTarget.style.backgroundColor = "#f0f0f0"}
                                         onMouseLeave={e => e.currentTarget.style.backgroundColor = "transparent"}
                                     >
-                                        {c.fullname}
+                                        {comprobandoId === c.id ? "Comprobando datos..." : c.fullname}
                                     </li>
                                 ))}
                               </ul>;
                     })()}
                 </div>
+
+                {/* Seleccionable de "Actualizar datos". */}
+                <label style={{
+                    display: "flex", alignItems: "center", gap: "8px",
+                    width: "100%", maxWidth: "400px", marginTop: "16px",
+                    fontSize: "20px", cursor: "pointer"
+                }}>
+                    <input
+                        type="checkbox"
+                        checked={actualizarDatos}
+                        onChange={e => setActualizarDatos(e.target.checked)}
+                    />
+                    Actualizar datos
+                </label>
 
                 {/* Panel de debug */}
                 {logs.length > 0 && (

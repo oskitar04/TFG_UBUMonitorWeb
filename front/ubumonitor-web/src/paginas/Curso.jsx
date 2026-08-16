@@ -333,7 +333,8 @@ export default function Curso() {
                 <button onClick={() => navigate("/cursos")}>Atrás</button>
                 <h1 style={{ margin: 0, fontSize: "24px" }}>{nombre}</h1> {/* Nombre de la asigantura*/}
                 <button onClick={() => navigate(`/cursos/${id}/participantes`, { state: { nombre } })}>Participantes</button>
-                <button onClick={() => navigate("/logs")}>Logs</button>
+                {/* Se pasa el curso actual para que Logs.jsx use la misma cache */}
+                <button onClick={() => navigate("/logs", { state: { cursoId: id, nombre } })}>Logs</button>
                 
                 {/* Botón temporal para subir el archivo de CSV con los logs */}
                 <label style={{ fontSize: "13px", color: "var(--text)", display: "flex", alignItems: "center", gap: "6px" }}>
