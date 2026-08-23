@@ -4,6 +4,19 @@ import { useEffect, useState, useMemo, useRef } from "react"; //useMemo y useRef
 import { getCursoContenidos, getCursoUsuarios } from "../api/cursos"; // Usuarios para evitar unificar aquí participantes.
 import Graficos from "../componentes/graficos"; // para los gráficos
 import { procesarLogs, parsearLogsCsv, agregarPorDia } from "../api/logs"; // para el uso de logs
+import { leerCache } from "../api/cache"; // para leer cache guardada por Logs.jsx
+
+// Formato DD/MM/YY, como en los gráficos, pero con horas y minutos 
+// por si hay varias descargas en el día
+const formatearFechaHora = (timestamp) => {
+    const fecha = new Date(timestamp);
+    const dia = String(fecha.getDate()).padStart(2, "0");
+    const mes = String(fecha.getMonth() + 1).padStart(2, "0");
+    const anio = String(fecha.getFullYear()).slice(2);
+    const horas = String(fecha.getHours()).padStart(2, "0");
+    const minutos = String(fecha.getMinutes()).padStart(2, "0");
+    return `${dia}/${mes}/${anio} ${horas}:${minutos}`;
+};
 
 export default function Curso() {
     const { id } = useParams();
@@ -16,6 +29,9 @@ export default function Curso() {
     const token = sessionStorage.getItem("token");
     const host = sessionStorage.getItem("host");
     const fullname = sessionStorage.getItem("fullname");
+    
+    // Para la etiqueta de la clave de la caché (host::userId::cursoId)
+    const userId = sessionStorage.getItem("userId");
 
     const [secciones, setSecciones] = useState([]);
     const [cargando, setCargando] = useState(true);
@@ -49,6 +65,10 @@ export default function Curso() {
     // ese botón luego se sustituirá.
     const [datosLogs, setDatosLogs] = useState({ filas: [], componentes: [], eventos: [] });
     const [cargandoCsv, setCargandoCsv] = useState(false);
+
+    // Cargando mientras se hace el descifrado. Actualizado cuando hay caché.
+    const [cargandoLogs, setCargandoLogs] = useState(true);
+    const [actualizadoLogs, setActualizadoLogs] = useState(null);
 
     // Debug, lo pongo en una esquina para poder meter los gráficos en el medio de la pantalla
     const [logs, setLogs] = useState([]);
@@ -94,6 +114,23 @@ export default function Curso() {
         };
         cargarUsuarios();
     }, [id, token, host]);
+
+    // Cargar al entrar al curso. leerCache no lanza error, por eso sin try/catch. Sin 
+    // caché se usan los mensajes que ya existen en la interfaz.
+    useEffect(() => {
+        const cargarCache = async () => {
+            const cache = await leerCache(host, userId, id, token);
+            if (cache) {
+                setDatosLogs(cache.datos);
+                setActualizadoLogs(cache.actualizado);
+                addLog(`Cache de logs cargada: ${cache.datos.filas.length} eventos, ${cache.datos.componentes.length} componentes.`, "ok");
+            } else {
+                addLog("No hay cache de logs guardada para este curso.");
+            }
+            setCargandoLogs(false);
+        };
+        cargarCache();
+    }, [id, token, host, userId]);
 
     // Detecta el click para ver si das o no en el desplegable
     useEffect(() => {
@@ -284,16 +321,19 @@ export default function Curso() {
         </div>
     );
 
-    // Mensaje en el gráfico para saber que falla, de momento solo funciona el de líneas
+    // Mensaje en el gráfico para saber que falla, de momento solo funciona el de líneas.
+    // Estado cargandoLogs: evito mostrar "Carga el CSV..." antes de que lleguen los datos.
     const mensajeVacioGrafico = tipoGraficoActivo !== "linea"
         ? `Gráfico "${tipoGraficoActivo}" pendiente de implementar`
-        : datosLogs.filas.length === 0
-            ? "Carga el CSV de los logs para poder ver el gráfico"
-            : usuariosSeleccionados.size === 0
-                ? "Selecciona al menos un participante para ver el gráfico"
-                : seleccionComponentes[tabComponenteActiva].size === 0
-                    ? `Selecciona al menos un elemento en la pestaña "${TABS_COMPONENTES.find(t => t.id === tabComponenteActiva)?.nombre}" para ver el gráfico`
-                    : "No existe un gráfico para esa combinación de datos seleccionados"
+        : cargandoLogs
+            ? "Cargando datos de logs..."
+            : datosLogs.filas.length === 0
+                ? "Carga el CSV de los logs para poder ver el gráfico"
+                : usuariosSeleccionados.size === 0
+                    ? "Selecciona al menos un participante para ver el gráfico"
+                    : seleccionComponentes[tabComponenteActiva].size === 0
+                        ? `Selecciona al menos un elemento en la pestaña "${TABS_COMPONENTES.find(t => t.id === tabComponenteActiva)?.nombre}" para ver el gráfico`
+                        : "No existe un gráfico para esa combinación de datos seleccionados"
 
     // Función para evitar repetir código, se usa para las pestañas de Componentes, tienen todas la misma estructura.
     const renderListaSeleccionable = (tab, items, render) => {
@@ -335,7 +375,14 @@ export default function Curso() {
                 <button onClick={() => navigate(`/cursos/${id}/participantes`, { state: { nombre } })}>Participantes</button>
                 {/* Se pasa el curso actual para que Logs.jsx use la misma cache */}
                 <button onClick={() => navigate("/logs", { state: { cursoId: id, nombre } })}>Logs</button>
-                
+
+                {/* Fecha de última actualización con el formato DD/MM/YY, igual que en los gráficos*/}
+                {actualizadoLogs && (
+                    <span style={{ fontSize: "13px", color: "var(--text)" }}>
+                        Última actualización de datos: {formatearFechaHora(actualizadoLogs)}
+                    </span>
+                )}
+
                 {/* Botón temporal para subir el archivo de CSV con los logs */}
                 <label style={{ fontSize: "13px", color: "var(--text)", display: "flex", alignItems: "center", gap: "6px" }}>
                     Cargar CSV de logs (sin procesar, botón temporal):
