@@ -51,7 +51,12 @@ export default function Principal() {
             const loginData = await login(host, username, password);
 
             //debug
-            addLog(`Paso 1 OK — token: ${loginData.token.substring(0, 10)}...`, "ok");   
+            addLog(`Paso 1 OK — token: ${loginData.token.substring(0, 10)}...`, "ok");
+            // Aviso si Moodle no manda privatetoken
+            addLog(loginData.privatetoken
+                ? "privatetoken recibido."
+                : "Sin privatetoken (Moodle en HTTP o usuario admin): se usará el flujo manual.",
+                loginData.privatetoken ? "ok" : "info");
 
             //debug
             addLog("Paso 2: obteniendo info del sitio (userId, username)...");  
@@ -71,6 +76,8 @@ export default function Principal() {
             sessionStorage.setItem("token", loginData.token);
             sessionStorage.setItem("host", host);
             sessionStorage.setItem("userId", userIdObtenido);
+            // Moodle solo lo devuelve por HTTPS y a usuarios no admin; si no, viene null.
+            sessionStorage.setItem("privatetoken", loginData.privatetoken ?? "");
             // Incluyo fullname
             sessionStorage.setItem("fullname", siteData.siteinfo.fullname);
             setFullname(siteData.siteinfo.fullname);
@@ -100,6 +107,7 @@ export default function Principal() {
         sessionStorage.removeItem("token");
         sessionStorage.removeItem("host");
         sessionStorage.removeItem("userId");
+        sessionStorage.removeItem("privatetoken");
 
         //fullname para mostrar
         sessionStorage.removeItem("fullname");
@@ -175,6 +183,7 @@ export default function Principal() {
             }}>                                                                                                                                                                          
                 <strong>sessionStorage actual</strong>
                 <div>token: {sessionToken ? `${sessionToken.substring(0, 10)}...` : "—"}</div>
+                <div>privatetoken: {sessionStorage.getItem("privatetoken") ? "sí" : "—"}</div>
                 <div>host: {sessionHost || "—"}</div>
                 <div>userId: {sessionUserId || "—"}</div>
                 <div>fullname: {sessionFullname || "—"}</div>

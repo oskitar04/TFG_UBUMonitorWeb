@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { procesarLogs, parsearLogsCsv } from "../api/logs";
 import { guardarCache } from "../api/cache";
+import { actualizarLogsAutomatico } from "../api/logsAuto";
 
 const UMBRAL_AVISO_MS = 2 * 60 * 1000; // 2 minutos
 const CUENTA_ATRAS_S = 30;
@@ -14,6 +15,7 @@ export default function Logs() {
     const host = sessionStorage.getItem("host");
     const userId = sessionStorage.getItem("userId"); 
     const fullname = sessionStorage.getItem("fullname");
+    const privatetoken = sessionStorage.getItem("privatetoken");
 
     const cursoId = location.state?.cursoId ?? null;
     const nombreCurso = location.state?.nombre ?? null;
@@ -25,9 +27,15 @@ export default function Logs() {
     const [error, setError] = useState(null);
     const [logs, setLogs] = useState([]);
 
-    const [paso, setPaso] = useState("inicio");
+    // Si se llega con un curso, se empieza intentando la descarga
+    // automática ("auto"). Solo si falla se cae al flujo manual ("inicio").
+    const [paso, setPaso] = useState(cursoId ? "auto" : "inicio");
     const [avisando, setAvisando] = useState(false);
     const [cuentaAtras, setCuentaAtras] = useState(CUENTA_ATRAS_S);
+
+    const [pasoAutoMsg, setPasoAutoMsg] = useState("");
+    const [autoError, setAutoError] = useState(null);
+    const autoLanzadoRef = useRef(false);
 
     const popupRef = useRef(null);
     const sondeoRef = useRef(null);
@@ -53,6 +61,35 @@ export default function Logs() {
 
     useEffect(() => {
         return () => limpiarTemporizadores();
+    }, []);
+
+    // Al entrar con un curso, se intenta descargar y procesar los logs solo.
+    useEffect(() => {
+        if (!cursoId || autoLanzadoRef.current) return;
+        autoLanzadoRef.current = true;
+
+        let cancelado = false;
+        (async () => {
+            try {
+                addLog("Intentando obtener los logs automáticamente...");
+                const datos = await actualizarLogsAutomatico({
+                    host, token, privatetoken, userId, cursoId,
+                    onPaso: (m) => { if (!cancelado) { setPasoAutoMsg(m); addLog(m); } },
+                });
+                if (cancelado) return;
+                addLog(`Logs obtenidos automáticamente: ${datos.filas.length} eventos, ${datos.componentes.length} componentes.`, "ok");
+                navigate(`/cursos/${cursoId}`, { state: { nombre: nombreCurso } });
+            } catch (err) {
+                if (cancelado) return;
+                addLog(`No se pudo obtener automáticamente: ${err.message}`, "error");
+                setAutoError(err.message);
+                setPaso("inicio");
+            }
+        })();
+
+        return () => { cancelado = true; };
+        // Solo al montar, las dependencias vienen de sessionStorage/location.state y no cambian.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const iniciarCuentaAtras = () => {
@@ -217,8 +254,25 @@ export default function Logs() {
 
                 {/* Cuerpo */}
                 <div style={{ flex: 1, padding: "24px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "20px" }}>
+                    {/* Descarga automática en curso */}
+                    {paso === "auto" && (
+                        <>
+                            <p style={{ color: "var(--text)", textAlign: "center" }}>
+                                Obteniendo los datos de logs del curso...
+                            </p>
+                            {pasoAutoMsg && (
+                                <p style={{ color: "var(--text)", fontSize: "13px", opacity: 0.8 }}>{pasoAutoMsg}</p>
+                            )}
+                        </>
+                    )}
+
                     {paso === "inicio" && (
                         <>
+                            {autoError && (
+                                <p style={{ color: "#e66", textAlign: "center", maxWidth: "440px" }}>
+                                    No se han podido obtener los logs automáticamente ({autoError}). Puedes hacerlo manualmente si lo deseas:
+                                </p>
+                            )}
                             {/* Mensaje distinto si es la primera vez (sin cache, actualizar es obligatorio) */}
                             <p style={{ color: "var(--text)", textAlign: "center", maxWidth: "400px" }}>
                                 {primeraVez

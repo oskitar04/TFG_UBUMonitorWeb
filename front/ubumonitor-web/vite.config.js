@@ -1,9 +1,10 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import moodleProxyPlugin from './vite-plugin-moodle-proxy'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), moodleProxyPlugin()],
 
   // Desde aquí se modifica para que desde el front se pueda hacer peticiones a la api_rest
   server: {
