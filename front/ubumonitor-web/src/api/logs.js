@@ -55,6 +55,11 @@ export const parsearLogsCsv = (csvText) => {
     const idxEvento = idx("Event name");
     const idxModuloId = idx("Course module id");
 
+    // Columnas que necesita la tabla de logs (una fila por evento).
+    const idxNombre = idx("User full name");
+    const idxOrigen = idx("Origin");
+    const idxIp = idx("IP address");
+
     const componentesSet = new Set();
     const eventosSet = new Set();
     const filasParseadas = [];
@@ -73,10 +78,16 @@ export const parsearLogsCsv = (csvText) => {
 
         filasParseadas.push({
             fecha: timeRaw ? timeRaw.slice(0, 10) : null,
+            // Fecha y hora completas (ISO) para la tabla de logs, 
+            // así se ordena mejor y luego se formatea a DD/MM/YY HH:MM.
+            fechaHora: timeRaw || null,
             userId: idxUserId >= 0 ? valores[idxUserId] : null,
+            nombre: idxNombre >= 0 ? valores[idxNombre] : null,
             componente,
             evento,
             moduloId: moduloId || null, 
+            origen: idxOrigen >= 0 ? valores[idxOrigen] : null,
+            ip: idxIp >= 0 ? valores[idxIp] : null,
         });
     }
 

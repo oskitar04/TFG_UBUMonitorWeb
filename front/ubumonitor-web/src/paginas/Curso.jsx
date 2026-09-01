@@ -3,6 +3,7 @@ import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState, useMemo, useRef } from "react"; //useMemo y useRef, para evitar que se recargue todo el rato y se sature
 import { getCursoContenidos, getCursoUsuarios } from "../api/cursos"; // Usuarios para evitar unificar aquí participantes.
 import Graficos from "../componentes/graficos"; // para los gráficos
+import TablaLogs from "../componentes/tablaLogs"; // tabla de logs
 import { procesarLogs, parsearLogsCsv, agregarPorDia } from "../api/logs"; // para el uso de logs
 import { leerCache } from "../api/cache"; // para leer cache guardada por Logs.jsx
 
@@ -69,6 +70,10 @@ export default function Curso() {
     // Cargando mientras se hace el descifrado. Actualizado cuando hay caché.
     const [cargandoLogs, setCargandoLogs] = useState(true);
     const [actualizadoLogs, setActualizadoLogs] = useState(null);
+
+    // Rango de fechas para acotar el gráfico/tabla.
+    const [fechaDesde, setFechaDesde] = useState("");
+    const [fechaHasta, setFechaHasta] = useState("");
 
     // Debug, lo pongo en una esquina para poder meter los gráficos en el medio de la pantalla
     const [logs, setLogs] = useState([]);
@@ -175,22 +180,28 @@ export default function Curso() {
         });
     };
 
-    // De esta forma evito que si el curso tiene roles/grupos y no hay nada marcado salga 
-    // algún usuarios. Si no hay nada marcado, no se muestra nada. El problema que daba antes
-    // es que mostraba usuarios sin que hubiera nada marcado.
+    // Filtro de participantes: el Rol manda sobre el de Grupo:
+    //  - Si el curso tiene roles y no hay ninguno marcado: no se muestra nadie
+    //    (aunque haya grupos marcados).
+    //  - Con algún rol marcado y ningún grupo: se filtra solo por rol (los grupos se ignoran).
+    //  - Con algún rol marcado y algún grupo marcado: rol Y grupo.
+    // Antes era necesario marcar algo en los dos a la vez, y el profesor no aparecía, 
+    // porque no está en ningún grupo.
     const usuariosFiltrados = useMemo(() => {
+        
+        if (roles.length > 0 && rolesSeleccionados.size === 0) return [];
+
         return usuarios.filter(u => {
-            if (roles.length > 0) {
-                if (rolesSeleccionados.size === 0) return false;
-                if (!u.roles?.some(r => rolesSeleccionados.has(r.shortname))) return false;
+            if (roles.length > 0 && !u.roles?.some(r => rolesSeleccionados.has(r.shortname))) {
+                return false;
             }
-            if (grupos.length > 0) {
-                if (gruposSeleccionados.size === 0) return false;
-                if (!u.groups?.some(g => gruposSeleccionados.has(g.id))) return false;
+            
+            if (gruposSeleccionados.size > 0 && !u.groups?.some(g => gruposSeleccionados.has(g.id))) {
+                return false;
             }
             return true;
         });
-    }, [usuarios, roles, grupos, gruposSeleccionados, rolesSeleccionados]);
+    }, [usuarios, roles, gruposSeleccionados, rolesSeleccionados]);
 
     // Selección de participantes: se puede hacer individual, unos cuantos o todos.
     const toggleUsuario = (id) => {
@@ -242,12 +253,16 @@ export default function Curso() {
         return secciones.flatMap(s => s.modules ?? []);
     }, [secciones]);
 
-    // Ejemplos de tipos de gráficos, de momento solo funcionará uno, luego ya se meterán más.
+    // Ejemplos de tipos de gráficos. Por el momento linea y tabla implementados.
     const TIPOS_GRAFICO = [
         { id: "linea", nombre: "Gráfico de línea" },
+        { id: "tabla", nombre: "Tabla" },
         { id: "barras", nombre: "Gráfico de barras" },
         { id: "heatmap", nombre: "Mapa de calor" },
     ];
+
+    // Los que están implementados, los demás muestran el aviso.
+    const TIPOS_IMPLEMENTADOS = ["linea", "tabla"];
 
     // Para las pestañas de los componentes
     const TABS_COMPONENTES = [
@@ -278,6 +293,21 @@ export default function Curso() {
         }
     };
 
+    // Fecha más antigua y más reciente que hay en el CSV, para acotar los selectores de fecha.
+    const rangoFechas = useMemo(() => {
+        const fechas = datosLogs.filas.map(f => f.fecha).filter(Boolean);
+        if (fechas.length === 0) return { min: "", max: "" };
+        return {
+            min: fechas.reduce((a, b) => (a < b ? a : b)),
+            max: fechas.reduce((a, b) => (a > b ? a : b)),
+        };
+    }, [datosLogs.filas]);
+
+    // Rango efectivo. Si el usuario no ha elegido ninguna fecha, se usa la de los datos,
+    // así se muestra una fecha en vez de el formato a secas (dd/mm/yyyy).
+    const desdeEfectiva = fechaDesde || rangoFechas.min;
+    const hastaEfectiva = fechaHasta || rangoFechas.max;
+
     // Filas del CSV filtradas por lo elegido en Participantes y en Componentes (aquí solo 
     // cuenta lo marcado en ese momento, lo de las otras pestañas de Componentes no cuenta). 
     // En caso de no haber cosas marcadas se vería un gráfico vacío.
@@ -299,6 +329,9 @@ export default function Curso() {
 
         return datosLogs.filas.filter(f => {
             if (!idsUsuarios.has(String(f.userId))) return false;
+            // Rango de fechas. f.fecha es YYYY-MM-DD.
+            if (desdeEfectiva && (!f.fecha || f.fecha < desdeEfectiva)) return false;
+            if (hastaEfectiva && (!f.fecha || f.fecha > hastaEfectiva)) return false;
             switch (tabComponenteActiva) {
                 case "componente": return seleccionActiva.has(f.componente);
                 case "eventos": return seleccionActiva.has(f.evento);
@@ -307,12 +340,35 @@ export default function Curso() {
                 default: return false;
             }
         });
-    }, [datosLogs.filas, usuariosSeleccionados, seleccionComponentes, tabComponenteActiva, secciones]);
+    }, [datosLogs.filas, usuariosSeleccionados, seleccionComponentes, tabComponenteActiva, secciones, desdeEfectiva, hastaEfectiva]);
 
     // Eventos ya filtrados por día para pasarlo a los gráficos
     const datosGrafico = useMemo(() => {
         return filasFiltradas ? agregarPorDia(filasFiltradas) : [];
     }, [filasFiltradas]);
+
+    // Filas para la tabla de logs que se muestra, con el mismo filtro que el gráfico, 
+    // pero sin agrupar por día. El CSV solo trae el id del módulo (Course module id), 
+    // aquí lo traduzco a nombre y sección para que no aparezca un simple número.
+    const filasTabla = useMemo(() => {
+        if (!filasFiltradas) return [];
+        return filasFiltradas.map(f => {
+            const modulo = todosLosModulos.find(m => Number(m.id) === Number(f.moduloId));
+            const seccion = f.moduloId
+                ? secciones.find(s => (s.modules ?? []).some(m => Number(m.id) === Number(f.moduloId)))
+                : null;
+            return {
+                fechaHora: f.fechaHora,
+                nombre: f.nombre,
+                componente: f.componente,
+                evento: f.evento,
+                seccion: seccion ? (seccion.name || `Sección ${seccion.section}`) : "",
+                modulo: modulo ? modulo.name : "",
+                origen: f.origen,
+                ip: f.ip,
+            };
+        });
+    }, [filasFiltradas, todosLosModulos, secciones]);
 
     if (!token) return (
         <div style={{ padding: "40px" }}>
@@ -321,9 +377,9 @@ export default function Curso() {
         </div>
     );
 
-    // Mensaje en el gráfico para saber que falla, de momento solo funciona el de líneas.
+    // Mensaje en el gráfico para saber que falla. Solo linea y tabla están implementados.
     // Estado cargandoLogs: evito mostrar "Carga el CSV..." antes de que lleguen los datos.
-    const mensajeVacioGrafico = tipoGraficoActivo !== "linea"
+    const mensajeVacioGrafico = !TIPOS_IMPLEMENTADOS.includes(tipoGraficoActivo)
         ? `Gráfico "${tipoGraficoActivo}" pendiente de implementar`
         : cargandoLogs
             ? "Cargando datos de logs..."
@@ -333,7 +389,9 @@ export default function Curso() {
                     ? "Selecciona al menos un participante para ver el gráfico"
                     : seleccionComponentes[tabComponenteActiva].size === 0
                         ? `Selecciona al menos un elemento en la pestaña "${TABS_COMPONENTES.find(t => t.id === tabComponenteActiva)?.nombre}" para ver el gráfico`
-                        : "No existe un gráfico para esa combinación de datos seleccionados"
+                        : (filasFiltradas && filasFiltradas.length === 0 && (fechaDesde || fechaHasta))
+                            ? "No hay eventos en el rango de fechas seleccionado"
+                            : "No existe un gráfico para esa combinación de datos seleccionados"
 
     // Función para evitar repetir código, se usa para las pestañas de Componentes, tienen todas la misma estructura.
     const renderListaSeleccionable = (tab, items, render) => {
@@ -365,7 +423,10 @@ export default function Curso() {
     };
 
     return (
-        <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+        // Los minWidth: 0 y overflowX: hidden hacen que al disminuir la ventana del navegador 
+        // lo suficiente, los botones de la cabecera desaparezcan, para evitar dejar una barra 
+        // de scroll horizontal del navegador.
+        <div style={{ display: "flex", flexDirection: "column", height: "100vh", minWidth: 0, overflowX: "hidden" }}>
 
             {/* Cabecera */}
             {/* Adaptado también a modo oscuro*/}
@@ -448,8 +509,8 @@ export default function Curso() {
                     {/* Mensajes por si falta marcar casillas en los filtros o por si no hay coincidencias con esos filtros */}
                     {!cargandoUsuarios && !errorUsuarios && usuariosFiltrados.length === 0 && (
                         <p style={{ color: "var(--text)" }}>
-                            {(roles.length > 0 && rolesSeleccionados.size === 0) || (grupos.length > 0 && gruposSeleccionados.size === 0)
-                                ? "Marca al menos un Rol/Grupo para ver participantes."
+                            {roles.length > 0 && rolesSeleccionados.size === 0
+                                ? "Marca al menos un Rol para ver participantes."
                                 : "No hay participantes para esos filtros."}
                         </p>
                     )}
@@ -573,31 +634,71 @@ export default function Curso() {
                 </div>
                 </div>
 
-                {/* Gráfico de línea, solo vale cuando hay datos del CSV cargado. */}
-                <div style={{ flex: 1, padding: "24px", overflowY: "auto" }}>
-                    <h2 style={{ fontSize: "18px", marginBottom: "12px" }}>
-                        {TIPOS_GRAFICO.find(t => t.id === tipoGraficoActivo)?.nombre}
-                    </h2>
+                {/* Panel central. Con scroll solo para el gráfico/tabla, lo demás se queda fijo. */}
+                <div style={{ flex: 1, minWidth: 0, padding: "24px", display: "flex", flexDirection: "column", overflow: "hidden" }}>
 
-                    <select
-                        value={tipoGraficoActivo}
-                        onChange={(e) => setTipoGraficoActivo(e.target.value)}
-                        style={{ marginBottom: "16px", padding: "6px 10px", fontSize: "14px" }}
-                    >
-                        <option value="" disabled>Selecciona un gráfico</option>
-                        {TIPOS_GRAFICO.map(t => (
-                            <option key={t.id} value={t.id}>{t.nombre}</option>
-                        ))}
-                    </select>
-
-                    {/* datosGrafico ya viene con los filtros de usuario y componente. */}
-                    {tipoGraficoActivo === "linea" && datosGrafico.length > 0 ? (
-                        <Graficos data={datosGrafico} />
-                    ) : (
-                        <div style={{ border: "1px dashed var(--border)", borderRadius: "8px", padding: "40px", textAlign: "center", color: "var(--text)" }}>
-                            {mensajeVacioGrafico}
+                    {/* A la izquierda el título del gráfico y el desplegable, a la derecha el rango de fechas. */}
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "16px", flexWrap: "wrap", flexShrink: 0, marginBottom: "16px" }}>
+                        <div>
+                            <h2 style={{ fontSize: "18px", margin: "0 0 12px" }}>
+                                {TIPOS_GRAFICO.find(t => t.id === tipoGraficoActivo)?.nombre}
+                            </h2>
+                            <select
+                                value={tipoGraficoActivo}
+                                onChange={(e) => setTipoGraficoActivo(e.target.value)}
+                                style={{ padding: "6px 10px", fontSize: "14px" }}
+                            >
+                                <option value="" disabled>Selecciona un gráfico</option>
+                                {TIPOS_GRAFICO.map(t => (
+                                    <option key={t.id} value={t.id}>{t.nombre}</option>
+                                ))}
+                            </select>
                         </div>
-                    )}
+
+                        {/* Rango de fechas */}
+                        <div style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "13px", color: "var(--text)" }}>
+                            <label style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                                Desde
+                                <input
+                                    type="date"
+                                    value={desdeEfectiva}
+                                    min={rangoFechas.min}
+                                    max={rangoFechas.max}
+                                    onChange={(e) => setFechaDesde(e.target.value)}
+                                    style={inputFechaStyle}
+                                />
+                            </label>
+                            <label style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                                Hasta
+                                <input
+                                    type="date"
+                                    value={hastaEfectiva}
+                                    min={rangoFechas.min}
+                                    max={rangoFechas.max}
+                                    onChange={(e) => setFechaHasta(e.target.value)}
+                                    style={inputFechaStyle}
+                                />
+                            </label>
+                            {(fechaDesde || fechaHasta) && (
+                                <button onClick={() => { setFechaDesde(""); setFechaHasta(""); }} style={botonPequenoStyle}>
+                                    Restablecer fechas
+                                </button>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Scroll para el gráfico/tabla */}
+                    <div style={{ flex: 1, minHeight: 0, overflowY: "auto" }}>
+                        {tipoGraficoActivo === "linea" && datosGrafico.length > 0 ? (
+                            <Graficos data={datosGrafico} />
+                        ) : tipoGraficoActivo === "tabla" && filasTabla.length > 0 ? (
+                            <TablaLogs filas={filasTabla} />
+                        ) : (
+                            <div style={{ border: "1px dashed var(--border)", borderRadius: "8px", padding: "40px", textAlign: "center", color: "var(--text)" }}>
+                                {mensajeVacioGrafico}
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
@@ -622,6 +723,12 @@ const dropdownPanelStyle = {
     display: "flex", flexDirection: "column", gap: "4px", minWidth: "180px"
 };
 const checkboxLabelStyle = { display: "flex", alignItems: "center", gap: "6px", fontSize: "14px", cursor: "pointer", color: "var(--text)" };
+
+// Selectores de fecha del rango
+const inputFechaStyle = {
+    padding: "4px 6px", borderRadius: "6px", border: "1px solid var(--border)",
+    fontSize: "14px", backgroundColor: "var(--bg)", color: "var(--text)",
+};
 
 // Estilo de pestañas para "Componentes"
 const tabButtonStyle = {
