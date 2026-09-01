@@ -147,7 +147,7 @@ export default function Curso() {
         return () => document.removeEventListener("mousedown", handleClickFuera);
     }, []);
 
-    // Lista de grupos y lista de usuarios para los desplegables. Como hacía en Participantes.jsx detectando los posibles roles o cursos.
+    // Lista de grupos y de roles para los desplegables.
     const grupos = useMemo(() => {
         const mapa = new Map();
         usuarios.forEach(u => u.groups?.forEach(g => mapa.set(g.id, g.name)));
@@ -433,7 +433,6 @@ export default function Curso() {
             <div style={{ padding: "16px 24px", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", gap: "16px" }}>
                 <button onClick={() => navigate("/cursos")}>Atrás</button>
                 <h1 style={{ margin: 0, fontSize: "24px" }}>{nombre}</h1> {/* Nombre de la asigantura*/}
-                <button onClick={() => navigate(`/cursos/${id}/participantes`, { state: { nombre } })}>Participantes</button>
                 {/* Se pasa el curso actual para que Logs.jsx use la misma cache */}
                 <button onClick={() => navigate("/logs", { state: { cursoId: id, nombre } })}>Logs</button>
 
