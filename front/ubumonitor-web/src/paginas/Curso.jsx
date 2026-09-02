@@ -4,7 +4,8 @@ import { useEffect, useState, useMemo, useRef } from "react"; //useMemo y useRef
 import { getCursoContenidos, getCursoUsuarios } from "../api/cursos"; // Usuarios para evitar unificar aquí participantes.
 import Graficos from "../componentes/graficos"; // para los gráficos
 import TablaLogs from "../componentes/tablaLogs"; // tabla de logs
-import { procesarLogs, parsearLogsCsv, agregarPorDia } from "../api/logs"; // para el uso de logs
+import HeatmapLogs from "../componentes/heatmapLogs"; // heatmap
+import { procesarLogs, parsearLogsCsv, agregarPorDia, compararPorCategoria, agregarPorUsuarioYSemana } from "../api/logs"; // para el uso de logs
 import { leerCache } from "../api/cache"; // para leer cache guardada por Logs.jsx
 
 // Formato DD/MM/YY, como en los gráficos, pero con horas y minutos 
@@ -253,16 +254,16 @@ export default function Curso() {
         return secciones.flatMap(s => s.modules ?? []);
     }, [secciones]);
 
-    // Ejemplos de tipos de gráficos. Por el momento linea y tabla implementados.
+    // Ejemplos de tipos de gráficos. Por el momento linea, tabla, total y heatmap implementados.
     const TIPOS_GRAFICO = [
         { id: "linea", nombre: "Gráfico de línea" },
         { id: "tabla", nombre: "Tabla" },
-        { id: "barras", nombre: "Gráfico de barras" },
-        { id: "heatmap", nombre: "Mapa de calor" },
+        { id: "total", nombre: "Total" },
+        { id: "heatmap", nombre: "HeatMap" },
     ];
 
     // Los que están implementados, los demás muestran el aviso.
-    const TIPOS_IMPLEMENTADOS = ["linea", "tabla"];
+    const TIPOS_IMPLEMENTADOS = ["linea", "tabla", "total", "heatmap"];
 
     // Para las pestañas de los componentes
     const TABS_COMPONENTES = [
@@ -347,6 +348,55 @@ export default function Curso() {
         return filasFiltradas ? agregarPorDia(filasFiltradas) : [];
     }, [filasFiltradas]);
 
+    // Matriz usuario por semana para el Heatmap.
+    const datosHeatmap = useMemo(() => {
+        return filasFiltradas ? agregarPorUsuarioYSemana(filasFiltradas) : null;
+    }, [filasFiltradas]);
+
+    // Comparativa entre usuarios seleccionados y el total de registros para el gráfico.
+    const datosTotalComparativa = useMemo(() => {
+        const seleccionActiva = seleccionComponentes[tabComponenteActiva];
+        if (usuariosSeleccionados.size === 0 || seleccionActiva.size === 0) return [];
+
+        const idsUsuarios = new Set([...usuariosSeleccionados].map(String));
+
+        // Para ver la sección del módulo.
+        const moduloASeccion = tabComponenteActiva === "secciones"
+            ? new Map(secciones.flatMap(s => (s.modules ?? []).map(m => [Number(m.id), s.id])))
+            : null;
+
+        const categoriaDeFila = (f) => {
+            switch (tabComponenteActiva) {
+                case "componente": return f.componente;
+                case "eventos": return f.evento;
+                case "modulos": return f.moduloId ? Number(f.moduloId) : null;
+                case "secciones": return f.moduloId ? (moduloASeccion.get(Number(f.moduloId)) ?? null) : null;
+                default: return null;
+            }
+        };
+
+        const nombreDeCategoria = (categoria) => {
+            if (tabComponenteActiva === "secciones") {
+                const s = secciones.find(sec => sec.id === categoria);
+                return s ? (s.name || `Sección ${s.section}`) : String(categoria);
+            }
+            if (tabComponenteActiva === "modulos") {
+                const m = todosLosModulos.find(mod => Number(mod.id) === categoria);
+                return m ? `${m.name} (${m.modname})` : String(categoria);
+            }
+            return String(categoria);
+        };
+
+        // Para el rango de fechas.
+        const filasEnRango = datosLogs.filas.filter(f =>
+            (!desdeEfectiva || (f.fecha && f.fecha >= desdeEfectiva)) &&
+            (!hastaEfectiva || (f.fecha && f.fecha <= hastaEfectiva))
+        );
+
+        return compararPorCategoria(filasEnRango, seleccionActiva, categoriaDeFila, idsUsuarios)
+            .map(({ categoria, seleccionados, total }) => ({ name: nombreDeCategoria(categoria), seleccionados, total }));
+    }, [datosLogs.filas, usuariosSeleccionados, seleccionComponentes, tabComponenteActiva, secciones, todosLosModulos, desdeEfectiva, hastaEfectiva]);
+
     // Filas para la tabla de logs que se muestra, con el mismo filtro que el gráfico, 
     // pero sin agrupar por día. El CSV solo trae el id del módulo (Course module id), 
     // aquí lo traduzco a nombre y sección para que no aparezca un simple número.
@@ -377,7 +427,7 @@ export default function Curso() {
         </div>
     );
 
-    // Mensaje en el gráfico para saber que falla. Solo linea y tabla están implementados.
+    // Mensaje en el gráfico para saber que falla. Ver TIPOS_IMPLEMENTADOS para lo que hay hecho.
     // Estado cargandoLogs: evito mostrar "Carga el CSV..." antes de que lleguen los datos.
     const mensajeVacioGrafico = !TIPOS_IMPLEMENTADOS.includes(tipoGraficoActivo)
         ? `Gráfico "${tipoGraficoActivo}" pendiente de implementar`
@@ -692,6 +742,10 @@ export default function Curso() {
                             <Graficos data={datosGrafico} />
                         ) : tipoGraficoActivo === "tabla" && filasTabla.length > 0 ? (
                             <TablaLogs filas={filasTabla} />
+                        ) : tipoGraficoActivo === "total" && datosTotalComparativa.length > 0 ? (
+                            <Graficos data={datosTotalComparativa} tipo="total" />
+                        ) : tipoGraficoActivo === "heatmap" && datosHeatmap && datosHeatmap.usuarios.length > 0 ? (
+                            <HeatmapLogs usuarios={datosHeatmap.usuarios} semanas={datosHeatmap.semanas} conteo={datosHeatmap.conteo} max={datosHeatmap.max} />
                         ) : (
                             <div style={{ border: "1px dashed var(--border)", borderRadius: "8px", padding: "40px", textAlign: "center", color: "var(--text)" }}>
                                 {mensajeVacioGrafico}

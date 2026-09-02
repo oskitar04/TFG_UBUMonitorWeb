@@ -110,3 +110,58 @@ export const agregarPorDia = (filas) => {
         .sort(([a], [b]) => a.localeCompare(b))
         .map(([dia, value]) => ({ name: dia, value }));
 }
+
+// Para el gráfico Total.
+// Compara los registros de los usuarios seleccionados con los totales de la categoría marcada en 
+// la pestaña de componentes: componente, tipo de evento, sección o módulo.
+export const compararPorCategoria = (filas, categorias, categoriaDeFila, idsUsuariosSeleccionados) => {
+    const totalPorCategoria = new Map();
+    const seleccionPorCategoria = new Map();
+
+    for (const fila of filas) {
+        const categoria = categoriaDeFila(fila);
+        if (categoria === null || categoria === undefined || !categorias.has(categoria)) continue;
+        totalPorCategoria.set(categoria, (totalPorCategoria.get(categoria) ?? 0) + 1);
+        if (idsUsuariosSeleccionados.has(String(fila.userId))) {
+            seleccionPorCategoria.set(categoria, (seleccionPorCategoria.get(categoria) ?? 0) + 1);
+        }
+    }
+
+    return [...categorias].map(categoria => ({
+        categoria,
+        seleccionados: seleccionPorCategoria.get(categoria) ?? 0,
+        total: totalPorCategoria.get(categoria) ?? 0,
+    }));
+}
+
+// Lunes de la semana ISO a la que pertenece una fecha (para agrupar el Heatmap por semana).
+const inicioSemana = (fechaIso) => {
+    const fecha = new Date(`${fechaIso}T12:00:00`); // El 12 es para evitar problemas de horarios.
+    const diasHastaLunes = fecha.getDay() === 0 ? 6 : fecha.getDay() - 1;
+    fecha.setDate(fecha.getDate() - diasHastaLunes);
+    return fecha.toISOString().slice(0, 10);
+};
+
+// Registros de usuarios agregados por semanas para evitar tener el heatmap muy grande.
+export const agregarPorUsuarioYSemana = (filas) => {
+    const usuariosMap = new Map();
+    const semanasSet = new Set();
+    const conteo = new Map();
+
+    for (const fila of filas) {
+        if (!fila.userId || !fila.fecha) continue;
+        const semana = inicioSemana(fila.fecha);
+        usuariosMap.set(fila.userId, fila.nombre || fila.userId);
+        semanasSet.add(semana);
+        const clave = `${fila.userId}::${semana}`;
+        conteo.set(clave, (conteo.get(clave) ?? 0) + 1);
+    }
+
+    const usuarios = [...usuariosMap.entries()]
+        .map(([userId, nombre]) => ({ userId, nombre }))
+        .sort((a, b) => a.nombre.localeCompare(b.nombre, "es"));
+    const semanas = [...semanasSet].sort();
+    const max = Math.max(0, ...conteo.values());
+
+    return { usuarios, semanas, conteo, max };
+}
