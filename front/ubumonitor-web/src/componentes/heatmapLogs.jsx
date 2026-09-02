@@ -45,7 +45,7 @@ export default function HeatmapLogs({ usuarios, semanas, conteo, max }) {
             </div>
 
             <div style={{ flex: 1, minHeight: 0, overflow: "auto" }}>
-                <table style={{ borderCollapse: "collapse", fontSize: "14px" }}>
+                <table style={{ borderCollapse: "collapse", fontSize: "14px", width: "100%", height: "100%", tableLayout: "fixed" }}>
                     <thead>
                         <tr>
                             <th style={thUsuarioStyle}></th>
@@ -82,12 +82,12 @@ export default function HeatmapLogs({ usuarios, semanas, conteo, max }) {
 // Cabecera y la primera columna fijas, igual que tablaLogs.jsx.
 const thUsuarioStyle = {
     position: "sticky", left: 0, top: 0, zIndex: 2,
-    backgroundColor: "var(--code-bg)", padding: "6px 10px", minWidth: "140px",
+    backgroundColor: "var(--code-bg)", padding: "6px 10px", width: "140px", height: "28px",
 };
 const thSemanaStyle = {
     position: "sticky", top: 0, zIndex: 1,
     backgroundColor: "var(--code-bg)", padding: "6px 4px", fontWeight: "600",
-    whiteSpace: "nowrap", textAlign: "center",
+    whiteSpace: "nowrap", textAlign: "center", height: "28px",
 };
 const tdUsuarioStyle = {
     position: "sticky", left: 0, zIndex: 1,
@@ -97,6 +97,6 @@ const tdUsuarioStyle = {
 // Color de texto fijo para las celdas, que usan colores fijos de fondo (rojo/amarillo/
 // verde).
 const tdCeldaStyle = {
-    width: "56px", height: "28px", textAlign: "center", color: "#000000",
+    minHeight: "28px", textAlign: "center", color: "#000000",
     border: "1px solid var(--border)",
 };

@@ -56,7 +56,7 @@ export default function TablaLogs({ filas }) {
                 {filas.length} evento{filas.length === 1 ? "" : "s"}
             </p>
             <div style={{ flex: 1, minHeight: 0, overflow: "auto" }}>
-                <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "13px" }}>
+                <table style={{ width: "100%", height: "100%", borderCollapse: "collapse", fontSize: "13px" }}>
                     <thead>
                         <tr style={{ textAlign: "left" }}>
                             {COLUMNAS.map((col) => (
@@ -97,5 +97,6 @@ const thStyle = {
     position: "sticky", top: 0, zIndex: 1,
     backgroundColor: "var(--code-bg)",
     boxShadow: "inset 0 -2px 0 var(--border)",
+    height: "36px",
 };
 const tdStyle = { padding: "8px 12px", verticalAlign: "top" };

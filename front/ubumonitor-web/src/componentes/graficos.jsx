@@ -21,7 +21,7 @@ const tooltipCursor = { fill: "var(--accent)", fillOpacity: 0.08 };
 export default function Graficos({ data, tipo = "linea" }) {
   if (tipo === "total") {
     return (
-      <ResponsiveContainer width="100%" height={420}>
+      <ResponsiveContainer width="100%" height="100%">
         <BarChart data={data} margin={{ bottom: 60 }}>
           <XAxis dataKey="name" angle={-40} textAnchor="end" interval={0} tick={{ fontSize: 12 }} />
           <YAxis allowDecimals={false} />
@@ -39,7 +39,7 @@ export default function Graficos({ data, tipo = "linea" }) {
     : 0;
 
   return (
-    <ResponsiveContainer width="100%" height={420}>
+    <ResponsiveContainer width="100%" height="100%">
       <LineChart data={data}>
         <XAxis dataKey="name" tickFormatter={formatearFecha} />
         <YAxis />
