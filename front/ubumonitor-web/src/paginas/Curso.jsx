@@ -170,6 +170,7 @@ export default function Curso() {
             else next.add(shortname);
             return next;
         });
+        setUsuariosSeleccionados(new Set()); // Desmarcar todos los participantes, evito que se queden marcados al cambiar el filtro.
     };
 
     const toggleGrupo = (id) => {
@@ -179,6 +180,7 @@ export default function Curso() {
             else next.add(id);
             return next;
         });
+        setUsuariosSeleccionados(new Set()); // Igual que en toggleRol.
     };
 
     // Filtro de participantes: el Rol manda sobre el de Grupo:
@@ -254,6 +256,12 @@ export default function Curso() {
         return secciones.flatMap(s => s.modules ?? []);
     }, [secciones]);
 
+    // Desmarcar las 4 pestañas al cambiar entre ellas, evito dejar cosas marcadas.
+    const cambiarTabComponente = (tab) => {
+        setTabComponenteActiva(tab);
+        setSeleccionComponentes({ componente: new Set(), eventos: new Set(), secciones: new Set(), modulos: new Set() });
+    };
+
     // Ejemplos de tipos de gráficos. Por el momento linea, tabla, total y heatmap implementados.
     const TIPOS_GRAFICO = [
         { id: "linea", nombre: "Gráfico de línea" },
@@ -308,6 +316,12 @@ export default function Curso() {
     // así se muestra una fecha en vez de el formato a secas (dd/mm/yyyy).
     const desdeEfectiva = fechaDesde || rangoFechas.min;
     const hastaEfectiva = fechaHasta || rangoFechas.max;
+
+    // Bloquea todas las teclas menos el tabulador, así la fecha solo se puede cambiar 
+    // con el desplegable y se puede seguir navegando por la página con el Tab.
+    const bloquearTecladoFecha = (e) => {
+        if (e.key !== "Tab") e.preventDefault();
+    };
 
     // Filas del CSV filtradas por lo elegido en Participantes y en Componentes (aquí solo 
     // cuenta lo marcado en ese momento, lo de las otras pestañas de Componentes no cuenta). 
@@ -614,7 +628,7 @@ export default function Curso() {
                         {TABS_COMPONENTES.map(tab => (
                             <button
                                 key={tab.id}
-                                onClick={() => setTabComponenteActiva(tab.id)}
+                                onClick={() => cambiarTabComponente(tab.id)}
                                 style={tab.id === tabComponenteActiva ? tabButtonActiveStyle : tabButtonStyle}
                             >
                                 {tab.nombre}
@@ -714,6 +728,8 @@ export default function Curso() {
                                     min={rangoFechas.min}
                                     max={rangoFechas.max}
                                     onChange={(e) => setFechaDesde(e.target.value)}
+                                    onKeyDown={bloquearTecladoFecha} // Evitar cambiar fecha con teclado.
+                                    onPaste={(e) => e.preventDefault()} // Evitar que se peguen valores
                                     style={inputFechaStyle}
                                 />
                             </label>
@@ -725,6 +741,8 @@ export default function Curso() {
                                     min={rangoFechas.min}
                                     max={rangoFechas.max}
                                     onChange={(e) => setFechaHasta(e.target.value)}
+                                    onKeyDown={bloquearTecladoFecha} // Evitar cambiar fecha con teclado.
+                                    onPaste={(e) => e.preventDefault()} // Evitar que se peguen valores
                                     style={inputFechaStyle}
                                 />
                             </label>
