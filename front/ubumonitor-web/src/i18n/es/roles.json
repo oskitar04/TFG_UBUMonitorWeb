@@ -1,0 +1,9 @@
+{
+  "student": "Estudiante",
+  "editingteacher": "Profesor",
+  "teacher": "Profesor sin permiso de edición",
+  "manager": "Gestor",
+  "coursecreator": "Creador de curso",
+  "guest": "Invitado",
+  "user": "Usuario autenticado"
+}

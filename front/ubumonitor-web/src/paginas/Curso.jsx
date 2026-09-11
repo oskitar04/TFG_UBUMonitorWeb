@@ -7,6 +7,7 @@ import TablaLogs from "../componentes/tablaLogs"; // tabla de logs
 import HeatmapLogs from "../componentes/heatmapLogs"; // heatmap
 import { procesarLogs, parsearLogsCsv, agregarPorDia, compararPorCategoria, agregarPorUsuarioYSemana } from "../api/logs"; // para el uso de logs
 import { leerCache } from "../api/cache"; // para leer cache guardada por Logs.jsx
+import { traducirComponente, traducirEvento, traducirRol } from "../i18n/traducir"; // para la internacionalización
 
 // Formato DD/MM/YY, como en los gráficos, pero con horas y minutos 
 // por si hay varias descargas en el día
@@ -155,10 +156,10 @@ export default function Curso() {
         return [...mapa.entries()].map(([id, name]) => ({ id, name }));
     }, [usuarios]);
 
-    // Uso shortname para que se rellene el nombre en el tipo de rol.
+    // Uso traducirRol para que se rellene el nombre traducido en el tipo de rol.
     const roles = useMemo(() => {
         const mapa = new Map();
-        usuarios.forEach(u => u.roles?.forEach(r => mapa.set(r.shortname, r.name || r.shortname)));
+        usuarios.forEach(u => u.roles?.forEach(r => mapa.set(r.shortname, traducirRol(r.shortname, r.name))));
         return [...mapa.entries()].map(([shortname, nombre]) => ({ shortname, nombre }));
     }, [usuarios]);
 
@@ -398,7 +399,8 @@ export default function Curso() {
                 const m = todosLosModulos.find(mod => Number(mod.id) === categoria);
                 return m ? `${m.name} (${m.modname})` : String(categoria);
             }
-            return String(categoria);
+            if (tabComponenteActiva === "eventos") return traducirEvento(categoria);
+            return traducirComponente(categoria);
         };
 
         // Para el rango de fechas.
@@ -413,7 +415,7 @@ export default function Curso() {
 
     // Filas para la tabla de logs que se muestra, con el mismo filtro que el gráfico, 
     // pero sin agrupar por día. El CSV solo trae el id del módulo (Course module id), 
-    // aquí lo traduzco a nombre y sección para que no aparezca un simple número.
+    // aquí lo paso a nombre y sección para que no aparezca un simple número.
     const filasTabla = useMemo(() => {
         if (!filasFiltradas) return [];
         return filasFiltradas.map(f => {
@@ -424,8 +426,8 @@ export default function Curso() {
             return {
                 fechaHora: f.fechaHora,
                 nombre: f.nombre,
-                componente: f.componente,
-                evento: f.evento,
+                componente: traducirComponente(f.componente),
+                evento: traducirEvento(f.evento),
                 seccion: seccion ? (seccion.name || `Sección ${seccion.section}`) : "",
                 modulo: modulo ? modulo.name : "",
                 origen: f.origen,
@@ -606,7 +608,7 @@ export default function Curso() {
                                             <td style={tdStyle}>
                                                 <div style={{ display: "flex", gap: "4px", flexWrap: "wrap" }}>
                                                     {u.roles?.map(r => (
-                                                        <span key={r.shortname} style={chipStyle}>{r.name || r.shortname}</span>
+                                                        <span key={r.shortname} style={chipStyle}>{traducirRol(r.shortname, r.name)}</span>
                                                     ))}
                                                 </div>
                                             </td>
@@ -639,13 +641,13 @@ export default function Curso() {
                     {tabComponenteActiva === "componente" && (
                         datosLogs.componentes.length === 0
                             ? <p style={{ color: "var(--text)", fontSize: "13px" }}>Carga un CSV de logs para ver los componentes.</p>
-                            : renderListaSeleccionable("componente", datosLogs.componentes, item => item)
+                            : renderListaSeleccionable("componente", datosLogs.componentes, item => traducirComponente(item))
                     )}
 
                     {tabComponenteActiva === "eventos" && (
                         datosLogs.eventos.length === 0
                             ? <p style={{ color: "var(--text)", fontSize: "13px" }}>Carga un CSV de logs para ver los tipos de evento.</p>
-                            : renderListaSeleccionable("eventos", datosLogs.eventos, item => item)
+                            : renderListaSeleccionable("eventos", datosLogs.eventos, item => traducirEvento(item))
                     )}
 
                     {tabComponenteActiva === "secciones" && (
