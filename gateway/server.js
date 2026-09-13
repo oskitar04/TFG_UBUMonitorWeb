@@ -1,11 +1,13 @@
-import http from "node:http"; 
-import https from "node:https";
-import fs from "node:fs";
-import path from "node:path"; // Rutas, válido para / y \
-import { fileURLToPath } from "node:url";
+const http = require("node:http");
+const https = require("node:https");
+const fs = require("node:fs");
+const path = require("node:path"); // Rutas, válido para / y \
+const { isSea } = require("node:sea");
 
-// Reconstrucción de __dirname a mano. No existe nativo en ES Modules.
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+// CommonJS lo da nativo con Node (no como en ES Modules). Si está 
+// empaquetado, no hay server.js como fichero real, así que se usa la 
+// carpeta del .exe.
+const BASE_DIR = isSea() ? path.dirname(process.execPath) : __dirname;
 
 // Puerto de gateway y dirección del backend.
 const PUERTO = process.env.GATEWAY_PORT || 4000;
@@ -16,7 +18,9 @@ const PREFIJO_MOODLE = "/moodle";
 const USER_AGENT_MOODLE = "MoodleMobile 4.5.0 (45000)";
 
 // Ruta al archivo index.html desde el directorio de gateway (../front/ubumonitor-web/dist/index.html).
-const DIST_DIR = path.join(__dirname, "..", "front", "ubumonitor-web", "dist");
+const DIST_DIR = isSea()
+    ? path.join(BASE_DIR, "dist")
+    : path.join(BASE_DIR, "..", "front", "ubumonitor-web", "dist");
 const INDEX_HTML = path.join(DIST_DIR, "index.html");
 
 // Cabeceras "hop-by-hop" de http, son para evitarlas en proxy.
