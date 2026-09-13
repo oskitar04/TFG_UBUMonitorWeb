@@ -1,4 +1,5 @@
 import http from "node:http"; 
+import https from "node:https";
 import fs from "node:fs";
 import path from "node:path"; // Rutas, válido para / y \
 import { fileURLToPath } from "node:url";
@@ -9,6 +10,10 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // Puerto de gateway y dirección del backend.
 const PUERTO = process.env.GATEWAY_PORT || 4000;
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8080";
+
+// Igual que en vite-plugin-moodle-proxy.js.
+const PREFIJO_MOODLE = "/moodle";
+const USER_AGENT_MOODLE = "MoodleMobile 4.5.0 (45000)";
 
 // Ruta al archivo index.html desde el directorio de gateway (../front/ubumonitor-web/dist/index.html).
 const DIST_DIR = path.join(__dirname, "..", "front", "ubumonitor-web", "dist");
@@ -80,6 +85,99 @@ const reenviarApi = (req, res) => {
     });
 };
 
+// Quita Domain/Secure/SameSite de las cookies que manda Moodle para evitar 
+// que el navegador la rechace porque sus atributos no coinciden con el 
+// origen real desde el que se sirve y pone Path=/moodle para que solo se 
+// reenvíen de vuelta a este mismo proxy (que es el del gateway).
+const reescribirSetCookieMoodle = (valores) => {
+    const lista = Array.isArray(valores) ? valores : [valores];
+    return lista.map((c) =>
+        c
+            .split(";")
+            .map((p) => p.trim())
+            .filter((p) => p && !/^domain=/i.test(p) && !/^secure$/i.test(p) && !/^samesite=/i.test(p) && !/^path=/i.test(p))
+            .concat([`Path=${PREFIJO_MOODLE}`, "SameSite=Lax"]) // "Lax" evita el Secure obligado por "None", y es seguro/compatible por defecto.
+            .join("; ")
+    );
+};
+
+// Si Moodle redirige a una URL suya, la reescribe para que la redirección
+// siga pasando por /moodle en vez de saltar directamente a Moodle.
+const reescribirLocationMoodle = (location, origenMoodle) => {
+    if (!location) return location;
+    if (location.startsWith(origenMoodle)) return PREFIJO_MOODLE + location.slice(origenMoodle.length);
+    if (/^https?:\/\//i.test(location)) {
+        try {
+            const u = new URL(location);
+            return PREFIJO_MOODLE + u.pathname + u.search + u.hash;
+        } catch {
+            return location;
+        }
+    }
+    if (location.startsWith("/")) return PREFIJO_MOODLE + location;
+    return location;
+};
+
+// Reenvía /moodle/* al Moodle indicado en la cabecera X-Moodle-Target (para el flujo automático)
+const manejarMoodle = (req, res) => {
+    const urlMoodleDestino = req.headers["x-moodle-target"]; // req.headers está ya en minúsculas, por eso x-moodle-target.
+    if (!urlMoodleDestino) {
+        res.statusCode = 400;
+        res.end("Falta la cabecera X-Moodle-Target");
+        return;
+    }
+
+    let urlDestino;
+    try {
+        urlDestino = new URL(urlMoodleDestino);
+    } catch {
+        res.statusCode = 400;
+        res.end("X-Moodle-Target no es una URL valida");
+        return;
+    }
+
+    const origenMoodle = urlDestino.origin;
+    const rutaMoodle = req.url.slice(PREFIJO_MOODLE.length);
+    const cliente = urlDestino.protocol === "https:" ? https : http;
+
+    leerCuerpoPeticion(req).then((cuerpoPeticion) => {
+        const cabeceras = {};
+        for (const [k, v] of Object.entries(req.headers)) {
+            if (CABECERAS_SALTOS.includes(k) || k === "x-moodle-target" || k === "host" || k === "origin" || k === "referer" || k === "accept-encoding") continue;
+            cabeceras[k] = v;
+        }
+        cabeceras.host = urlDestino.host;
+        cabeceras["user-agent"] = USER_AGENT_MOODLE;
+        cabeceras.referer = `${origenMoodle}/`;
+        cabeceras["accept-encoding"] = "identity";
+        if (cuerpoPeticion.length) cabeceras["content-length"] = String(cuerpoPeticion.length);
+
+        const proxyReq = cliente.request(
+            origenMoodle + rutaMoodle,
+            { method: req.method, headers: cabeceras, rejectUnauthorized: false }, // Evita que se verifique el certificado del Moodle local (mkcert).
+            (proxyRes) => {
+                const salida = {};
+                for (const [k, v] of Object.entries(proxyRes.headers)) {
+                    if (CABECERAS_SALTOS.includes(k)) continue;
+                    salida[k] = v;
+                }
+                if (salida["set-cookie"]) salida["set-cookie"] = reescribirSetCookieMoodle(salida["set-cookie"]);
+                if (salida.location) salida.location = reescribirLocationMoodle(salida.location, origenMoodle);
+                res.writeHead(proxyRes.statusCode || 502, salida);
+                proxyRes.pipe(res);
+            }
+        );
+
+        proxyReq.on("error", (e) => {
+            res.statusCode = 502; // Bad Gateway.
+            res.end(`Error de proxy hacia Moodle: ${e.message}`);
+        });
+
+        if (cuerpoPeticion.length) proxyReq.write(cuerpoPeticion);
+        proxyReq.end();
+    });
+};
+
 // Sirve el front ya construido (dist/) con npm run build.
 const servirEstatico = (req, res) => {
     const rutaPedida = decodeURIComponent(req.url.split("?")[0]);
@@ -99,10 +197,14 @@ const servirEstatico = (req, res) => {
     });
 };
 
-// Crea el servidor. Enruta /api/ hacia el back.
+// Crea el servidor. Enruta /api/ hacia el back y /moodle/ hacia Moodle.
 const servidor = http.createServer((req, res) => {
     if (req.url.startsWith("/api/")) {
         reenviarApi(req, res);
+        return;
+    }
+    if (req.url.startsWith(`${PREFIJO_MOODLE}/`)) { // El "/" necesario, porque el prefijo es /moodle solo.
+        manejarMoodle(req, res);
         return;
     }
     servirEstatico(req, res);
