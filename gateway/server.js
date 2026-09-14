@@ -3,6 +3,7 @@ const https = require("node:https");
 const fs = require("node:fs");
 const path = require("node:path"); // Rutas, válido para / y \
 const { isSea } = require("node:sea");
+const sso = require("./sso");
 
 // CommonJS lo da nativo con Node (no como en ES Modules). Si está 
 // empaquetado, no hay server.js como fichero real, así que se usa la 
@@ -201,7 +202,40 @@ const servirEstatico = (req, res) => {
     });
 };
 
-// Crea el servidor. Enruta /api/ hacia el back y /moodle/ hacia Moodle.
+// Convierte a JSON y lo responde a quien manda la solicitud. Usado para SSO.
+const responderJson = (res, status, datos) => {
+    const cuerpo = JSON.stringify(datos);
+    res.writeHead(status, { "Content-Type": "application/json; charset=utf-8" });
+    res.end(cuerpo);
+};
+
+// Login SSO. Manda las credenciales a sso.js, que hace el login y pide que Moodle envíe el código.
+const manejarSsoIniciar = (req, res) => {
+    leerCuerpoPeticion(req).then(async (cuerpo) => {
+        try {
+            const { moodleHost, ssoLoginUrl, username, password } = JSON.parse(cuerpo.toString("utf8"));
+            const resultado = await sso.iniciarLoginSso({ moodleHost, ssoLoginUrl, username, password });
+            responderJson(res, 200, resultado);
+        } catch (e) {
+            responderJson(res, 400, { error: e.message });
+        }
+    });
+};
+
+// Con el sessionId y el código, completa el login entero.
+const manejarSsoCodigo = (req, res) => {
+    leerCuerpoPeticion(req).then(async (cuerpo) => {
+        try {
+            const { sessionId, codigo } = JSON.parse(cuerpo.toString("utf8"));
+            const resultado = await sso.completarLoginSso({ sessionId, codigo });
+            responderJson(res, 200, resultado);
+        } catch (e) {
+            responderJson(res, 400, { error: e.message });
+        }
+    });
+};
+
+// Crea el servidor. Enruta /api/ hacia el back, /moodle/ hacia Moodle y /sso/ al login SSO.
 const servidor = http.createServer((req, res) => {
     if (req.url.startsWith("/api/")) {
         reenviarApi(req, res);
@@ -209,6 +243,14 @@ const servidor = http.createServer((req, res) => {
     }
     if (req.url.startsWith(`${PREFIJO_MOODLE}/`)) { // El "/" necesario, porque el prefijo es /moodle solo.
         manejarMoodle(req, res);
+        return;
+    }
+    if (req.method === "POST" && req.url === "/sso/iniciar") {
+        manejarSsoIniciar(req, res);
+        return;
+    }
+    if (req.method === "POST" && req.url === "/sso/codigo") {
+        manejarSsoCodigo(req, res);
         return;
     }
     servirEstatico(req, res);
