@@ -67,7 +67,7 @@ const descargarCsvLogs = async (host, cursoId) => {
 export const actualizarLogsAutomatico = async ({ host, token, privatetoken, userId, cursoId, onPaso }) => {
     if (!privatetoken) {
         throw new Error(
-            "No hay privatetoken. El Moodle debe ir por HTTPS y el usuario no puede ser administrador del sitio."
+            "no ha sido posible obtener el privatetoken"
         );
     }
 

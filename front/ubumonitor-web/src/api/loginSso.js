@@ -30,7 +30,7 @@ export const iniciarLoginSso = async (host, ssoLoginUrl, username, password) => 
 // Paso 2: comprueba el código y saca el token de Moodle.
 export const completarLoginSso = async (sessionId, codigo) => {
     try {
-        const response = await axios.post("/sso/codigo", { sessionId, codigo });
+        const response = await axios.post("/sso/codigo", { sessionId, codigo: codigo.trim() });
         return response.data;
     } catch (e) {
         throw new Error(e.response?.data?.error || "Error al comprobar el código.", { cause: e });

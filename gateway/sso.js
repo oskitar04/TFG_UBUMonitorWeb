@@ -128,6 +128,8 @@ const extraerAuthState = (url) => {
 // formulario de usuario/contraseña, lo envía, y pide el código por email.
 // Devuelve un sessionId para el siguiente paso.
 const iniciarLoginSso = async ({ moodleHost, ssoLoginUrl, username, password }) => {
+    // Sin barra final: el hash del passport se compara contra $CFG->wwwroot de Moodle, que no la lleva.
+    moodleHost = moodleHost.replace(/\/+$/, "");
     const cookieJar = new Map();
 
     let resp = await peticion(ssoLoginUrl, { cookieJar });
