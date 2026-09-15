@@ -1,5 +1,20 @@
 // HeatMap de usuario por semana: una fila por usuario, una columna por semana. Recibe 
 // los datos ya agregados desde Curso.jsx y solo pinta la cuadrícula y la leyenda del gráfico.
+import { useMemo } from "react";
+
+// Ancho en base al nombre más largo.
+const ANCHO_USUARIO_MIN = 80;
+const ANCHO_USUARIO_MAX = 260;
+const PADDING_USUARIO = 20; // 10px a cada lado.
+const FUENTE_USUARIO = "14px system-ui, 'Segoe UI', Roboto, sans-serif"; // --sans en index.css.
+
+let canvasMedida = null;
+const medirAnchoTexto = (texto, font) => {
+    if (!canvasMedida) canvasMedida = document.createElement("canvas");
+    const ctx = canvasMedida.getContext("2d");
+    ctx.font = font;
+    return ctx.measureText(texto).width;
+};
 
 // inicioIso es el lunes de la semana y se muestra como "DD/MM–DD/MM" (lunes a domingo).
 const formatearSemana = (inicioIso) => {
@@ -26,6 +41,11 @@ const colorCelda = (valor, max) => {
 };
 
 export default function HeatmapLogs({ usuarios, semanas, conteo, max }) {
+    const anchoUsuario = useMemo(() => {
+        const anchoMax = usuarios.reduce((m, u) => Math.max(m, medirAnchoTexto(u.nombre, FUENTE_USUARIO)), 0);
+        return Math.min(ANCHO_USUARIO_MAX, Math.max(ANCHO_USUARIO_MIN, anchoMax + PADDING_USUARIO));
+    }, [usuarios]);
+
     return (
         <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
             {/* Leyenda de color */}
@@ -48,7 +68,7 @@ export default function HeatmapLogs({ usuarios, semanas, conteo, max }) {
                 <table style={{ borderCollapse: "collapse", fontSize: "14px", width: "100%", height: "100%", tableLayout: "fixed" }}>
                     <thead>
                         <tr>
-                            <th style={thUsuarioStyle}></th>
+                            <th style={{ ...thUsuarioStyle, width: `${anchoUsuario}px` }}></th>
                             {semanas.map(s => (
                                 <th key={s} style={thSemanaStyle}>{formatearSemana(s)}</th>
                             ))}
@@ -82,7 +102,7 @@ export default function HeatmapLogs({ usuarios, semanas, conteo, max }) {
 // Cabecera y la primera columna fijas, igual que tablaLogs.jsx.
 const thUsuarioStyle = {
     position: "sticky", left: 0, top: 0, zIndex: 2,
-    backgroundColor: "var(--code-bg)", padding: "6px 10px", width: "140px", height: "28px",
+    backgroundColor: "var(--code-bg)", padding: "6px 10px", height: "28px",
 };
 const thSemanaStyle = {
     position: "sticky", top: 0, zIndex: 1,
@@ -92,7 +112,7 @@ const thSemanaStyle = {
 const tdUsuarioStyle = {
     position: "sticky", left: 0, zIndex: 1,
     backgroundColor: "var(--bg)", padding: "4px 10px", whiteSpace: "nowrap",
-    borderRight: "1px solid var(--border)", color: "var(--text)",
+    borderRight: "1px solid var(--border)", color: "var(--text)", textAlign: "right",
 };
 // Color de texto fijo para las celdas, que usan colores fijos de fondo (rojo/amarillo/
 // verde).

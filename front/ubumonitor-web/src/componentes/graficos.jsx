@@ -15,15 +15,36 @@ const tooltipContentStyle = {
 };
 const tooltipCursor = { fill: "var(--accent)", fillOpacity: 0.08 };
 
+const ANGULO_ETIQUETAS = -40;
+const FUENTE_ETIQUETAS = "12px system-ui, 'Segoe UI', Roboto, sans-serif"; // --sans en index.css.
+const MARGEN_INFERIOR_MIN = 60;
+const MARGEN_INFERIOR_MAX = 220;
+
+let canvasMedida = null;
+const medirAnchoTexto = (texto, font) => {
+  if (!canvasMedida) canvasMedida = document.createElement("canvas");
+  const ctx = canvasMedida.getContext("2d");
+  ctx.font = font;
+  return ctx.measureText(texto).width;
+};
+
+const calcularMargenInferior = (data) => {
+  const anchoMax = data.reduce((m, d) => Math.max(m, medirAnchoTexto(d.name ?? "", FUENTE_ETIQUETAS)), 0);
+  const rad = Math.abs(ANGULO_ETIQUETAS) * Math.PI / 180;
+  const margen = anchoMax * Math.sin(rad) + 20; // 20px más, para no dejarlo pegado.
+  return Math.min(MARGEN_INFERIOR_MAX, Math.max(MARGEN_INFERIOR_MIN, Math.round(margen)));
+};
+
 // tipo "linea": eventos por día.
 // tipo "total": barras agrupadas por categoría (componente/evento/sección/módulo marcado),
 // comparando los registros de los usuarios seleccionados con el total.
 export default function Graficos({ data, tipo = "linea" }) {
   if (tipo === "total") {
+    const margenInferior = calcularMargenInferior(data);
     return (
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={data} margin={{ bottom: 60 }}>
-          <XAxis dataKey="name" angle={-40} textAnchor="end" interval={0} tick={{ fontSize: 12 }} />
+        <BarChart data={data} margin={{ bottom: margenInferior }}>
+          <XAxis dataKey="name" angle={ANGULO_ETIQUETAS} textAnchor="end" interval={0} tick={{ fontSize: 12 }} />
           <YAxis allowDecimals={false} />
           <Tooltip cursor={tooltipCursor} contentStyle={tooltipContentStyle} />
           <Legend verticalAlign="top" />

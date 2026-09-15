@@ -46,7 +46,8 @@ export default function Curso() {
     const [errorUsuarios, setErrorUsuarios] = useState(null);
 
     const [gruposSeleccionados, setGruposSeleccionados] = useState(new Set());
-    const [rolesSeleccionados, setRolesSeleccionados] = useState(new Set());
+    // Empieza con "student" marcado para que la lista de Participantes no esté vacía al entrar.
+    const [rolesSeleccionados, setRolesSeleccionados] = useState(new Set(["student"]));
     const [rolDropdownAbierto, setRolDropdownAbierto] = useState(false);
     const [grupoDropdownAbierto, setGrupoDropdownAbierto] = useState(false);
     const rolDropdownRef = useRef(null);
@@ -374,6 +375,7 @@ export default function Curso() {
         if (usuariosSeleccionados.size === 0 || seleccionActiva.size === 0) return [];
 
         const idsUsuarios = new Set([...usuariosSeleccionados].map(String));
+        const idsFiltrados = new Set(usuariosFiltrados.map(u => String(u.id)));
 
         // Para ver la sección del módulo.
         const moduloASeccion = tabComponenteActiva === "secciones"
@@ -409,9 +411,9 @@ export default function Curso() {
             (!hastaEfectiva || (f.fecha && f.fecha <= hastaEfectiva))
         );
 
-        return compararPorCategoria(filasEnRango, seleccionActiva, categoriaDeFila, idsUsuarios)
+        return compararPorCategoria(filasEnRango, seleccionActiva, categoriaDeFila, idsUsuarios, idsFiltrados)
             .map(({ categoria, seleccionados, total }) => ({ name: nombreDeCategoria(categoria), seleccionados, total }));
-    }, [datosLogs.filas, usuariosSeleccionados, seleccionComponentes, tabComponenteActiva, secciones, todosLosModulos, desdeEfectiva, hastaEfectiva]);
+    }, [datosLogs.filas, usuariosSeleccionados, usuariosFiltrados, seleccionComponentes, tabComponenteActiva, secciones, todosLosModulos, desdeEfectiva, hastaEfectiva]);
 
     // Filas para la tabla de logs que se muestra, con el mismo filtro que el gráfico, 
     // pero sin agrupar por día. El CSV solo trae el id del módulo (Course module id), 

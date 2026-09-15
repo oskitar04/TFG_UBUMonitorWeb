@@ -114,11 +114,12 @@ export const agregarPorDia = (filas) => {
 // Para el gráfico Total.
 // Compara los registros de los usuarios seleccionados con los totales de la categoría marcada en 
 // la pestaña de componentes: componente, tipo de evento, sección o módulo.
-export const compararPorCategoria = (filas, categorias, categoriaDeFila, idsUsuariosSeleccionados) => {
+export const compararPorCategoria = (filas, categorias, categoriaDeFila, idsUsuariosSeleccionados, idsUsuariosFiltrados) => {
     const totalPorCategoria = new Map();
     const seleccionPorCategoria = new Map();
 
     for (const fila of filas) {
+        if (!idsUsuariosFiltrados.has(String(fila.userId))) continue;
         const categoria = categoriaDeFila(fila);
         if (categoria === null || categoria === undefined || !categorias.has(categoria)) continue;
         totalPorCategoria.set(categoria, (totalPorCategoria.get(categoria) ?? 0) + 1);
