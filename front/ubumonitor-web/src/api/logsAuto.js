@@ -57,9 +57,11 @@ const descargarCsvLogs = async (host, cursoId) => {
     const blob = await res.blob();
     const muestra = (await blob.slice(0, 300).text()).toLowerCase();
     if (muestra.includes("<!doctype") || muestra.includes("<html")) {
-        throw new Error(
+        const error = new Error(
             "Moodle devolvió HTML en vez del CSV (sin permiso para ver los logs del curso, sesión no válida, o 'Debug messages' activado en Moodle)."
         );
+        error.sesionInvalida = true;
+        throw error;
     }
     return blob;
 };
@@ -70,15 +72,26 @@ export const actualizarLogsAutomatico = async ({ host, token, privatetoken, user
             "no ha sido posible obtener el privatetoken"
         );
     }
-
-    onPaso?.("Pidiendo clave de autologin a Moodle...");
-    const { key, autologinurl } = await obtenerAutologinKey(host, token, privatetoken);
-
-    onPaso?.("Iniciando sesión web en Moodle...");
-    await canjearAutologinKey(host, autologinurl, key, userId);
-
+    
+    // Se intenta reutilizar la sesión web de Moodle de anteriores descargas (dura 2 horas) para
+    // no pedir la clave cada vez. Esto evita el problema de esperar 6 minutos entre descargas. Si 
+    // falla, se sigue el flujo normal.
     onPaso?.("Descargando el CSV de logs...");
-    const csvCrudo = await descargarCsvLogs(host, cursoId);
+    let csvCrudo;
+    try {
+        csvCrudo = await descargarCsvLogs(host, cursoId);
+    } catch (e) {
+        if (!e.sesionInvalida) throw e;
+
+        onPaso?.("Pidiendo clave de autologin a Moodle...");
+        const { key, autologinurl } = await obtenerAutologinKey(host, token, privatetoken);
+
+        onPaso?.("Iniciando sesión web en Moodle...");
+        await canjearAutologinKey(host, autologinurl, key, userId);
+
+        onPaso?.("Descargando el CSV de logs...");
+        csvCrudo = await descargarCsvLogs(host, cursoId);
+    }
 
     onPaso?.("Procesando el CSV...");
     const blobProcesado = await procesarLogs(new File([csvCrudo], "logs.csv", { type: "text/csv" }));

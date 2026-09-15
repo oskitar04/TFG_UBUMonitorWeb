@@ -291,6 +291,9 @@ export default function Logs() {
 
                     {(paso === "seleccionArchivo" || paso === "procesando") && (
                         <>
+                            <p style={{ color: "var(--text)", fontSize: "13px" }}>
+                                Comprueba que el CSV que elijas sea de este curso y no de otro.
+                            </p>
                             <input
                                 ref={inputRef}
                                 type="file"

@@ -2,9 +2,38 @@ import axios from "axios";
 
 const API_URL = "";
 
+// Cabeceras traducidas porque el back las necesita en inglés. Si es necesario algún idioma 
+// más se ponen, de momento español.
+const CABECERAS_TRADUCCION = {
+    "Hora": "Time",
+    "Nombre completo del usuario": "User full name",
+    "Usuario afectado": "Affected user",
+    "Componente": "Component",
+    "Nombre evento": "Event name",
+    "Descripción": "Description",
+    "Origen": "Origin",
+    "Dirección IP": "IP address",
+};
+
+const traducirCabeceraCsv = async (archivo) => {
+    // Es necesario quitar el código \uFEFF que trae Moodle al principio del fichero para evitar errores.
+    const texto = (await archivo.text()).replace(/^\uFEFF/, "");
+    const salto = texto.indexOf("\n");
+    const cabecera = salto >= 0 ? texto.slice(0, salto) : texto;
+    const resto = salto >= 0 ? texto.slice(salto) : "";
+
+    const columnas = dividirFilaCsv(cabecera);
+    const traducidas = columnas.map((c) => CABECERAS_TRADUCCION[c] ?? c);
+    if (traducidas.every((c, i) => c === columnas[i])) return archivo; // ya está en inglés
+
+    const nuevaCabecera = traducidas.map((c) => (c.includes(" ") ? `"${c}"` : c)).join(",");
+    return new File([nuevaCabecera + resto], archivo.name, { type: archivo.type });
+};
+
 export const procesarLogs = async(archivo) => {
+    const archivoTraducido = await traducirCabeceraCsv(archivo);
     const formData = new FormData();
-    formData.append("file", archivo);
+    formData.append("file", archivoTraducido);
 
     const response = await axios.post(`${API_URL}/api/public/logs/process/file`, formData, {
        headers: {"Content-Type": "multipart/form-data"},
