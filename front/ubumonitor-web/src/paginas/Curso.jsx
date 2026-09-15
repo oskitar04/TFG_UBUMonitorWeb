@@ -5,7 +5,7 @@ import { getCursoContenidos, getCursoUsuarios } from "../api/cursos"; // Usuario
 import Graficos from "../componentes/graficos"; // para los gráficos
 import TablaLogs from "../componentes/tablaLogs"; // tabla de logs
 import HeatmapLogs from "../componentes/heatmapLogs"; // heatmap
-import { procesarLogs, parsearLogsCsv, agregarPorDia, compararPorCategoria, agregarPorUsuarioYSemana } from "../api/logs"; // para el uso de logs
+import { agregarPorDia, compararPorCategoria, agregarPorUsuarioYSemana } from "../api/logs"; // para el uso de logs
 import { leerCache } from "../api/cache"; // para leer cache guardada por Logs.jsx
 import { traducirComponente, traducirEvento, traducirRol } from "../i18n/traducir"; // para la internacionalización
 
@@ -53,6 +53,51 @@ export default function Curso() {
     const rolDropdownRef = useRef(null);
     const grupoDropdownRef = useRef(null);
 
+    const [anchoSidebar, setAnchoSidebar] = useState(380);
+    const arrastrandoRef = useRef(false);
+
+    const [altoParticipantes, setAltoParticipantes] = useState(300);
+    const arrastrandoAltoRef = useRef(false);
+    const inicioYRef = useRef(0);
+    const inicioAltoRef = useRef(0);
+
+    useEffect(() => {
+        const mover = (e) => {
+            if (arrastrandoRef.current) {
+                setAnchoSidebar(Math.min(600, Math.max(10, e.clientX)));
+            }
+            if (arrastrandoAltoRef.current) {
+                // Por desplazamiento, no posición absoluta: a diferencia del sidebar, este
+                // panel no empieza en y=0 de la pantalla (hay cabecera encima).
+                const desplazamiento = e.clientY - inicioYRef.current;
+                setAltoParticipantes(Math.min(700, Math.max(10, inicioAltoRef.current + desplazamiento)));
+            }
+        };
+        const soltar = () => {
+            arrastrandoRef.current = false;
+            arrastrandoAltoRef.current = false;
+            document.body.style.cursor = "";
+        };
+        document.addEventListener("mousemove", mover);
+        document.addEventListener("mouseup", soltar);
+        return () => {
+            document.removeEventListener("mousemove", mover);
+            document.removeEventListener("mouseup", soltar);
+        };
+    }, []);
+
+    const iniciarArrastreSidebar = () => {
+        arrastrandoRef.current = true;
+        document.body.style.cursor = "col-resize";
+    };
+
+    const iniciarArrastreAlto = (e) => {
+        arrastrandoAltoRef.current = true;
+        inicioYRef.current = e.clientY;
+        inicioAltoRef.current = altoParticipantes;
+        document.body.style.cursor = "row-resize";
+    };
+
     // Para las pestañas de Componentes y el gráfico activo actual
     const [tabComponenteActiva, setTabComponenteActiva] = useState("componente");
     const [tipoGraficoActivo, setTipoGraficoActivo] = useState("linea");
@@ -65,10 +110,8 @@ export default function Curso() {
         componente: new Set(), eventos: new Set(), secciones: new Set(), modulos: new Set(),
     });
 
-    // Datos reales sacados del CSV de logs que se introduce mediante un botón temporal en la cabecera
-    // ese botón luego se sustituirá.
+    // Datos de logs (rellenados desde la caché de Logs.jsx).
     const [datosLogs, setDatosLogs] = useState({ filas: [], componentes: [], eventos: [] });
-    const [cargandoCsv, setCargandoCsv] = useState(false);
 
     // Cargando mientras se hace el descifrado. Actualizado cuando hay caché.
     const [cargandoLogs, setCargandoLogs] = useState(true);
@@ -283,27 +326,6 @@ export default function Curso() {
         { id: "modulos", nombre: "Módulos" },
     ];
 
-    // Sube el archivo de logs sin procesar, esto estará hasta que se apliquen las demás cosas, 
-    // sirve para realizar pruebas con los datos de verdad, una vez procesado se agrega a 
-    // memoria el resultado.
-    const handleCargarCsv = async (e) => {
-        const archivo = e.target.files[0];
-        if (!archivo) return;
-        setCargandoCsv(true);
-        try {
-            const blob = await procesarLogs(archivo);
-            const texto = await blob.text();
-            const datos = parsearLogsCsv(texto);
-            setDatosLogs(datos);
-            addLog(`CSV procesado y cargado: ${datos.filas.length} eventos, ${datos.componentes.length} componentes, ${datos.eventos.length} tipos de evento.`, "ok");
-        } catch (err) {
-            addLog(`Error procesando el CSV: ${err.message}`, "error");
-            console.error(err);
-        } finally {
-            setCargandoCsv(false);
-        }
-    };
-
     // Fecha más antigua y más reciente que hay en el CSV, para acotar los selectores de fecha.
     const rangoFechas = useMemo(() => {
         const fechas = datosLogs.filas.map(f => f.fecha).filter(Boolean);
@@ -501,8 +523,6 @@ export default function Curso() {
             <div style={{ padding: "16px 24px", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", gap: "16px" }}>
                 <button onClick={() => navigate("/cursos")}>Atrás</button>
                 <h1 style={{ margin: 0, fontSize: "24px" }}>{nombre}</h1> {/* Nombre de la asigantura*/}
-                {/* Se pasa el curso actual para que Logs.jsx use la misma cache */}
-                <button onClick={() => navigate("/logs", { state: { cursoId: id, nombre } })}>Logs</button>
 
                 {/* Fecha de última actualización con el formato DD/MM/YY, igual que en los gráficos*/}
                 {actualizadoLogs && (
@@ -510,13 +530,6 @@ export default function Curso() {
                         Última actualización de datos: {formatearFechaHora(actualizadoLogs)}
                     </span>
                 )}
-
-                {/* Botón temporal para subir el archivo de CSV con los logs */}
-                <label style={{ fontSize: "13px", color: "var(--text)", display: "flex", alignItems: "center", gap: "6px" }}>
-                    Cargar CSV de logs (sin procesar, botón temporal):
-                    <input type="file" accept=".csv" onChange={handleCargarCsv} disabled={cargandoCsv} />
-                </label>
-                {cargandoCsv && <span style={{ fontSize: "12px", color: "var(--text)" }}>Procesando...</span>}
 
                 <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: "12px" }}>
                     <span style={{ fontSize: "14px", color: "var(--text)" }}>{fullname}</span>
@@ -526,11 +539,12 @@ export default function Curso() {
 
             {/* Interfaz en dos partes (izquierda: participantes, componentes y debug, centro/derecha: gráficos) */}
             <div style={{ flex: 1, display: "flex", overflow: "hidden" }}>
-                <div style={{ width: "380px", borderRight: "1px solid var(--border)", display: "flex", flexDirection: "column", overflow: "hidden" }}>
-                {/* Panel  de Participantes, con scroll propio */}
-                <div style={{ flex: 1, minHeight: 0, overflowY: "auto", padding: "16px" }}>
-                    <h2 style={{ fontSize: "18px", marginBottom: "8px", borderBottom: "1px solid var(--border)", paddingBottom: "6px" }}>Participantes</h2>
-                    <div style={{ display: "flex", gap: "12px", marginBottom: "16px" }}>
+                <div style={{ width: `${anchoSidebar}px`, flexShrink: 0, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+                {/* Panel de Participantes, con scroll para la lista sin cabeceras */}
+                {/* minHeight a 100 para evitar que se solape con Componentes al subirlo. */}
+                <div style={{ flex: `0 0 ${altoParticipantes}px`, minHeight: "100px", display: "flex", flexDirection: "column", padding: "16px" }}>
+                    <h2 style={{ fontSize: "18px", marginBottom: "8px", borderBottom: "1px solid var(--border)", paddingBottom: "6px", flexShrink: 0 }}>Participantes</h2>
+                    <div style={{ display: "flex", gap: "12px", marginBottom: "16px", flexShrink: 0 }}>
                         <div ref={rolDropdownRef} style={{ position: "relative" }}>
                             <button onClick={() => setRolDropdownAbierto(o => !o)} style={dropdownButtonStyle}>
                                 Rol{rolesSeleccionados.size > 0 ? ` (${rolesSeleccionados.size})` : ""} ▾
@@ -571,6 +585,14 @@ export default function Curso() {
                         </div>
                     </div>
 
+                    {/* Conteo para participantes del filtro. */}
+                    {!cargandoUsuarios && !errorUsuarios && (
+                        <p style={{ fontSize: "13px", color: "var(--text)", margin: "0 0 8px", flexShrink: 0 }}>
+                            {usuariosFiltrados.length} participante{usuariosFiltrados.length === 1 ? "" : "s"}
+                        </p>
+                    )}
+
+                    <div style={{ flex: 1, minHeight: 0, overflowY: "auto" }}>
                     {cargandoUsuarios && <p>Cargando participantes...</p>}
                     {errorUsuarios && <p style={{ color: "red" }}>{errorUsuarios}</p>}
                     {/* Mensajes por si falta marcar casillas en los filtros o por si no hay coincidencias con esos filtros */}
@@ -590,7 +612,7 @@ export default function Curso() {
                             </button>
                             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "13px", marginTop: "8px" }}>
                                 <thead>
-                                    <tr style={{ backgroundColor: "var(--code-bg)", textAlign: "left" }}>
+                                    <tr style={{ textAlign: "left" }}>
                                         <th style={thStyle}></th>
                                         <th style={thStyle}>Nombre</th>
                                         <th style={thStyle}>Rol</th>
@@ -606,7 +628,9 @@ export default function Curso() {
                                                     onChange={() => toggleUsuario(u.id)}
                                                 />
                                             </td>
-                                            <td style={tdStyle}>{u.fullname}</td>
+                                            <td style={{ ...tdStyle, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", maxWidth: "160px" }} title={u.fullname}>
+                                                {u.fullname}
+                                            </td>
                                             <td style={tdStyle}>
                                                 <div style={{ display: "flex", gap: "4px", flexWrap: "wrap" }}>
                                                     {u.roles?.map(r => (
@@ -620,15 +644,22 @@ export default function Curso() {
                             </table>
                         </>
                     )}
+                    </div>
                 </div>
 
-                {/* Panel con scroll propio, se reparte el alto con Participantes. Adaptado a modo oscuro. */}
-                <div style={{ flex: 1, minHeight: 0, overflowY: "auto", padding: "16px", borderTop: "1px solid var(--border)" }}>
-                    <h2 style={{ fontSize: "18px", marginBottom: "8px", borderBottom: "1px solid var(--border)", paddingBottom: "6px" }}>
+                <div
+                    onMouseDown={iniciarArrastreAlto}
+                    style={{ height: "6px", flexShrink: 0, cursor: "row-resize", backgroundColor: "var(--border)" }}
+                />
+
+                {/* Panel de Componentes, con scroll para la lista sin cabeceras. Ocupa lo que sobra. */}
+                {/* minHeight a 100 para evitar que se solape con Debug al bajarlo. */}
+                <div style={{ flex: 1, minHeight: "100px", display: "flex", flexDirection: "column", padding: "16px" }}>
+                    <h2 style={{ fontSize: "18px", marginBottom: "8px", borderBottom: "1px solid var(--border)", paddingBottom: "6px", flexShrink: 0 }}>
                         Componentes
                     </h2>
 
-                    <div style={{ display: "flex", gap: "4px", marginBottom: "12px", flexWrap: "wrap" }}>
+                    <div style={{ display: "flex", gap: "4px", marginBottom: "12px", flexWrap: "wrap", flexShrink: 0 }}>
                         {TABS_COMPONENTES.map(tab => (
                             <button
                                 key={tab.id}
@@ -640,6 +671,7 @@ export default function Curso() {
                         ))}
                     </div>
 
+                    <div style={{ flex: 1, minHeight: 0, overflowY: "auto" }}>
                     {tabComponenteActiva === "componente" && (
                         datosLogs.componentes.length === 0
                             ? <p style={{ color: "var(--text)", fontSize: "13px" }}>Carga un CSV de logs para ver los componentes.</p>
@@ -683,6 +715,7 @@ export default function Curso() {
                             }
                         </>
                     )}
+                    </div>
                 </div>
 
                 {/* Panel del debug, debajo a la izquierda en pequeño. */}
@@ -700,6 +733,11 @@ export default function Curso() {
                     </div>
                 </div>
                 </div>
+
+                <div
+                    onMouseDown={iniciarArrastreSidebar}
+                    style={{ width: "6px", flexShrink: 0, cursor: "col-resize", backgroundColor: "var(--border)" }}
+                />
 
                 {/* Panel central. Con scroll solo para el gráfico/tabla, lo demás se queda fijo. */}
                 <div style={{ flex: 1, minWidth: 0, padding: "24px", display: "flex", flexDirection: "column", overflow: "hidden" }}>
@@ -781,7 +819,12 @@ export default function Curso() {
 }
 
 // Mismos estilos pero adaptados al modo oscuro
-const thStyle = { padding: "10px 12px", borderBottom: "2px solid var(--border)", fontWeight: "600" };
+const thStyle = {
+    padding: "10px 12px", fontWeight: "600",
+    position: "sticky", top: 0, zIndex: 1,
+    backgroundColor: "var(--code-bg)",
+    boxShadow: "inset 0 -2px 0 var(--border)",
+};
 const tdStyle = { padding: "10px 12px" };
 const chipStyle = {
     backgroundColor: "var(--accent-bg)", color: "var(--accent)",
