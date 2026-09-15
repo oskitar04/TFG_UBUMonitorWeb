@@ -14,6 +14,11 @@ export default defineConfig({
       '/api': {
         target: 'http://localhost:8080',
         changeOrigin: true,
+      },
+      // El login SSO está en el gateway, no hay copia en Vite, hace falta redirigir al gateway.
+      '/sso': {
+        target: 'http://localhost:4000',
+        changeOrigin: true,
       }
     }
   }
