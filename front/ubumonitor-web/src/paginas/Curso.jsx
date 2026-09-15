@@ -8,6 +8,7 @@ import HeatmapLogs from "../componentes/heatmapLogs"; // heatmap
 import { agregarPorDia, compararPorCategoria, agregarPorUsuarioYSemana } from "../api/logs"; // para el uso de logs
 import { leerCache } from "../api/cache"; // para leer cache guardada por Logs.jsx
 import { traducirComponente, traducirEvento, traducirRol } from "../i18n/traducir"; // para la internacionalización
+import PanelDebug from "../componentes/panelDebug";
 
 // Formato DD/MM/YY, como en los gráficos, pero con horas y minutos 
 // por si hay varias descargas en el día
@@ -719,19 +720,7 @@ export default function Curso() {
                 </div>
 
                 {/* Panel del debug, debajo a la izquierda en pequeño. */}
-                <div style={{ flex: "0 0 180px", overflowY: "auto", padding: "16px", borderTop: "1px solid var(--border)" }}>
-                    <strong style={{ fontSize: "12px", color: "var(--text)" }}>Debug</strong>
-                    <div style={{ marginTop: "8px" }}>
-                        {logs.map((log, i) => (
-                            <div key={i} style={{
-                                color: log.tipo === "error" ? "#f88" : log.tipo === "ok" ? "#8f8" : "var(--text)",
-                                fontSize: "11px", padding: "2px 0", fontFamily: "var(--mono)"
-                            }}>
-                                <span style={{ opacity: 0.6 }}>[{log.hora}]</span> {log.mensaje}
-                            </div>
-                        ))}
-                    </div>
-                </div>
+                <PanelDebug logs={logs} titulo="Debug" variante="lateral" />
                 </div>
 
                 <div

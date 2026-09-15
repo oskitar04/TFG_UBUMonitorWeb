@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { procesarLogs, parsearLogsCsv } from "../api/logs";
 import { guardarCache } from "../api/cache";
 import { actualizarLogsAutomatico } from "../api/logsAuto";
+import PanelDebug from "../componentes/panelDebug";
 
 const UMBRAL_AVISO_MS = 2 * 60 * 1000; // 2 minutos
 const CUENTA_ATRAS_S = 30;
@@ -320,25 +321,7 @@ export default function Logs() {
                     )}
 
                     {/* Panel de debug */}
-                    {logs.length > 0 && (
-                        <div style={{
-                            marginTop: "20px", padding: "15px", width: "100%", maxWidth: "600px",
-                            backgroundColor: "#1e1e1e", borderRadius: "8px",
-                            fontFamily: "monospace", fontSize: "13px", textAlign: "left"
-                        }}>
-                            <strong style={{ color: "#aaa" }}>Información de Logs</strong>
-                            <div style={{ marginTop: "8px" }}>
-                                {logs.map((log, i) => (
-                                    <div key={i} style={{
-                                        color: log.tipo === "error" ? "#f88" : log.tipo === "ok" ? "#8f8" : "#ccc",
-                                        padding: "2px 0"
-                                    }}>
-                                        <span style={{ color: "#666" }}>[{log.hora}]</span> {log.mensaje}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    )}
+                    <PanelDebug logs={logs} titulo="Información de Logs" />
                 </div>
 
                 {/* Mensaje que aparece en la pantalla mientras la ventana emergente siga abierta. */}
@@ -404,25 +387,7 @@ export default function Logs() {
                 </div>
 
                 {/* Panel de debug */}
-                {logs.length > 0 && (
-                    <div style={{
-                        marginTop: "30px", padding: "15px", maxWidth: "600px",
-                        backgroundColor: "#1e1e1e", borderRadius: "8px",
-                        fontFamily: "monospace", fontSize: "13px"
-                    }}>
-                        <strong style={{ color: "#aaa" }}>Información de Logs</strong>
-                        <div style={{ marginTop: "8px" }}>
-                            {logs.map((log, i) => (
-                                <div key={i} style={{
-                                    color: log.tipo === "error" ? "#f88" : log.tipo === "ok" ? "#8f8" : "#ccc",
-                                    padding: "2px 0"
-                                }}>
-                                    <span style={{ color: "#666" }}>[{log.hora}]</span> {log.mensaje}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                )}
+                <PanelDebug logs={logs} titulo="Información de Logs" />
             </div>
         </div>
     );

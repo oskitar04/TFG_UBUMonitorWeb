@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCursos } from "../api/cursos";
 import { leerCache } from "../api/cache";
+import PanelDebug from "../componentes/panelDebug";
 
 export default function ListaCursos() {
 
@@ -182,25 +183,7 @@ export default function ListaCursos() {
                 </label>
 
                 {/* Panel de debug */}
-                {logs.length > 0 && (
-                    <div style={{
-                        marginTop: "20px", padding: "15px", width: "100%", maxWidth: "600px",
-                        backgroundColor: "#1e1e1e", borderRadius: "8px",
-                        fontFamily: "monospace", fontSize: "13px", textAlign: "left"
-                    }}>
-                        <strong style={{ color: "#aaa" }}>Información de Listado_cursos</strong>
-                        <div style={{ marginTop: "8px" }}>
-                            {logs.map((log, i) => (
-                                <div key={i} style={{
-                                    color: log.tipo === "error" ? "#f88" : log.tipo === "ok" ? "#8f8" : "#ccc",
-                                    padding: "2px 0"
-                                }}>
-                                    <span style={{ color: "#666" }}>[{log.hora}]</span> {log.mensaje}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                )}
+                <PanelDebug logs={logs} titulo="Información de Listado_cursos" />
             </div>
         </div>
     );
