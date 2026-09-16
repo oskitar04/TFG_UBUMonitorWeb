@@ -2,7 +2,7 @@ import i18n from "./index";
 
 // Paso el texto en inglés del CSV a una clave para usar en el diccionario 
 // ("Course module viewed" > "course_module_viewed").
-const aClave = (texto) =>
+export const aClave = (texto) =>
     String(texto ?? "")
         .trim() // Fuera espacios sobrantes
         .toLowerCase()

@@ -5,5 +5,10 @@
   "logs": "Registros",
   "grader_report": "Informe del Calificador",
   "user_tours": "Tours para usuarios",
-  "activity_report": "Actividad del curso"
+  "activity_report": "Actividad del curso",
+  "quiz": "Cuestionario",
+  "page": "Página",
+  "url": "URL",
+  "file_submissions": "Archivos enviados",
+  "online_text_submissions": "Entregas de texto en línea"
 }

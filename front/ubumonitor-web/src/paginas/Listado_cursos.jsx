@@ -4,6 +4,12 @@ import { getCursos } from "../api/cursos";
 import { leerCache } from "../api/cache";
 import PanelDebug from "../componentes/panelDebug";
 
+// Añade el token a la url para poder obtener la foto.
+const conToken = (url, token) => {
+    if (!url) return url;
+    return url.includes("?") ? `${url}&token=${token}` : `${url}?token=${token}`;
+};
+
 export default function ListaCursos() {
 
     const [cursos, setCursos] = useState([]);
@@ -21,6 +27,7 @@ export default function ListaCursos() {
     const host   = sessionStorage.getItem("host");
     const userId = sessionStorage.getItem("userId");
     const fullname = sessionStorage.getItem("fullname");
+    const userPictureUrl = sessionStorage.getItem("userpictureurl");
 
     //debug
     const log = (mensaje, tipo = "info") => ({ hora: new Date().toLocaleTimeString(), mensaje, tipo });  
@@ -99,6 +106,14 @@ export default function ListaCursos() {
                 <h1 style={{ margin: 0, fontSize: "40px", textAlign: "center" }}>Lista de cursos</h1>
                 {/* Usuario al la derecha al lado del botón de "Cerrar sesión" */}
                 <div style={{ justifySelf: "end", display: "flex", alignItems: "center", gap: "12px" }}>
+                    {userPictureUrl && (
+                        <img
+                            src={conToken(userPictureUrl, token)}
+                            alt=""
+                            style={{ width: "32px", height: "32px", borderRadius: "50%", objectFit: "cover", display: "block" }}
+                            onError={(e) => { e.target.style.display = "none"; }}
+                        />
+                    )}
                     <span style={{ fontSize: "16px", color: "var(--text)" }}>{fullname}</span>
                     <button onClick={() => { sessionStorage.clear(); navigate("/"); }} className="boton boton-primario">
                         Cerrar sesión

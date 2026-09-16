@@ -67,6 +67,8 @@ export default function Principal() {
         // Incluyo fullname
         sessionStorage.setItem("fullname", siteData.siteinfo.fullname);
         setFullname(siteData.siteinfo.fullname);
+        // Foto de perfil, tanto si es necesario la sesión como si no.
+        sessionStorage.setItem("userpictureurl", siteData.siteinfo.privateuserpictureurl ?? siteData.siteinfo.userpictureurl ?? "");
         // debug
         addLog("Sesión guardada en sessionStorage.", "ok");
         addLog("Redirigiendo a /cursos...");
@@ -162,6 +164,7 @@ export default function Principal() {
         sessionStorage.removeItem("userId");
         sessionStorage.removeItem("privatetoken");
         sessionStorage.removeItem("fullname");
+        sessionStorage.removeItem("userpictureurl");
         setFullname(null);
         setLogs([]);
     };

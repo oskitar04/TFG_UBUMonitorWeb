@@ -1,4 +1,4 @@
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+﻿import { useParams, useNavigate, useLocation } from "react-router-dom";
 
 import { useEffect, useState, useMemo, useRef } from "react"; //useMemo y useRef, para evitar que se recargue todo el rato y se sature
 import { getCursoContenidos, getCursoUsuarios } from "../api/cursos"; // Usuarios para evitar unificar aquí participantes.
@@ -7,8 +7,9 @@ import TablaLogs from "../componentes/tablaLogs"; // tabla de logs
 import HeatmapLogs from "../componentes/heatmapLogs"; // heatmap
 import { agregarPorDia, compararPorCategoria, agregarPorUsuarioYSemana } from "../api/logs"; // para el uso de logs
 import { leerCache } from "../api/cache"; // para leer cache guardada por Logs.jsx
-import { traducirComponente, traducirEvento, traducirRol } from "../i18n/traducir"; // para la internacionalización
+import { traducirComponente, traducirEvento, traducirRol, aClave } from "../i18n/traducir"; // para la internacionalización
 import PanelDebug from "../componentes/panelDebug";
+import { IconoComponente, IconoSeccion } from "../componentes/iconosComponentes";
 
 // Formato DD/MM/YY, como en los gráficos, pero con horas y minutos 
 // por si hay varias descargas en el día
@@ -22,6 +23,12 @@ const formatearFechaHora = (timestamp) => {
     return `${dia}/${mes}/${anio} ${horas}:${minutos}`;
 };
 
+// Añade el token a la url para poder obtener la foto.
+const conToken = (url, token) => {
+    if (!url) return url;
+    return url.includes("?") ? `${url}&token=${token}` : `${url}?token=${token}`;
+};
+
 export default function Curso() {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -33,6 +40,7 @@ export default function Curso() {
     const token = sessionStorage.getItem("token");
     const host = sessionStorage.getItem("host");
     const fullname = sessionStorage.getItem("fullname");
+    const userPictureUrl = sessionStorage.getItem("userpictureurl");
     
     // Para la etiqueta de la clave de la caché (host::userId::cursoId)
     const userId = sessionStorage.getItem("userId");
@@ -54,7 +62,7 @@ export default function Curso() {
     const rolDropdownRef = useRef(null);
     const grupoDropdownRef = useRef(null);
 
-    const [anchoSidebar, setAnchoSidebar] = useState(380);
+    const [anchoSidebar, setAnchoSidebar] = useState(400);
     const arrastrandoRef = useRef(false);
 
     const [altoParticipantes, setAltoParticipantes] = useState(300);
@@ -135,8 +143,13 @@ export default function Curso() {
             // Mismo try/catch, pero con addLog para el panel de debug
             try {
                 const data = await getCursoContenidos(token, host, id);
-                setSecciones(data.contents ?? []);
-                addLog(`Contenido del curso cargado (${data.contents?.length ?? 0} secciones).`, "ok");
+                // Quita qbank, que no se tiene en cuenta.
+                const contenidos = (data.contents ?? []).map(s => ({
+                    ...s,
+                    modules: (s.modules ?? []).filter(m => m.modname !== "qbank"),
+                }));
+                setSecciones(contenidos);
+                addLog(`Contenido del curso cargado (${contenidos.length} secciones).`, "ok");
             } catch (e) {
                 setError("No se pudo cargar el contenido del curso.");
                 addLog(`Error cargando contenido del curso: ${e.message}`, "error");
@@ -249,7 +262,7 @@ export default function Curso() {
                 return false;
             }
             return true;
-        });
+        }).sort((a, b) => (a.fullname ?? "").localeCompare(b.fullname ?? "", "es", { sensitivity: "base" }));
     }, [usuarios, roles, gruposSeleccionados, rolesSeleccionados]);
 
     // Selección de participantes: se puede hacer individual, unos cuantos o todos.
@@ -302,6 +315,63 @@ export default function Curso() {
         return secciones.flatMap(s => s.modules ?? []);
     }, [secciones]);
 
+    // Alias para que coincida lo del CSV con el modname y muestre el icono bien. Solo estos dan problemas.
+    const ALIAS_MODNAME = { assignment: "assign", file_submissions: "assign" };
+
+    // Icono de Moodle (modicon), asocia cada componente con su icono.
+    const iconoRealPorComponente = useMemo(() => {
+        const mapa = new Map();
+        for (const m of todosLosModulos) {
+            if (m.modicon && !mapa.has(m.modname)) mapa.set(m.modname, m.modicon);
+        }
+        return mapa;
+    }, [todosLosModulos]);
+
+    // Pone el icono asociado, si no viene de Moodle usa los personalizados.
+    const renderIconoComponente = (textoComponente) => {
+        const modname = ALIAS_MODNAME[aClave(textoComponente)] ?? aClave(textoComponente);
+        const real = iconoRealPorComponente.get(modname);
+        return (
+            <span style={iconoCajaStyle}>
+                {real ? <img src={real} alt="" style={iconoImgStyle} /> : <IconoComponente texto={textoComponente} />}
+            </span>
+        );
+    };
+
+    // Coge los usuarios que hay y compara con los datos del CSV.
+    const filasValidas = useMemo(() => {
+        const idsMatriculados = new Set(usuarios.map(u => String(u.id)));
+        return datosLogs.filas.filter(f => idsMatriculados.has(String(f.userId)));
+    }, [datosLogs.filas, usuarios]);
+
+    // Ordenados alfabéticamente.
+    const componentesOrdenados = useMemo(() => {
+        const set = new Set();
+        for (const f of filasValidas) {
+            if (f.componente) set.add(f.componente);
+        }
+        return [...set].sort((a, b) =>
+            traducirComponente(a).localeCompare(traducirComponente(b), "es", { sensitivity: "base" }));
+    }, [filasValidas]);
+
+    // Asocia el tipo de componente al evento.
+    const claveEvento = (f) => `${f.componente ?? ""}||${f.evento}`;
+
+    // Une y ordena los tipos de evento.
+    const eventosAgrupados = useMemo(() => {
+        const mapa = new Map();
+        for (const f of filasValidas) {
+            if (!f.evento) continue;
+            const clave = claveEvento(f);
+            if (!mapa.has(clave)) mapa.set(clave, { componente: f.componente, evento: f.evento });
+        }
+        return [...mapa.values()].sort((a, b) => {
+            const cmpComponente = traducirComponente(a.componente).localeCompare(traducirComponente(b.componente), "es", { sensitivity: "base" });
+            if (cmpComponente !== 0) return cmpComponente;
+            return traducirEvento(a.evento).localeCompare(traducirEvento(b.evento), "es", { sensitivity: "base" });
+        });
+    }, [filasValidas]);
+
     // Desmarcar las 4 pestañas al cambiar entre ellas, evito dejar cosas marcadas.
     const cambiarTabComponente = (tab) => {
         setTabComponenteActiva(tab);
@@ -329,13 +399,13 @@ export default function Curso() {
 
     // Fecha más antigua y más reciente que hay en el CSV, para acotar los selectores de fecha.
     const rangoFechas = useMemo(() => {
-        const fechas = datosLogs.filas.map(f => f.fecha).filter(Boolean);
+        const fechas = filasValidas.map(f => f.fecha).filter(Boolean);
         if (fechas.length === 0) return { min: "", max: "" };
         return {
             min: fechas.reduce((a, b) => (a < b ? a : b)),
             max: fechas.reduce((a, b) => (a > b ? a : b)),
         };
-    }, [datosLogs.filas]);
+    }, [filasValidas]);
 
     // Rango efectivo. Si el usuario no ha elegido ninguna fecha, se usa la de los datos,
     // así se muestra una fecha en vez de el formato a secas (dd/mm/yyyy).
@@ -367,20 +437,20 @@ export default function Curso() {
             );
         }
 
-        return datosLogs.filas.filter(f => {
+        return filasValidas.filter(f => {
             if (!idsUsuarios.has(String(f.userId))) return false;
             // Rango de fechas. f.fecha es YYYY-MM-DD.
             if (desdeEfectiva && (!f.fecha || f.fecha < desdeEfectiva)) return false;
             if (hastaEfectiva && (!f.fecha || f.fecha > hastaEfectiva)) return false;
             switch (tabComponenteActiva) {
                 case "componente": return seleccionActiva.has(f.componente);
-                case "eventos": return seleccionActiva.has(f.evento);
+                case "eventos": return seleccionActiva.has(claveEvento(f));
                 case "modulos": return seleccionActiva.has(Number(f.moduloId));
                 case "secciones": return moduloIdsValidos.has(Number(f.moduloId));
                 default: return false;
             }
         });
-    }, [datosLogs.filas, usuariosSeleccionados, seleccionComponentes, tabComponenteActiva, secciones, desdeEfectiva, hastaEfectiva]);
+    }, [filasValidas, usuariosSeleccionados, seleccionComponentes, tabComponenteActiva, secciones, desdeEfectiva, hastaEfectiva]);
 
     // Eventos ya filtrados por día para pasarlo a los gráficos
     const datosGrafico = useMemo(() => {
@@ -408,7 +478,7 @@ export default function Curso() {
         const categoriaDeFila = (f) => {
             switch (tabComponenteActiva) {
                 case "componente": return f.componente;
-                case "eventos": return f.evento;
+                case "eventos": return f.evento ? claveEvento(f) : null;
                 case "modulos": return f.moduloId ? Number(f.moduloId) : null;
                 case "secciones": return f.moduloId ? (moduloASeccion.get(Number(f.moduloId)) ?? null) : null;
                 default: return null;
@@ -424,19 +494,22 @@ export default function Curso() {
                 const m = todosLosModulos.find(mod => Number(mod.id) === categoria);
                 return m ? `${m.name} (${m.modname})` : String(categoria);
             }
-            if (tabComponenteActiva === "eventos") return traducirEvento(categoria);
+            if (tabComponenteActiva === "eventos") {
+                const [componente, evento] = categoria.split("||");
+                return `${traducirComponente(componente)} – ${traducirEvento(evento)}`;
+            }
             return traducirComponente(categoria);
         };
 
         // Para el rango de fechas.
-        const filasEnRango = datosLogs.filas.filter(f =>
+        const filasEnRango = filasValidas.filter(f =>
             (!desdeEfectiva || (f.fecha && f.fecha >= desdeEfectiva)) &&
             (!hastaEfectiva || (f.fecha && f.fecha <= hastaEfectiva))
         );
 
         return compararPorCategoria(filasEnRango, seleccionActiva, categoriaDeFila, idsUsuarios, idsFiltrados)
             .map(({ categoria, seleccionados, total }) => ({ name: nombreDeCategoria(categoria), seleccionados, total }));
-    }, [datosLogs.filas, usuariosSeleccionados, usuariosFiltrados, seleccionComponentes, tabComponenteActiva, secciones, todosLosModulos, desdeEfectiva, hastaEfectiva]);
+    }, [filasValidas, usuariosSeleccionados, usuariosFiltrados, seleccionComponentes, tabComponenteActiva, secciones, todosLosModulos, desdeEfectiva, hastaEfectiva]);
 
     // Filas para la tabla de logs que se muestra, con el mismo filtro que el gráfico, 
     // pero sin agrupar por día. El CSV solo trae el id del módulo (Course module id), 
@@ -539,6 +612,14 @@ export default function Curso() {
                 )}
 
                 <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: "12px" }}>
+                    {userPictureUrl && (
+                        <img
+                            src={conToken(userPictureUrl, token)}
+                            alt=""
+                            style={avatarCabeceraStyle}
+                            onError={(e) => { e.target.style.display = "none"; }}
+                        />
+                    )}
                     <span style={{ fontSize: "16px", color: "var(--text)" }}>{fullname}</span>
                     <button onClick={() => { sessionStorage.clear(); navigate("/"); }} className="boton boton-primario">Cerrar sesión</button>
                 </div>
@@ -621,6 +702,7 @@ export default function Curso() {
                                 <thead>
                                     <tr style={{ textAlign: "left" }}>
                                         <th style={thStyle}></th>
+                                        <th style={thStyle}></th>
                                         <th style={thStyle}>Nombre</th>
                                         <th style={thStyle}>Rol</th>
                                     </tr>
@@ -633,6 +715,14 @@ export default function Curso() {
                                                     type="checkbox"
                                                     checked={usuariosSeleccionados.has(u.id)}
                                                     onChange={() => toggleUsuario(u.id)}
+                                                />
+                                            </td>
+                                            <td style={tdStyle}>
+                                                <img
+                                                    src={conToken(u.privateprofileimageurl ?? u.profileimageurl, token)}
+                                                    alt=""
+                                                    style={avatarStyle}
+                                                    onError={(e) => { e.target.style.display = "none"; }}
                                                 />
                                             </td>
                                             <td style={{ ...tdStyle, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", maxWidth: "160px" }} title={u.fullname}>
@@ -680,15 +770,28 @@ export default function Curso() {
 
                     <div style={{ flex: 1, minHeight: 0, overflowY: "auto" }}>
                     {tabComponenteActiva === "componente" && (
-                        datosLogs.componentes.length === 0
+                        componentesOrdenados.length === 0
                             ? <p style={{ color: "var(--text)", fontSize: "13px" }}>Carga un CSV de logs para ver los componentes.</p>
-                            : renderListaSeleccionable("componente", datosLogs.componentes, item => traducirComponente(item))
+                            : renderListaSeleccionable("componente", componentesOrdenados, item => (
+                                <>
+                                    {renderIconoComponente(item)}
+                                    {traducirComponente(item)}
+                                </>
+                            ))
                     )}
 
                     {tabComponenteActiva === "eventos" && (
-                        datosLogs.eventos.length === 0
+                        eventosAgrupados.length === 0
                             ? <p style={{ color: "var(--text)", fontSize: "13px" }}>Carga un CSV de logs para ver los tipos de evento.</p>
-                            : renderListaSeleccionable("eventos", datosLogs.eventos, item => traducirEvento(item))
+                            : renderListaSeleccionable("eventos", eventosAgrupados.map(claveEvento), item => {
+                                const [componente, evento] = item.split("||");
+                                return (
+                                    <>
+                                        {renderIconoComponente(componente)}
+                                        {traducirComponente(componente)} – {traducirEvento(evento)}
+                                    </>
+                                );
+                            })
                     )}
 
                     {tabComponenteActiva === "secciones" && (
@@ -701,7 +804,12 @@ export default function Curso() {
                             {!cargando && !error && secciones.length > 0 &&
                                 renderListaSeleccionable("secciones", secciones.map(s => s.id), (id) => {
                                     const s = secciones.find(sec => sec.id === id);
-                                    return s.name || `Sección ${s.section}`;
+                                    return (
+                                        <>
+                                            <span style={iconoCajaStyle}><IconoSeccion /></span>
+                                            {s.name || `Sección ${s.section}`}
+                                        </>
+                                    );
                                 })
                             }
                         </>
@@ -717,7 +825,16 @@ export default function Curso() {
                             {!cargando && !error && todosLosModulos.length > 0 &&
                                 renderListaSeleccionable("modulos", todosLosModulos.map(m => m.id), (id) => {
                                     const m = todosLosModulos.find(mod => mod.id === id);
-                                    return `${m.name} (${m.modname})`;
+                                    return (
+                                        <>
+                                            {m.modicon && (
+                                                <span style={iconoCajaStyle}>
+                                                    <img src={m.modicon} alt="" style={iconoImgStyle} />
+                                                </span>
+                                            )}
+                                            {m.name} ({m.modname})
+                                        </>
+                                    );
                                 })
                             }
                         </>
@@ -821,6 +938,16 @@ const thStyle = {
     boxShadow: "inset 0 -2px 0 var(--border)",
 };
 const tdStyle = { padding: "10px 12px" };
+const avatarStyle = { width: "24px", height: "24px", borderRadius: "50%", objectFit: "cover", display: "block" };
+const avatarCabeceraStyle = { width: "32px", height: "32px", borderRadius: "50%", objectFit: "cover", display: "block" };
+// Estilo de la caja del icono.
+const iconoCajaStyle = {
+    display: "inline-flex", alignItems: "center", justifyContent: "center",
+    width: "24px", height: "24px", borderRadius: "6px", backgroundColor: "#fff",
+    border: "1px solid var(--border)", flexShrink: 0, padding: "3px", boxSizing: "border-box",
+    color: "#1a1a1a",
+};
+const iconoImgStyle = { width: "100%", height: "100%", objectFit: "contain" };
 const chipStyle = {
     backgroundColor: "var(--accent-bg)", color: "var(--accent)",
     padding: "2px 8px", borderRadius: "12px", fontSize: "12px"
