@@ -110,7 +110,7 @@ export default function ListaCursos() {
                         <img
                             src={conToken(userPictureUrl, token)}
                             alt=""
-                            style={{ width: "32px", height: "32px", borderRadius: "50%", objectFit: "cover", display: "block" }}
+                            style={{ width: "40px", height: "40px", borderRadius: "50%", objectFit: "cover", display: "block" }}
                             onError={(e) => { e.target.style.display = "none"; }}
                         />
                     )}

@@ -938,8 +938,8 @@ const thStyle = {
     boxShadow: "inset 0 -2px 0 var(--border)",
 };
 const tdStyle = { padding: "10px 12px" };
-const avatarStyle = { width: "24px", height: "24px", borderRadius: "50%", objectFit: "cover", display: "block" };
-const avatarCabeceraStyle = { width: "32px", height: "32px", borderRadius: "50%", objectFit: "cover", display: "block" };
+const avatarStyle = { width: "32px", height: "32px", borderRadius: "50%", objectFit: "cover", display: "block" };
+const avatarCabeceraStyle = { width: "40px", height: "40px", borderRadius: "50%", objectFit: "cover", display: "block" };
 // Estilo de la caja del icono.
 const iconoCajaStyle = {
     display: "inline-flex", alignItems: "center", justifyContent: "center",
