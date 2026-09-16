@@ -71,9 +71,15 @@ export default function ListaCursos() {
     // Sin sesión se vuelve al login
     if (!token) {
         return (
-            <div style={{ padding: "40px" }}>
-                <p>No hay sesión activa.</p>
-                <button onClick={() => navigate("/")}>Volver al login</button>
+            <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", padding: "40px" }}>
+                <div style={{
+                    display: "flex", flexDirection: "column", gap: "16px", width: "100%", maxWidth: "380px",
+                    background: "var(--bg)", border: "1px solid var(--border)", borderRadius: "12px",
+                    padding: "32px", boxShadow: "var(--shadow)", boxSizing: "border-box", textAlign: "center"
+                }}>
+                    <p style={{ margin: 0, color: "var(--text)" }}>No hay sesión activa.</p>
+                    <button onClick={() => navigate("/")} className="boton boton-primario">Volver al login</button>
+                </div>
             </div>
         );
     }
@@ -88,29 +94,13 @@ export default function ListaCursos() {
                 display: "grid", gridTemplateColumns: "1fr auto 1fr", alignItems: "center"
             }}>
                 <div>
-                    <button onClick={() => navigate("/")} style={{
-                        padding: "6px 20px",
-                        fontSize: "16px",
-                        backgroundColor: "black",
-                        color: "white",
-                        border: "none",
-                        borderRadius: "5px",
-                        cursor: "pointer"
-                    }}>Atrás</button>
+                    <button onClick={() => navigate("/")} className="boton boton-primario">Atrás</button>
                 </div>
                 <h1 style={{ margin: 0, fontSize: "40px", textAlign: "center" }}>Lista de cursos</h1>
                 {/* Usuario al la derecha al lado del botón de "Cerrar sesión" */}
                 <div style={{ justifySelf: "end", display: "flex", alignItems: "center", gap: "12px" }}>
-                    <span style={{ fontSize: "20px", color: "#1dbdaf" }}>{fullname}</span>
-                    <button onClick={() => { sessionStorage.clear(); navigate("/"); }} style = {{
-                        padding: "6px 20px",
-                        fontSize: "16px",
-                        backgroundColor: "black",
-                        color: "white",
-                        border: "none",
-                        borderRadius: "5px",
-                        cursor: "pointer" 
-                    }}>
+                    <span style={{ fontSize: "16px", color: "var(--text)" }}>{fullname}</span>
+                    <button onClick={() => { sessionStorage.clear(); navigate("/"); }} className="boton boton-primario">
                         Cerrar sesión
                     </button>
                 </div>
@@ -128,22 +118,14 @@ export default function ListaCursos() {
                     placeholder="Buscar curso"
                     value={filtro}
                     onChange={e => setFiltro(e.target.value)}
-                    style={{
-                        width: "100%", 
-                        maxWidth: "400px",
-                        boxSizing: "border-box",
-                        padding: "8px 10px",
-                        marginTop: "12px",
-                        border: "1px solid #ccc",
-                        borderRadius: "6px",
-                        fontSize: "14px"
-                    }}
+                    className="campo"
+                    style={{ maxWidth: "400px", marginTop: "12px" }}
                 />
 
                 {/* Listado: altura adaptada para que no ocupe la pantalla entera. Así deja espacio al filtro y los logs de momento */}
                 <div style={{maxWidth: "50%", maxHeight: "50vh", overflowY: "auto", marginTop: "12px" }}>
                     {cargando && <p>Cargando cursos...</p>}
-                    {!cargando && error && <p style={{ color: "red" }}>{error}</p>}
+                    {!cargando && error && <div className="alerta-error">{error}</div>}
                     {!cargando && !error && (() => {
                         const cursosFiltrados = cursos.filter(c => // Se crea la variable para que a la hora de borrar lo del filtro devuelva los cursos sin tener que volver a llamar a la api
                             c.fullname.toLowerCase().includes(filtro.toLowerCase()) // Para evitar problema con mayúsculas o minúsculas

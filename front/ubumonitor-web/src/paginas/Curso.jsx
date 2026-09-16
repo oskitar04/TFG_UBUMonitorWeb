@@ -462,9 +462,15 @@ export default function Curso() {
     }, [filasFiltradas, todosLosModulos, secciones]);
 
     if (!token) return (
-        <div style={{ padding: "40px" }}>
-            <p>No hay sesión activa.</p>
-            <button onClick={() => navigate("/")}>Volver al login</button>
+        <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", padding: "40px" }}>
+            <div style={{
+                display: "flex", flexDirection: "column", gap: "16px", width: "100%", maxWidth: "380px",
+                background: "var(--bg)", border: "1px solid var(--border)", borderRadius: "12px",
+                padding: "32px", boxShadow: "var(--shadow)", boxSizing: "border-box", textAlign: "center"
+            }}>
+                <p style={{ margin: 0, color: "var(--text)" }}>No hay sesión activa.</p>
+                <button onClick={() => navigate("/")} className="boton boton-primario">Volver al login</button>
+            </div>
         </div>
     );
 
@@ -522,7 +528,7 @@ export default function Curso() {
             {/* Cabecera */}
             {/* Adaptado también a modo oscuro*/}
             <div style={{ padding: "16px 24px", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", gap: "16px" }}>
-                <button onClick={() => navigate("/cursos")}>Atrás</button>
+                <button onClick={() => navigate("/cursos")} className="boton boton-primario">Atrás</button>
                 <h1 style={{ margin: 0, fontSize: "24px" }}>{nombre}</h1> {/* Nombre de la asigantura*/}
 
                 {/* Fecha de última actualización con el formato DD/MM/YY, igual que en los gráficos*/}
@@ -533,8 +539,8 @@ export default function Curso() {
                 )}
 
                 <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: "12px" }}>
-                    <span style={{ fontSize: "14px", color: "var(--text)" }}>{fullname}</span>
-                    <button onClick={() => { sessionStorage.clear(); navigate("/"); }}>Cerrar sesión</button>
+                    <span style={{ fontSize: "16px", color: "var(--text)" }}>{fullname}</span>
+                    <button onClick={() => { sessionStorage.clear(); navigate("/"); }} className="boton boton-primario">Cerrar sesión</button>
                 </div>
             </div>
 
@@ -595,7 +601,7 @@ export default function Curso() {
 
                     <div style={{ flex: 1, minHeight: 0, overflowY: "auto" }}>
                     {cargandoUsuarios && <p>Cargando participantes...</p>}
-                    {errorUsuarios && <p style={{ color: "red" }}>{errorUsuarios}</p>}
+                    {errorUsuarios && <p style={{ color: "var(--error)" }}>{errorUsuarios}</p>}
                     {/* Mensajes por si falta marcar casillas en los filtros o por si no hay coincidencias con esos filtros */}
                     {!cargandoUsuarios && !errorUsuarios && usuariosFiltrados.length === 0 && (
                         <p style={{ color: "var(--text)" }}>
@@ -688,7 +694,7 @@ export default function Curso() {
                     {tabComponenteActiva === "secciones" && (
                         <>
                             {cargando && <p style={{ fontSize: "13px" }}>Cargando...</p>}
-                            {error && <p style={{ color: "red", fontSize: "13px" }}>{error}</p>}
+                            {error && <p style={{ color: "var(--error)", fontSize: "13px" }}>{error}</p>}
                             {!cargando && !error && secciones.length === 0 && (
                                 <p style={{ color: "var(--text)", fontSize: "13px" }}>Este curso no tiene secciones visibles.</p>
                             )}
@@ -704,7 +710,7 @@ export default function Curso() {
                     {tabComponenteActiva === "modulos" && (
                         <>
                             {cargando && <p style={{ fontSize: "13px" }}>Cargando...</p>}
-                            {error && <p style={{ color: "red", fontSize: "13px" }}>{error}</p>}
+                            {error && <p style={{ color: "var(--error)", fontSize: "13px" }}>{error}</p>}
                             {!cargando && !error && todosLosModulos.length === 0 && (
                                 <p style={{ color: "var(--text)", fontSize: "13px" }}>Este curso no tiene módulos visibles.</p>
                             )}

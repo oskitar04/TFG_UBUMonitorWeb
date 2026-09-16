@@ -43,6 +43,7 @@ export default function Logs() {
     const avisoTimeoutRef = useRef(null);
     const cuentaAtrasIntervalRef = useRef(null);
     const inputRef = useRef(null);
+    const inputManualRef = useRef(null);
 
     //debug
     const addLog = (mensaje, tipo = "info") => {
@@ -231,9 +232,15 @@ export default function Logs() {
     // Sin sesión se vuelve al login, igual que en el resto de páginas
     if (!token) {
         return (
-            <div style={{ padding: "40px" }}>
-                <p>No hay sesión activa.</p>
-                <button onClick={() => navigate("/")}>Volver al login</button>
+            <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", padding: "40px" }}>
+                <div style={{
+                    display: "flex", flexDirection: "column", gap: "16px", width: "100%", maxWidth: "380px",
+                    background: "var(--bg)", border: "1px solid var(--border)", borderRadius: "12px",
+                    padding: "32px", boxShadow: "var(--shadow)", boxSizing: "border-box", textAlign: "center"
+                }}>
+                    <p style={{ margin: 0, color: "var(--text)" }}>No hay sesión activa.</p>
+                    <button onClick={() => navigate("/")} className="boton boton-primario">Volver al login</button>
+                </div>
             </div>
         );
     }
@@ -245,11 +252,11 @@ export default function Logs() {
 
                 {/* Cabecera */}
                 <div style={{ padding: "16px 24px", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", gap: "16px" }}>
-                    <button onClick={() => navigate("/cursos")}>Atrás</button>
+                    <button onClick={() => navigate("/cursos")} className="boton boton-primario">Atrás</button>
                     <h1 style={{ margin: 0, fontSize: "24px" }}>Actualizar logs: {nombreCurso ?? `Curso ${cursoId}`}</h1>
                     <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: "12px" }}>
-                        <span style={{ fontSize: "14px", color: "var(--text)" }}>{fullname}</span>
-                        <button onClick={() => { sessionStorage.clear(); navigate("/"); }}>Cerrar sesión</button>
+                        <span style={{ fontSize: "16px", color: "var(--text)" }}>{fullname}</span>
+                        <button onClick={() => { sessionStorage.clear(); navigate("/"); }} className="boton boton-primario">Cerrar sesión</button>
                     </div>
                 </div>
 
@@ -280,7 +287,7 @@ export default function Logs() {
                                     ? "Primera vez que entras a este curso: hace falta actualizar para tener datos."
                                     : "Se abrirá una ventana de Moodle para descargar el CSV de logs de este curso."}
                             </p>
-                            <button onClick={handleActualizar} style={{ padding: "12px 24px", fontSize: "16px" }}>
+                            <button onClick={handleActualizar} className="boton boton-primario">
                                 Actualizar ficheros
                             </button>
                         </>
@@ -305,7 +312,7 @@ export default function Logs() {
                             <button
                                 onClick={handleElegirArchivo}
                                 disabled={paso === "procesando"}
-                                style={{ padding: "16px 32px", fontSize: "18px" }}
+                                className="boton boton-primario"
                             >
                                 {paso === "procesando" ? "Procesando..." : "Elegir el CSV descargado"}
                             </button>
@@ -316,7 +323,7 @@ export default function Logs() {
                             >
                                 Continuar sin elegir archivo
                             </button>
-                            {error && <p style={{ color: "red" }}>{error}</p>}
+                            {error && <div className="alerta-error">{error}</div>}
                         </>
                     )}
 
@@ -346,7 +353,7 @@ export default function Logs() {
                                     <p style={{ margin: 0, color: "var(--accent)" }}>
                                         ¿Sigues ahí? Esta ventana se cerrará en {cuentaAtras}s.
                                     </p>
-                                    <button onClick={handleNecesitoMasTiempo} style={{ marginTop: "8px" }}>
+                                    <button onClick={handleNecesitoMasTiempo} className="boton boton-primario" style={{ marginTop: "8px" }}>
                                         Necesito más tiempo
                                     </button>
                                 </div>
@@ -362,28 +369,37 @@ export default function Logs() {
         <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
 
             {/* Cabecera */}
-            <div style={{ padding: "16px 24px", borderBottom: "1px solid #ddd", display: "flex", alignItems: "center", gap: "16px" }}>
-                <button onClick={() => navigate("/")}>Atrás</button>
+            <div style={{ padding: "16px 24px", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", gap: "16px" }}>
+                <button onClick={() => navigate("/")} className="boton boton-primario">Atrás</button>
                 <h1 style={{ margin: 0, fontSize: "24px" }}>Procesar logs</h1>
                 <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: "12px" }}>
-                    <span style={{ fontSize: "14px", color: "#555" }}>{fullname}</span>
-                    <button onClick={() => { sessionStorage.clear(); navigate("/"); }}>Cerrar sesión</button>
+                    <span style={{ fontSize: "16px", color: "var(--text)" }}>{fullname}</span>
+                    <button onClick={() => { sessionStorage.clear(); navigate("/"); }} className="boton boton-primario">Cerrar sesión</button>
                 </div>
             </div>
 
             {/* Cuerpo */}
-            <div style={{ flex: 1, padding: "24px", overflowY: "auto" }}>
-                <p style={{ color: "#555", fontSize: "14px" }}>
+            <div style={{ flex: 1, padding: "24px", overflowY: "auto", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+                <p style={{ color: "var(--text)", fontSize: "14px", textAlign: "center", maxWidth: "400px" }}>
                     Selecciona el CSV de logs descargado de Moodle para limpiarlo.
                 </p>
 
-                <div style={{ display: "flex", flexDirection: "column", gap: "12px", maxWidth: "400px", marginTop: "20px" }}>
-                    <input type="file" accept=".csv" onChange={handleArchivo} />
-                    <button onClick={handleProcesar} disabled={!archivo || cargando}>
+                <div style={{ display: "flex", flexDirection: "column", gap: "12px", width: "100%", maxWidth: "400px", marginTop: "20px" }}>
+                    <input
+                        ref={inputManualRef}
+                        type="file"
+                        accept=".csv"
+                        onChange={handleArchivo}
+                        style={{ display: "none" }}
+                    />
+                    <button onClick={() => inputManualRef.current?.click()} className="boton boton-secundario">
+                        {archivo ? archivo.name : "Elegir archivo CSV"}
+                    </button>
+                    <button onClick={handleProcesar} disabled={!archivo || cargando} className="boton boton-primario">
                         {cargando ? "Procesando..." : "Procesar y descargar"}
                     </button>
 
-                    {error && <p style={{ color: "red" }}>{error}</p>}
+                    {error && <div className="alerta-error">{error}</div>}
                 </div>
 
                 {/* Panel de debug */}
