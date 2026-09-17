@@ -316,7 +316,14 @@ export default function Curso() {
     }, [secciones]);
 
     // Alias para que coincida lo del CSV con el modname y muestre el icono bien. Solo estos dan problemas.
-    const ALIAS_MODNAME = { assignment: "assign", file_submissions: "assign" };
+    const ALIAS_MODNAME = {
+        assignment: "assign",
+        file_submissions: "assign",
+        database: "data",
+        file: "resource",
+        h5p: "h5pactivity",
+        scorm_package: "scorm",
+    };
 
     // Icono de Moodle (modicon), asocia cada componente con su icono.
     const iconoRealPorComponente = useMemo(() => {

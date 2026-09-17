@@ -10,5 +10,18 @@
   "page": "Página",
   "url": "URL",
   "file_submissions": "Archivos enviados",
-  "online_text_submissions": "Entregas de texto en línea"
+  "online_text_submissions": "Entregas de texto en línea",
+  "choice": "Consulta",
+  "database": "Base de datos",
+  "file": "Archivo",
+  "book": "Libro",
+  "glossary": "Glosario",
+  "h5p": "H5P",
+  "wiki": "Wiki",
+  "scorm_package": "Paquete SCORM",
+  "workshop": "Taller",
+  "lesson": "Lección",
+  "feedback": "Retroalimentación",
+  "folder": "Carpeta",
+  "label": "Etiqueta"
 }
